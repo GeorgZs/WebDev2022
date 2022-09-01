@@ -61,12 +61,22 @@ Open the `server` and `client` in separate VSCode workspaces or open the combine
 
 ### Purpose
 
-2-5 sentences describing what the system does
+The aim of our system is to connect the service sector the potential customers. 
+The service providers are able to create an account and a subsequent customizable landing page
+that allows customers to see their business and any potential services the provide.
+Users can search for and book these services on our platform to simplify the communication between them.
+Service providers see a clear overview of their bookings which they can either decline, append or accept.
+With this in mind, our society benefits from the global transformation to the online world, 
+creating a safe and neutral environment for customers to contact service providers.
 
 ### Pages
 
-* Home: 1-3 sentences describing what the page displays and what a user can do
-* Shopping cart: ...
+- Home: On this page there will be search bar with quick-search buttons. Above there shall be registration and login buttons for new and existing service providers. Below the search bar it will show some brief information on who we are and what this webservice is and does. 
+- Registration Page: On this page, service providers will fill out a form with a final submit button. 
+- Service Provider Landing Page: This page, contains all information provided by the service provider. It is customized based on the settings from the service provider. Below the service provider's information, there is a list of services that the customer can create a booking for. 
+- Configuration Page: This page contains the service provider's details and below contains the landing page's details. Both of which are customizable. 
+- Search Results: This page contains a list of results based on the users input from the home page. 
+- Booking Inbox: This page contains a list of booking for services registered by the service provider. The service provider can open such bookings and sees an overview of the booking's details as well as option to accept, decline or change the booking. 
 
 ### Entity-Relationship (ER) Diagram
 
