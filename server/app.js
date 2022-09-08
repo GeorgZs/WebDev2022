@@ -4,6 +4,7 @@ var morgan = require('morgan');
 var path = require('path');
 var cors = require('cors');
 var history = require('connect-history-api-fallback');
+var Schema = mongoose.Schema;
 
 // Variables
 var mongoURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/animalDevelopmentDB';
@@ -18,6 +19,35 @@ mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true }, 
     }
     console.log(`Connected to MongoDB with URI: ${mongoURI}`);
 });
+
+var userSchema = new Schema({
+    email: {type: String},
+    phoneNumber: {type: String},
+    name: {type: String},
+}, {_id: false})
+
+var bookingRequestSchema = new Schema({
+    _id: {type: Number},
+    message: {type: String},
+    date: {type: String, default: Date.now()},
+    timePeriod: {type: String},
+    user: {type: userSchema}
+});
+
+var businessSchema = new Schema({
+    _id: {type: Number},
+    sector: {type: String},
+    name: {type: String},
+    email: {type: String, required: true},
+    address: {type: String},
+    phoneNumber: {type: String},
+    services: {type: [ Service ]},
+    landingPage: {type: LandingPage},
+    bookingRequests: {type: [ bookingRequestSchema ]}
+});
+
+var BookingRequest = mongoose.model("Booking Requests", bookingRequestSchema);
+var Business = mongoose.model("Businesses", businessSchema);
 
 // Create Express app
 var app = express();
