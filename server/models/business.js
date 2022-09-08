@@ -1,9 +1,9 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-var landingPageSchema = require('landingPage.js');
-var bookingRequestSchema = require('bookingRequest.js');
-var serviceSchema = require('servicePage.js');
+var landingPageSchema = require('./landingPage').schema;
+var bookingRequestSchema = require('./bookingRequest').schema;
+var serviceSchema = require('./service').schema;
 
 
 var businessSchema = new Schema({

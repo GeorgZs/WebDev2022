@@ -44,8 +44,8 @@ app.get('/api', function(req, res) {
 
 app.use(businessController);
 app.use(bookingRequestController);
-app.use(serviceController);
-app.use(landingPageController);
+//app.use(serviceController);
+//app.use(landingPageController);
 
 
 // Catch all non-error handler for api (i.e., 404 Not Found)

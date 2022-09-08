@@ -1,7 +1,9 @@
 var express = require('express');
-var app = express();
+var router = express.Router();
 
-app.post('/businesses', (req, res, next) => {
+var Business = require('../models/business');
+
+router.post('/businesses', (req, res, next) => {
     var new_business = new Business(req.body);
     new_business.save((err) => {
         if(err){return next(err);}
@@ -9,21 +11,21 @@ app.post('/businesses', (req, res, next) => {
     });
 });
 
-app.get('/businesses', (req, res, next) => {
+router.get('/businesses', (req, res, next) => {
     Business.find((err, businesses) => {
         if(err){return next(err);}
         res.json({"businesses": businesses});
     });
 }); 
 
-app.delete('/businesses', (req, res, next) => {
+router.delete('/businesses', (req, res, next) => {
     Business.deleteMany((err, businesses) => {
         if(err){return next(err);}
         res.json({"businesses": businesses});
     });
 });
 
-app.get('/businesses/:id', (req, res, next) => { 
+router.get('/businesses/:id', (req, res, next) => { 
     Business.findById(req.params.id, (err, business) => {
         if(err){return next(err);}
         if(business == null){
@@ -33,7 +35,7 @@ app.get('/businesses/:id', (req, res, next) => {
     });
 }); 
 
-app.delete('/businesses/:id', (req, res, next) => {
+router.delete('/businesses/:id', (req, res, next) => {
     Business.findOneAndDelete(req.params.id, (err, business) => {
         if(err){return next(err);}
         if(business == null){
@@ -43,7 +45,7 @@ app.delete('/businesses/:id', (req, res, next) => {
     });
 });
 
-app.put('/businesses/:id', (req, res, next) => {
+router.put('/businesses/:id', (req, res, next) => {
     Business.findById(req.params.id, (err, business) => {
         if(err){return next(err);}
         if(business == null){
@@ -63,7 +65,7 @@ app.put('/businesses/:id', (req, res, next) => {
     });
 });
 
-app.patch('/businesses/:id', (req, res, next) => {
+router.patch('/businesses/:id', (req, res, next) => {
     Business.findById(req.params.id, (err, business) => {
         if(err){return next(err);}
         if(business == null){
@@ -83,4 +85,4 @@ app.patch('/businesses/:id', (req, res, next) => {
     });
 });
 
-module.exports = app;
+module.exports = router;
