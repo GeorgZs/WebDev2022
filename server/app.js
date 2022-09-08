@@ -26,13 +26,31 @@ var userSchema = new Schema({
     name: {type: String},
 }, {_id: false})
 
+var serviceSchema = new Schema ({
+    _id: {type: Number},
+    duration: {type: String},
+    details: {type: String},
+    name: {type: String},
+    price: {type: Number}
+
+}); 
+
 var bookingRequestSchema = new Schema({
     _id: {type: Number},
     message: {type: String},
     date: {type: String, default: Date.now()},
     timePeriod: {type: String},
-    user: {type: userSchema}
+    user: {type: userSchema},
+    serviceID: {type: Number}
 });
+
+var landingPageSchema = new Schema ({
+    logo: {data: Buffer, contentType: String},
+    details: {type: String},
+    primaryColor: {type: String},
+    font: {type: String},
+    businessID: {type: Number}
+})
 
 var businessSchema = new Schema({
     _id: {type: Number},
@@ -41,13 +59,21 @@ var businessSchema = new Schema({
     email: {type: String, required: true},
     address: {type: String},
     phoneNumber: {type: String},
-    services: {type: [ Service ]},
-    landingPage: {type: LandingPage},
+    services: {type: [ serviceSchema ]},
+    landingPage: {type: landingPageSchema},
     bookingRequests: {type: [ bookingRequestSchema ]}
 });
 
+var Service = mongoose.model("Services", serviceSchema);
+
 var BookingRequest = mongoose.model("Booking Requests", bookingRequestSchema);
+
+var LandingPage = mongoose.model("Landing Page", landingPageSchema);
+
 var Business = mongoose.model("Businesses", businessSchema);
+
+
+
 
 // Create Express app
 var app = express();
