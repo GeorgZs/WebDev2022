@@ -6,6 +6,11 @@ var cors = require('cors');
 var history = require('connect-history-api-fallback');
 var Schema = mongoose.Schema;
 
+var businessController = require('./controllers/business');
+var serviceController = require('./controllers/service')
+var landingPageController = require('./controllers/landingPage');
+var bookingRequestController = require('./controllers/bookingRequest');
+
 // Variables
 var mongoURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/animalDevelopmentDB';
 var port = process.env.PORT || 3000;
@@ -19,59 +24,6 @@ mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true }, 
     }
     console.log(`Connected to MongoDB with URI: ${mongoURI}`);
 });
-
-var userSchema = new Schema({
-    email: {type: String},
-    phoneNumber: {type: String},
-    name: {type: String},
-}, {_id: false})
-
-var serviceSchema = new Schema ({
-    _id: {type: Number},
-    duration: {type: String},
-    details: {type: String},
-    name: {type: String},
-    price: {type: Number}
-
-}); 
-
-var bookingRequestSchema = new Schema({
-    _id: {type: Number},
-    message: {type: String},
-    date: {type: String, default: Date.now()},
-    timePeriod: {type: String},
-    user: {type: userSchema},
-    serviceID: {type: Number}
-});
-
-var landingPageSchema = new Schema ({
-    logo: {data: Buffer, contentType: String},
-    details: {type: String},
-    primaryColor: {type: String},
-    font: {type: String},
-    businessID: {type: Number}
-}, {_id: false})
-
-var businessSchema = new Schema({
-    _id: {type: Number},
-    sector: {type: String},
-    name: {type: String},
-    email: {type: String, required: true},
-    password: {type: String, required: true},
-    address: {type: String},
-    phoneNumber: {type: String},
-    services: {type: [ serviceSchema ]},
-    landingPage: {type: landingPageSchema},
-    bookingRequests: {type: [ bookingRequestSchema ]}
-});
-
-var Service = mongoose.model("Services", serviceSchema);
-
-var BookingRequest = mongoose.model("Booking Requests", bookingRequestSchema);
-
-var LandingPage = mongoose.model("Landing Page", landingPageSchema);
-
-var Business = mongoose.model("Businesses", businessSchema);
 
 
 // Create Express app
@@ -90,89 +42,10 @@ app.get('/api', function(req, res) {
     res.json({'message': 'Welcome to your DIT342 backend ExpressJS project!'});
 });
 
-
-//Endpoints for schema:
-app.post('/businesses', (req, res, next) => {
-    var new_business = new Business(req.body);
-    new_business.save((err) => {
-        if(err){return next(err);}
-        res.status(201).json(new_business);
-    });
-});
-
-app.get('/businesses', (req, res, next) => {
-    Business.find((err, businesses) => {
-        if(err){return next(err);}
-        res.json({"businesses": businesses});
-    });
-}); 
-
-app.delete('/businesses', (req, res, next) => {
-    Business.deleteMany((err, businesses) => {
-        if(err){return next(err);}
-        res.json({"businesses": businesses});
-    });
-});
-
-app.get('/businesses/:id', (req, res, next) => { 
-    Business.findById(req.params.id, (err, business) => {
-        if(err){return next(err);}
-        if(business == null){
-            return res.status(404).json({"message": "Business not found"});
-        }
-        res.json(business);
-    });
-}); 
-
-app.delete('/businesses/:id', (req, res, next) => {
-    Business.findOneAndDelete(req.params.id, (err, business) => {
-        if(err){return next(err);}
-        if(business == null){
-            return res.status(404).json({"message": "Business not found"});
-        }
-        res.json(business);
-    });
-});
-
-app.put('/businesses/:id', (req, res, next) => {
-    Business.findById(req.params.id, (err, business) => {
-        if(err){return next(err);}
-        if(business == null){
-            return res.status(404).json({"message": "Business not found"});
-        }
-        business.sector = req.body.sector;
-        business.name = req.body.name;
-        business.email = req.body.email;
-        business.password = req.body.password;
-        business.address = req.body.address;
-        business.phoneNumber = req.body.phoneNumber;
-        business.services = req.body.services;
-        business.bookingRequests = req.body.bookingRequests;
-        business.landingPage = req.body.landingPage;
-        business.save();
-        res.json(business);
-    });
-});
-
-app.patch('/businesses/:id', (req, res, next) => {
-    Business.findById(req.params.id, (err, business) => {
-        if(err){return next(err);}
-        if(business == null){
-            return res.status(404).json({"message": "Business not found"});
-        }
-        business.sector = (req.body.sector || business.sector);
-        business.name = (req.body.name || business.name);
-        business.email = (req.body.email || business.email);
-        business.password = (req.body.password || business.password);
-        business.address = (req.body.address || business.address);
-        business.phoneNumber = (req.body.phoneNumber || business.phoneNumber);
-        business.services = (req.body.services || business.services);
-        business.bookingRequests = (req.body.bookingRequests || business.bookingRequests);
-        business.landingPage = (req.body.landingPage || business.landingPage);
-        business.save();
-        res.json(business);
-    });
-});
+app.use(businessController);
+app.use(bookingRequestController);
+app.use(serviceController);
+app.use(landingPageController);
 
 
 // Catch all non-error handler for api (i.e., 404 Not Found)
