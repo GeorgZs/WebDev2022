@@ -43,16 +43,9 @@ app.get('/api', function(req, res) {
 });
 
 app.use('/businesses', businessController);
-<<<<<<< HEAD
-app.use(bookingRequestController);
+app.use('/businesses/:businessId/services/:serviceId/bookingRequests', bookingRequestController);
 app.use('/businesses/:businessId/services', serviceController);
 app.use('/businesses/:businessId/landingPages', landingPageController);
-=======
-app.use('/businesses/:businessId/services/:serviceId/bookingRequests', bookingRequestController);
-app.use(serviceController);
-//app.use(landingPageController);
->>>>>>> 2864b8cae48453724b55de342b1b042741b189e3
-
 
 // Catch all non-error handler for api (i.e., 404 Not Found)
 app.use('/api/*', function (req, res) {
