@@ -42,7 +42,7 @@ app.get('/api', function(req, res) {
     res.json({'message': 'Welcome to your DIT342 backend ExpressJS project!'});
 });
 
-app.use(businessController);
+app.use('/businesses', businessController);
 app.use(bookingRequestController);
 app.use(serviceController);
 //app.use(landingPageController);
