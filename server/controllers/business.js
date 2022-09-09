@@ -36,7 +36,7 @@ router.get('/businesses/:id', (req, res, next) => {
 }); 
 
 router.delete('/businesses/:id', (req, res, next) => {
-    Business.findOneAndDelete(req.params.id, (err, business) => {
+    Business.findByIdAndDelete(req.params.id, (err, business) => {
         if(err){return next(err);}
         if(business == null){
             return res.status(404).json({"message": "Business not found"});

@@ -60,6 +60,23 @@ router.put('/services/:id', (req, res, next) => {
     });
 });
 
+router.patch('/services/:id', (req, res, next) => {
+    Service.findById(req.params.id, (err, service) => {
+        if(err) {
+            return next(err);
+        }
+        if(service == null) {
+            return res.status(404).json({"Message": "Service not found"});
+        }
+        service.duration = (req.body.duration || service.duration);
+        service.details = (req.body.details || service.details);
+        service.name = (req.body.name || service.name);
+        service.price = (req.body.price || service.price);
+        service.save();
+        res.json(service);
+    });
+});
+
 router.delete('/services/:id', (req, res, next) => {
     Service.findByIdAndDelete(req.params.id, (err, service) => {
         if(err) {
