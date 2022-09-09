@@ -1,10 +1,10 @@
 var express = require('express');
-var router = express.Router();
+var router = express.Router({mergeParams: true});
 
 var Service = require('../models/service');
 var Business = require('../models/business');
 
-router.post('/businesses/:businessId/services', (req, res, next) => {
+router.post('/', (req, res, next) => {
     var new_service = new Service(req.body);
     new_service.businessId = req.params.businessId;
     new_service.save((err) => {
@@ -15,7 +15,7 @@ router.post('/businesses/:businessId/services', (req, res, next) => {
     }); 
 });
 
-router.get('/businesses/:businessId/services', (req, res, next) => {
+router.get('/', (req, res, next) => {
     Service.find({businessId:req.params.businessId}, (err, service) => {
         if(err) {
             return next(err);
@@ -28,7 +28,7 @@ router.get('/businesses/:businessId/services', (req, res, next) => {
 });
 
 
-router.delete('businesses/:businessId/services', (req, res, next) => {
+router.delete('/', (req, res, next) => {
     Service.deleteMany({businessId: req.params.businessId},(err, services) => {
         if(err) {
             return next(err);
@@ -37,7 +37,7 @@ router.delete('businesses/:businessId/services', (req, res, next) => {
     });
 });
 
-router.get('/businesses/:businessId/services/:serviceId', (req, res, next) => {
+router.get('/:serviceId', (req, res, next) => {
     Service.findOne({businessId: req.params.businessId, _id: req.params.serviceId}, (err, service) => {
         if(err) {
             return next(err);
@@ -49,7 +49,7 @@ router.get('/businesses/:businessId/services/:serviceId', (req, res, next) => {
     });
 });
 
-router.put('/businesses/:businessId/services/:serviceId', (req, res, next) => {
+router.put('/:serviceId', (req, res, next) => {
     Service.findOne({businessId: req.params.businessId, _id: req.params.serviceId}, (err, service) => {
         if(err) {
             return next(err);
@@ -66,7 +66,7 @@ router.put('/businesses/:businessId/services/:serviceId', (req, res, next) => {
     });
 });
 
-router.patch('businesses/:businessId/services/:serviceId', (req, res, next) => {
+router.patch('/:serviceId', (req, res, next) => {
     Service.findOne({businessId: req.params.businessId, _id: req.params.serviceId}, (err, service) => {
         if(err) {
             return next(err);
@@ -83,7 +83,7 @@ router.patch('businesses/:businessId/services/:serviceId', (req, res, next) => {
     });
 });
 
-router.delete('businesses/:businessId/services/:serviceId', (req, res, next) => {
+router.delete('/:serviceId', (req, res, next) => {
     Service.deleteOne({businessId: req.params.businessId, _id: req.params.serviceId}, (err, service) => {
         if(err) {
             return next(err);
