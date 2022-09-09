@@ -44,7 +44,7 @@ app.get('/api', function(req, res) {
 
 app.use(businessController);
 app.use(bookingRequestController);
-//app.use(serviceController);
+app.use(serviceController);
 //app.use(landingPageController);
 
 
