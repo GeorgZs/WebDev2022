@@ -9,4 +9,4 @@ var landingPageSchema = new Schema ({
     businessID: {type: Number}
 }, {_id: false});
 
-module.exports = mongoose.model("Landing Page", landingPageSchema);
+module.exports = mongoose.model("LandingPage", landingPageSchema);

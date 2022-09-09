@@ -1,9 +1,9 @@
 var express = require('express');
-var router = express.Router();
+var router = express.Router({mergeParams: true});
 
 var Business = require('../models/business');
 
-router.post('/businesses', (req, res, next) => {
+router.post('/', (req, res, next) => {
     var new_business = new Business(req.body);
     new_business.save((err) => {
         if(err){return next(err);}
@@ -11,21 +11,21 @@ router.post('/businesses', (req, res, next) => {
     });
 });
 
-router.get('/businesses', (req, res, next) => {
+router.get('/', (req, res, next) => {
     Business.find((err, businesses) => {
         if(err){return next(err);}
         res.json({"businesses": businesses});
     });
 }); 
 
-router.delete('/businesses', (req, res, next) => {
+router.delete('/', (req, res, next) => {
     Business.deleteMany((err, businesses) => {
         if(err){return next(err);}
         res.json({"businesses": businesses});
     });
 });
 
-router.get('/businesses/:id', (req, res, next) => { 
+router.get('/:id', (req, res, next) => { 
     Business.findById(req.params.id, (err, business) => {
         if(err){return next(err);}
         if(business == null){
@@ -35,7 +35,7 @@ router.get('/businesses/:id', (req, res, next) => {
     });
 }); 
 
-router.delete('/businesses/:id', (req, res, next) => {
+router.delete('/:id', (req, res, next) => {
     Business.findByIdAndDelete(req.params.id, (err, business) => {
         if(err){return next(err);}
         if(business == null){
@@ -45,7 +45,7 @@ router.delete('/businesses/:id', (req, res, next) => {
     });
 });
 
-router.put('/businesses/:id', (req, res, next) => {
+router.put('/:id', (req, res, next) => {
     Business.findById(req.params.id, (err, business) => {
         if(err){return next(err);}
         if(business == null){
@@ -65,7 +65,7 @@ router.put('/businesses/:id', (req, res, next) => {
     });
 });
 
-router.patch('/businesses/:id', (req, res, next) => {
+router.patch('/:id', (req, res, next) => {
     Business.findById(req.params.id, (err, business) => {
         if(err){return next(err);}
         if(business == null){

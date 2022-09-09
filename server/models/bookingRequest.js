@@ -9,7 +9,7 @@ var userSchema = new Schema({
 
 
 var bookingRequestSchema = new Schema({
-    _id: {type: Number},
+    businessId: {type: Number},
     message: {type: String},
     date: {type: String, default: Date.now()},
     timePeriod: {type: String},
@@ -17,4 +17,4 @@ var bookingRequestSchema = new Schema({
     serviceID: {type: Number}
 });
 
-module.exports = mongoose.model("Booking Requests", bookingRequestSchema);
+module.exports = mongoose.model("BookingRequests", bookingRequestSchema);
