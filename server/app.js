@@ -43,7 +43,7 @@ app.get('/api', function(req, res) {
 });
 
 app.use('/businesses', businessController);
-app.use(bookingRequestController);
+app.use('/businesses/:businessId/services/:serviceId/bookingRequests', bookingRequestController);
 app.use(serviceController);
 //app.use(landingPageController);
 
