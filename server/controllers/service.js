@@ -2,9 +2,11 @@ var express = require('express');
 var router = express.Router();
 
 var Service = require('../models/service');
+var Business = require('../models/business');
 
-router.post('/services', (req, res, next) => {
+router.post('/businesses/:businessId/services', (req, res, next) => {
     var new_service = new Service(req.body);
+    new_service.businessId = req.params.businessId;
     new_service.save((err) => {
         if(err) {
             return next(err);
@@ -13,8 +15,21 @@ router.post('/services', (req, res, next) => {
     }); 
 });
 
-router.get('/services', (req, res, next) => {
-    Service.find((err, services) => {
+router.get('/businesses/:businessId/services', (req, res, next) => {
+    Service.find({businessId:req.params.businessId}, (err, service) => {
+        if(err) {
+            return next(err);
+        }
+        if(service == null) {
+            return res.status(404).json({"Message": "Business not found"});
+        }
+        res.json({"services": service});
+    });
+});
+
+
+router.delete('businesses/:businessId/services', (req, res, next) => {
+    Service.deleteMany({businessId: req.params.businessId},(err, services) => {
         if(err) {
             return next(err);
         }
@@ -22,17 +37,8 @@ router.get('/services', (req, res, next) => {
     });
 });
 
-router.delete('/services', (req, res, next) => {
-    Service.deleteMany((err, services) => {
-        if(err) {
-            return next(err);
-        }
-        res.json({"services": services});
-    });
-});
-
-router.get('/services/:id', (req, res, next) => {
-    Service.findById(req.params.id, (err, service) => {
+router.get('/businesses/:businessId/services/:serviceId', (req, res, next) => {
+    Service.findOne({businessId: req.params.businessId, _id: req.params.serviceId}, (err, service) => {
         if(err) {
             return next(err);
         }
@@ -43,8 +49,8 @@ router.get('/services/:id', (req, res, next) => {
     });
 });
 
-router.put('/services/:id', (req, res, next) => {
-    Service.findById(req.params.id, (err, service) => {
+router.put('/businesses/:businessId/services/:serviceId', (req, res, next) => {
+    Service.findOne({businessId: req.params.businessId, _id: req.params.serviceId}, (err, service) => {
         if(err) {
             return next(err);
         }
@@ -60,8 +66,8 @@ router.put('/services/:id', (req, res, next) => {
     });
 });
 
-router.patch('/services/:id', (req, res, next) => {
-    Service.findById(req.params.id, (err, service) => {
+router.patch('businesses/:businessId/services/:serviceId', (req, res, next) => {
+    Service.findOne({businessId: req.params.businessId, _id: req.params.serviceId}, (err, service) => {
         if(err) {
             return next(err);
         }
@@ -77,8 +83,8 @@ router.patch('/services/:id', (req, res, next) => {
     });
 });
 
-router.delete('/services/:id', (req, res, next) => {
-    Service.findByIdAndDelete(req.params.id, (err, service) => {
+router.delete('businesses/:businessId/services/:serviceId', (req, res, next) => {
+    Service.deleteOne({businessId: req.params.businessId, _id: req.params.serviceId}, (err, service) => {
         if(err) {
             return next(err);
         }
