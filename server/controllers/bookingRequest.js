@@ -4,7 +4,6 @@ var router = express.Router();
 var BookingRequest = require('../models/bookingRequest');
 var Business = require('../models/business');
 
-//individual business logged in get its booking requests
 router.get('/businesses/:id/bookingRequests', (req, res, next) => {
     BookingRequest.find({businessId: req.params.id}, (err, business) => {
         if(err) return next(err);
@@ -26,14 +25,6 @@ router.post('/businesses/:businessId/services/:serviceId/bookingRequests', (req,
     });
 });
 
-//duplicate for testing
-router.get('/bookingRequests', (req, res, next) => {
-    BookingRequest.find((err, bookingRequests) => {
-        if(err){return next(err);}
-        res.json({"bookingRequests": bookingRequests});
-    });
-}); 
-
 router.delete('/bookingRequests', (req, res, next) => {
     BookingRequest.deleteMany((err, bookingRequests) => {
         if(err){return next(err);}
@@ -42,20 +33,14 @@ router.delete('/bookingRequests', (req, res, next) => {
 });
 
 router.delete('/businesses/:id/bookingRequests', (req, res, next) => {
-    Business.findById(req.params.id, (err, business) => {
-        if(err) return next(err);
-        if(business == null) {
-            return res.status(404).json({"message": "Business not found"});
-        }
-        business.deleteMany((err, bookingRequests) => {
-            if(err){return next(err);}
-            res.json({"bookingRequests": bookingRequests});
-        })
+    Business.deleteMany({businessId: req.params.id}, (err, bookingRequests) => {
+        if(err){return next(err);}
+        res.json({"bookingRequests": bookingRequests});
     });
 });
 
-router.get('/bookingRequests/:id', (req, res, next) => { 
-    BookingRequest.findById(req.params.id, (err, bookingRequest) => {
+router.get('/businesses/:id/bookingRequests/:id', (req, res, next) => { 
+    BookingRequest.findById({businessId: req.params.id}, (err, bookingRequest) => {
         if(err){return next(err);}
         if(bookingRequest == null){
             return res.status(404).json({"message": "BookingRequest not found"});
@@ -64,8 +49,8 @@ router.get('/bookingRequests/:id', (req, res, next) => {
     });
 }); 
 
-router.delete('/bookingRequests/:id', (req, res, next) => {
-    BookingRequest.findOneAndDelete(req.params.id, (err, bookingRequest) => {
+router.delete('/businesses/:id/bookingRequests/:id', (req, res, next) => {
+    BookingRequest.findOneAndDelete({businessId: req.params.id}, (err, bookingRequest) => {
         if(err){return next(err);}
         if(bookingRequest == null){
             return res.status(404).json({"message": "BookingRequest not found"});
@@ -74,8 +59,8 @@ router.delete('/bookingRequests/:id', (req, res, next) => {
     });
 });
 
-router.put('/bookingRequests/:id', (req, res, next) => {
-    BookingRequest.findById(req.params.id, (err, bookingRequest) => {
+router.put('/businesses/:id/bookingRequests/:id', (req, res, next) => {
+    BookingRequest.findById({businessId: req.params.id}, (err, bookingRequest) => {
         if(err){return next(err);}
         if(bookingRequest == null){
             return res.status(404).json({"message": "BookingRequest not found"});
@@ -90,8 +75,8 @@ router.put('/bookingRequests/:id', (req, res, next) => {
     });
 });
 
-router.patch('/bookingRequests/:id', (req, res, next) => {
-    BookingRequest.findById(req.params.id, (err, bookingRequest) => {
+router.patch('/businesses/:id/bookingRequests/:id', (req, res, next) => {
+    BookingRequest.findById({businessId: req.params.id}, (err, bookingRequest) => {
         if(err){return next(err);}
         if(bookingRequest == null){
             return res.status(404).json({"message": "BookingRequest not found"});
