@@ -57,9 +57,6 @@ router.put('/:id', (req, res, next) => {
         business.password = req.body.password;
         business.address = req.body.address;
         business.phoneNumber = req.body.phoneNumber;
-        business.services = req.body.services;
-        business.bookingRequests = req.body.bookingRequests;
-        business.landingPage = req.body.landingPage;
         business.save();
         res.json(business);
     });
@@ -77,9 +74,6 @@ router.patch('/:id', (req, res, next) => {
         business.password = (req.body.password || business.password);
         business.address = (req.body.address || business.address);
         business.phoneNumber = (req.body.phoneNumber || business.phoneNumber);
-        business.services = (req.body.services || business.services);
-        business.bookingRequests = (req.body.bookingRequests || business.bookingRequests);
-        business.landingPage = (req.body.landingPage || business.landingPage);
         business.save();
         res.json(business);
     });
