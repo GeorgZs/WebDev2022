@@ -42,10 +42,10 @@ app.get('/api', function(req, res) {
     res.json({'message': 'Welcome to your DIT342 backend ExpressJS project!'});
 });
 
-app.use('/businesses', businessController);
-app.use('/businesses/:businessId/services/:serviceId/bookingRequests', bookingRequestController);
-app.use('/businesses/:businessId/services', serviceController);
-app.use('/businesses/:businessId/landingPages', landingPageController);
+app.use('/v1/businesses', businessController);
+app.use('/v1/businesses/:businessId/services/:serviceId/bookingRequests', bookingRequestController);
+app.use('/v1/businesses/:businessId/services', serviceController);
+app.use('/v1/businesses/:businessId/landingPages', landingPageController);
 
 // Catch all non-error handler for api (i.e., 404 Not Found)
 app.use('/api/*', function (req, res) {
