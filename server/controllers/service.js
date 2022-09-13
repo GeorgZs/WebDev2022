@@ -17,6 +17,16 @@ router.post('/', (req, res, next) => {
 });
 
 router.get('/', (req, res, next) => {
+    if(req.query.sort) {
+        var sortBy = req.query.sort.toString();
+        Service.find({businessId: req.params.businessId}).sort(sortBy).exec((err, service) => {
+            if(err) {
+                return next(err);
+            } 
+            res.json({"services": service});
+        });
+
+    } else {
     Service.find({businessId:req.params.businessId}, (err, service) => {
         if(err) {
             return next(err);
@@ -26,6 +36,7 @@ router.get('/', (req, res, next) => {
         }
         res.json({"services": service});
     });
+    }
 });
 
 

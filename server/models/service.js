@@ -6,7 +6,7 @@ var serviceSchema = new Schema ({
     details: {type: String},
     name: {type: String},
     price: {type: Number},
-    businessId: {type: Number}
+    businessId: {type: String}
 }); 
 
 module.exports = mongoose.model("Services", serviceSchema);
