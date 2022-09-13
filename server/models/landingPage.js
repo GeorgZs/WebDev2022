@@ -6,7 +6,7 @@ var landingPageSchema = new Schema ({
     details: {type: String},
     primaryColor: {type: String},
     font: {type: String},
-    businessID: {type: Number}
+    businessID: {type: String}
 }, {_id: false});
 
 module.exports = mongoose.model("LandingPage", landingPageSchema);
