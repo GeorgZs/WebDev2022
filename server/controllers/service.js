@@ -4,6 +4,7 @@ var router = express.Router({mergeParams: true});
 var Service = require('../models/service');
 var Business = require('../models/business');
 
+// /businesses/:businessId/services
 router.post('/', (req, res, next) => {
     var new_service = new Service(req.body);
     new_service.businessId = req.params.businessId;

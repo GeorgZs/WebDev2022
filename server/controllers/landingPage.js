@@ -3,6 +3,8 @@ var router = express.Router();
 
 var LandingPage = require('../models/landingPage');
 
+
+// /businesses/:businessId/landingPages
 router.post('/', (req, res, next) => {
     var new_landingPage = new LandingPage(req.body);
     new_landingPage.businessId = req.params.businessId;

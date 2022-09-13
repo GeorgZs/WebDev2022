@@ -4,16 +4,25 @@ var router = express.Router({mergeParams: true});
 var BookingRequest = require('../models/bookingRequest');
 var Business = require('../models/business');
 
-///businesses/:businessId/services/:serviceId/bookingRequests
+// /businesses/:businessId/services/:serviceId/bookingRequests
 
 router.get('/', (req, res, next) => {
-    BookingRequest.find({businessId: req.params.id}, (err, business) => {
+    if(req.query.sort){
+        var sortBy = req.query.sort.toString();
+        BookingRequest.find({businessId: req.params.id}).sort(sortBy).exec((err, bookingRequests) => {
+            if(err){return next(err);}
+            res.json({"sortedBookingRequests": bookingRequests});
+        });
+    } else {
+        BookingRequest.find({businessId: req.params.id}, (err, business) => {
         if(err) return next(err);
         if(business == null) {
             return res.status(404).json({"message": "Business not found"});
         }
         res.json({"bookingRequests": business.bookingRequests});
     });
+}
+    
 });
 
 router.post('/', (req, res, next) => {
