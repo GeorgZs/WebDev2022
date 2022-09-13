@@ -2,27 +2,22 @@ var express = require('express');
 var router = express.Router({mergeParams: true});
 
 var BookingRequest = require('../models/bookingRequest');
-var Business = require('../models/business');
 
 // /businesses/:businessId/services/:serviceId/bookingRequests
 
 router.get('/', (req, res, next) => {
+    var sort = {}
+
     if(req.query.sort){
-        var sortBy = req.query.sort.toString();
-        BookingRequest.find({businessId: req.params.id}).sort(sortBy).exec((err, bookingRequests) => {
-            if(err){return next(err);}
-            res.json({"sortedBookingRequests": bookingRequests});
-        });
-    } else {
-        BookingRequest.find({businessId: req.params.id}, (err, business) => {
+        sort[req.query.sort.substring(1)] = req.query.sort.startsWith("-") ? -1 : 1 
+    }
+    BookingRequest.find({businessId: req.params.id}).sort(sort).exec((err, business) => {
         if(err) return next(err);
         if(business == null) {
             return res.status(404).json({"message": "Business not found"});
         }
         res.json({"bookingRequests": business.bookingRequests});
     });
-}
-    
 });
 
 router.post('/', (req, res, next) => {
@@ -37,7 +32,7 @@ router.post('/', (req, res, next) => {
 });
 
 router.delete('/', (req, res, next) => {
-    Business.deleteMany({businessId: req.params.id}, (err, bookingRequests) => {
+    BookingRequest.deleteMany({businessId: req.params.id}, (err, bookingRequests) => {
         if(err){return next(err);}
         res.json({"bookingRequests": bookingRequests});
     });

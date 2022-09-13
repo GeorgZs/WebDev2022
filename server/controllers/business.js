@@ -12,28 +12,22 @@ router.post('/', (req, res, next) => {
 });
 
 router.get('/', (req, res, next) => {
+    var filter = {}
+    var sort = {}
+
     if(req.query.sort){
-        var sortBy = req.query.sort.toString();
-        Business.find({}).sort(sortBy).exec((err, businesses) => {
-            if(err){return next(err);}
-            res.json({"sortedBusinesses": businesses});
-        });
+        sort[req.query.sort.substring(1)] = req.query.sort.startsWith("-") ? -1 : 1 
     }
-    //need to find a way to make module so it isnt copypasted for each variable we want to filter
-    //filter below
-    else if(req.query.sector) {
-        var filter = req.query.sector;
-        Business.find((err, businesses) => {
-            if(err){return next(err);}
-            var filteredBusinesses = businesses.filter((business) => business.sector === filter);
-            res.json({"businesses": filteredBusinesses});
-        });
-    } else {
-        Business.find((err, businesses) => {
-            if(err){return next(err);}
-            res.json({"businesses": businesses});
-        });
-    }
+    else if(req.query.filterBy) {
+        filter.filterBy = req.query.filterBy;
+    } 
+
+    Business.find(filter).sort(sort).exec((err, businesses) => {
+        if(err){return next(err);}
+        res.status(200).json({"businesses": businesses});
+    });
+
+    //one find query - in if statements add to filter obj then execute find at end
 }); 
 
 router.delete('/', (req, res, next) => {
