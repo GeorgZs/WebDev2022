@@ -61,14 +61,14 @@ function addRoutesToApp(app) {
         res.json({ 'message': 'Welcome to your DIT342 backend ExpressJS project!' });
     });
 
-    const businessController = require('./controllers/business');
+    const providerController = require('./controllers/provider');
     const serviceController = require('./controllers/service')
     const landingPageController = require('./controllers/landingPage');
     const bookingRequestController = require('./controllers/bookingRequest');
-    app.use('/api/v1/businesses', businessController);
-    app.use('/api/v1/businesses/:businessId/services/:serviceId/bookingRequests', bookingRequestController);
-    app.use('/api/v1/businesses/:businessId/services', serviceController);
-    app.use('/api/v1/businesses/:businessId/landingPages', landingPageController);
+    app.use('/api/v1/providers', providerController);
+    app.use('/api/v1/providers/:businessId/services/:serviceId/bookingRequests', bookingRequestController);
+    app.use('/api/v1/providers/:businessId/services', serviceController);
+    app.use('/api/v1/providers/:businessId/landingPages', landingPageController);
 
     // Catch all non-error handler for api (i.e., 404 Not Found)
     app.use('/api/*', function (req, res) {
