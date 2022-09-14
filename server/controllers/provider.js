@@ -1,4 +1,5 @@
 const express = require('express');
+const provider = require('../models/provider');
 const Provider = require('../models/provider');
 
 
@@ -157,6 +158,12 @@ function validateProvider(providerData, { partial } = { partial: false }) {
         if (typeof providerData.sector !== 'string') errors.push('sector: type');
         providerData.sector = providerData.sector.trim();
         if (providerData.sector.length < 1) errors.push('sector: invalid');
+    }
+
+    if (providerData.phoneNumber) {
+        if (typeof providerData.phoneNumber !== 'string') errors.push('phoneNumber: type');
+        providerData.phoneNumber = providerData.phoneNumber.trim();
+        if (providerData.phoneNumber.length < 1) errors.push('phoneNumber: invalid');
     }
 
     return errors;
