@@ -1,21 +1,45 @@
 var express = require('express');
-var router = express.Router({ mergeParams: true });
-
 var Service = require('../models/service');
 
-// /businesses/:businessId/services
-router.post('/', (req, res, next) => {
-    var new_service = new Service(req.body);
-    new_service.businessId = req.params.businessId;
-    new_service.save((err) => {
-        if (err) {
-            return next(err);
+var router = express.Router({ mergeParams: true });
+
+// /providers/:providerId/services
+
+router.post('/', async (req, res, handleError) => {
+    try{
+        const serviceData = req.body;
+        const errors = validateService(serviceData);
+
+        if(errors.length > 0) {
+            res.status(400).json({message: 'Invalid data for creating a service', errors});
+            return;
         }
-        res.status(201).json(new_service);
-    });
+
+        const service = new Service(serviceData);
+        await service.save();
+        res.status(201).json(visibleDataFor(service));
+    } 
+    catch (err) {
+        handleError(err);
+    }
 });
 
-router.get('/', (req, res, next) => {
+
+
+router.get('/', async (req, res, handleError) => {
+    try {
+        const providerId = req.params.providerId;
+        const services = await Service.find({providerId}).exec();
+        res.status(200).json(services.map(service => visibleDataFor(service)));
+        
+    } 
+    catch (err) {
+        handleError(err);
+
+    }
+});
+    
+    /*
     if (req.query.sort) {
         var sortBy = req.query.sort.toString();
         Service.find({ businessId: req.params.businessId }).sort(sortBy).exec((err, service) => {
@@ -37,73 +61,158 @@ router.get('/', (req, res, next) => {
         });
     }
 });
+*/
 
 
-router.delete('/', (req, res, next) => {
-    Service.deleteMany({ businessId: req.params.businessId }, (err, services) => {
-        if (err) {
-            return next(err);
-        }
-        res.json({ "services": services });
-    });
+router.delete('/', async (req, res, handleError) => {
+    try {
+        const providerId = req.params.providerId;
+        const services = await Service.find({providerId}).exec();
+        await Service.deleteMany(providerId);
+        res.status(204).json(services.map(service => visibleDataFor(service)));
+
+    } 
+    catch (err) {
+        handleError(err);
+    }
 });
 
-router.get('/:serviceId', (req, res, next) => {
-    Service.findOne({ businessId: req.params.businessId, _id: req.params.serviceId }, (err, service) => {
-        if (err) {
-            return next(err);
+router.get('/:serviceId', async (req, res, handleError) => {
+    try {
+        const providerId = req.params.providerId;
+        const serviceId = req.params.serviceId;
+        const service = await Service.findOne({providerId, _id: serviceId});
+
+        if (!service) {
+            res.status(404).json({ message: 'Unknown service!' });
+            return;
         }
-        if (service == null) {
-            return res.status(404).json({ "Message": "Service not found" });
-        }
-        res.json(service);
-    });
+
+        res.status(200).json(visibleDataFor(service));
+    }
+    catch (err) {
+        handleError(err);
+    }
 });
 
-router.put('/:serviceId', (req, res, next) => {
-    Service.findOne({ businessId: req.params.businessId, _id: req.params.serviceId }, (err, service) => {
-        if (err) {
-            return next(err);
+router.put('/:serviceId', async (req, res, handleError) => {
+    try {
+        const updatedServiceData = req.body;
+        const errors = validateService(updatedServiceData);
+
+        if(errors.length > 0) {
+            res.status(400).json({message: 'Invalid data for updating a service', errors});
+            return;
         }
-        if (service == null) {
-            return res.status(404).json({ "Message": "Service not found" });
+
+        const providerId = req.params.providerId;
+        const serviceId = req.params.serviceId;
+        const service = await Service.findOne({providerId, _id: serviceId});
+
+        if(!service) {
+            res.status(404).json({message: 'Unknown service!' });
+            return;
         }
-        service.duration = req.body.duration;
-        service.details = req.body.details;
-        service.name = req.body.name;
-        service.price = req.body.price;
-        service.save();
-        res.json(service);
-    });
+
+        Object.assign(service, updatedServiceData);
+        await service.save();
+        res.status(200).json(visibleDataFor(service));
+    }
+    catch (err) {
+        handleError(err);
+    }
 });
 
-router.patch('/:serviceId', (req, res, next) => {
-    Service.findOne({ businessId: req.params.businessId, _id: req.params.serviceId }, (err, service) => {
-        if (err) {
-            return next(err);
+router.patch('/:serviceId', async (req, res, handleError) => {
+    try {
+        const updatedServiceData = req.body;
+        const errors = validateService(updatedServiceData, { partial: true });
+
+        if(errors.length > 0) {
+            res.status(400).json({message: 'Invalid data for updating a service', errors});
+            return;
         }
-        if (service == null) {
-            return res.status(404).json({ "Message": "Service not found" });
+
+        const providerId = req.params.providerId;
+        const serviceId = req.params.serviceId;
+        const service = await Service.findOne({providerId, _id: serviceId});
+
+        if(!service) {
+            res.status(404).json({message: 'Unknown service!' });
+            return;
         }
-        service.duration = (req.body.duration || service.duration);
-        service.details = (req.body.details || service.details);
-        service.name = (req.body.name || service.name);
-        service.price = (req.body.price || service.price);
-        service.save();
-        res.json(service);
-    });
+
+        Object.assign(service, updatedServiceData);
+        await service.save();
+        res.status(200).json(visibleDataFor(service));
+    }
+    catch (err) {
+        handleError(err);
+    }
 });
 
-router.delete('/:serviceId', (req, res, next) => {
-    Service.deleteOne({ businessId: req.params.businessId, _id: req.params.serviceId }, (err, service) => {
-        if (err) {
-            return next(err);
+router.delete('/:serviceId', async (req, res, next) => {
+    try {
+        const providerId = req.params.providerId;
+        const serviceId = req.params.serviceId;
+        const service = await Service.findOne({providerId, _id: serviceId});
+
+        if(service) {
+            await service.delete();
         }
-        if (service == null) {
-            return res.status(404).json({ "Message:": "Service not found" });
-        }
-        res.json(service);
-    });
+
+        res.status(204).json(service);
+    }
+    catch (err) {
+        handleError(err);
+    }
 });
 
 module.exports = router;
+
+function validateService(serviceData, { partial } = { partial: false }) {
+    const errors = [];
+    
+    if (!serviceData.name) {
+        if (!partial) errors.push('name: missing');
+    }
+    else {
+        if (typeof serviceData.name !== 'string') errors.push('name: type');
+        serviceData.name = serviceData.name.trim();
+        if (serviceData.name.length < 1) errors.push('name: invalid');
+    }
+
+    if (!serviceData.price) {
+        if (!partial) errors.push('price: missing');
+    }
+    else {
+        if (typeof serviceData.price !== 'number') errors.push('price: type');
+        if (serviceData.price < 0) errors.push('price: invalid');
+    }
+
+    if (!serviceData.providerId) {
+        if (!partial) errors.push('providerId: missing');
+    }
+    else {
+        if (typeof serviceData.providerId !== 'string') errors.push('providerId: type');
+    }
+
+    if (serviceData.duration) {
+        if (typeof serviceData.duration !== 'number') errors.push('duration: type');
+        if (serviceData.duration < 1) errors.push('duration: invalid');
+    }
+
+    if (serviceData.details) {
+        if (typeof serviceData.details !== 'string') errors.push('details: type');
+        serviceData.details = serviceData.details.trim();
+        if (serviceData.details.length < 1) errors.push('details: invalid');
+    }
+
+    return errors;
+}
+
+function visibleDataFor(service) {
+    const data = service.toObject();
+    delete data.__v;
+    return data;
+}

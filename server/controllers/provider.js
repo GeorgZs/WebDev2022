@@ -41,37 +41,25 @@ router.get('/:providerId', async (req, res, handleError) => {
     }
 });
 
-router.delete('/:providerId', async (req, res, handleError) => {
-    try {
-        const providerId = req.params.providerId;
-        const provider = await Provider.findById(providerId);
-
-        if (provider) await provider.delete();
-        res.status(204).json(visibleDataFor(provider));
-    }
-    catch (err) {
-        handleError(err);
-    }
-});
 
 router.put('/:providerId', async (req, res, handleError) => {
     try {
         const updatedProviderData = req.body;
         const errors = validateProvider(updatedProviderData);
-
+        
         if (errors.length > 0) {
             res.status(400).json({ message: 'Invalid data for updating a provider!', errors });
             return;
         }
-
+        
         const providerId = req.params.providerId;
         const provider = await Provider.findById(providerId);
-
+        
         if (!provider) {
             res.status(404).json({ message: 'Unknown provider!' });
             return;
         }
-
+        
         Object.assign(provider, updatedProviderData);
         await provider.save();
         res.status(200).json(visibleDataFor(provider));
@@ -85,23 +73,36 @@ router.patch('/:providerId', async (req, res, handleError) => {
     try {
         const updatedProviderData = req.body;
         const errors = validateProvider(updatedProviderData, { partial: true });
-
+        
         if (errors.length > 0) {
             res.status(400).json({ message: 'Invalid data for updating a provider!', errors });
             return;
         }
-
+        
         const providerId = req.params.providerId;
         const provider = await Provider.findById(providerId);
-
+        
         if (!provider) {
             res.status(404).json({ message: 'Unknown provider!' });
             return;
         }
-
+        
         Object.assign(provider, updatedProviderData);
         await provider.save();
         res.status(200).json(visibleDataFor(provider));
+    }
+    catch (err) {
+        handleError(err);
+    }
+});
+
+router.delete('/:providerId', async (req, res, handleError) => {
+    try {
+        const providerId = req.params.providerId;
+        const provider = await Provider.findById(providerId);
+
+        if (provider) await provider.delete();
+        res.status(204).json(visibleDataFor(provider));
     }
     catch (err) {
         handleError(err);
