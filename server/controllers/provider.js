@@ -105,7 +105,9 @@ router.delete('/:providerId', async (req, res, handleError) => {
     try {
         const providerId = req.params.providerId;
         const provider = await Provider.findById(providerId);
+        const landingPage = await LandingPage.findOne({providerId});
 
+        if (landingPage) await landingPage.delete();
         if (provider) await provider.delete();
         res.status(204).json(visibleDataFor(provider));
     }
