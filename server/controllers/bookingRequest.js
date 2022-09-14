@@ -3,7 +3,7 @@ var router = express.Router({mergeParams: true});
 
 var BookingRequest = require('../models/bookingRequest');
 
-// /businesses/:businessId/services/:serviceId/bookingRequests
+// /services/:serviceId/bookingRequests
 
 router.get('/', (req, res, next) => {
     var sort = {}
@@ -11,7 +11,7 @@ router.get('/', (req, res, next) => {
     if(req.query.sort){
         sort[req.query.sort.substring(1)] = req.query.sort.startsWith("-") ? -1 : 1 
     }
-    BookingRequest.find({businessId: req.params.id}).sort(sort).exec((err, business) => {
+    BookingRequest.find({serviceId: req.params.serviceId}).sort(sort).exec((err, business) => {
         if(err) return next(err);
         if(business == null) {
             return res.status(404).json({"message": "Business not found"});
@@ -32,14 +32,14 @@ router.post('/', (req, res, next) => {
 });
 
 router.delete('/', (req, res, next) => {
-    BookingRequest.deleteMany({businessId: req.params.id}, (err, bookingRequests) => {
+    BookingRequest.deleteMany({serviceId: req.params.serviceId}, (err, bookingRequests) => {
         if(err){return next(err);}
         res.json({"bookingRequests": bookingRequests});
     });
 });
 
 router.get('/:bookingRequestId', (req, res, next) => { 
-    BookingRequest.findById({businessId: req.params.id}, (err, bookingRequest) => {
+    BookingRequest.findById({serviceId: req.params.serviceId}, (err, bookingRequest) => {
         if(err){return next(err);}
         if(bookingRequest == null){
             return res.status(404).json({"message": "BookingRequest not found"});
@@ -49,7 +49,7 @@ router.get('/:bookingRequestId', (req, res, next) => {
 }); 
 
 router.delete('/:bookingRequestId', (req, res, next) => {
-    BookingRequest.findOneAndDelete({businessId: req.params.id}, (err, bookingRequest) => {
+    BookingRequest.findOneAndDelete({bookingRequestId: req.params.bookingRequestId}, (err, bookingRequest) => {
         if(err){return next(err);}
         if(bookingRequest == null){
             return res.status(404).json({"message": "BookingRequest not found"});
@@ -59,7 +59,7 @@ router.delete('/:bookingRequestId', (req, res, next) => {
 });
 
 router.put('/:bookingRequestId', (req, res, next) => {
-    BookingRequest.findById({businessId: req.params.id}, (err, bookingRequest) => {
+    BookingRequest.findById({bookingRequestId: req.params.bookingRequestId}, (err, bookingRequest) => {
         if(err){return next(err);}
         if(bookingRequest == null){
             return res.status(404).json({"message": "BookingRequest not found"});
@@ -76,7 +76,7 @@ router.put('/:bookingRequestId', (req, res, next) => {
 });
 
 router.patch('/:bookingRequestId', (req, res, next) => {
-    BookingRequest.findById({businessId: req.params.id}, (err, bookingRequest) => {
+    BookingRequest.findById({bookingRequestId: req.params.bookingRequestId}, (err, bookingRequest) => {
         if(err){return next(err);}
         if(bookingRequest == null){
             return res.status(404).json({"message": "BookingRequest not found"});

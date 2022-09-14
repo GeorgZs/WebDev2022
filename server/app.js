@@ -68,7 +68,7 @@ function addRoutesToApp(app) {
     app.use('/api/v1/providers', providerController);
     app.use('/api/v1/providers/:providerId/services', serviceController);
     app.use('/api/v1/providers/:providerId/landingPages', landingPageController);
-    app.use('/api/v1/providers/:providerId/services/:serviceId/bookingRequests', bookingRequestController);
+    app.use('/api/v1/services/:serviceId/bookingRequests', bookingRequestController);
 
     // Catch all non-error handler for api (i.e., 404 Not Found)
     app.use('/api/*', function (req, res) {

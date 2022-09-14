@@ -14,7 +14,7 @@ var bookingRequestSchema = new Schema({
     date: {type: String, default: Date.now()},
     timePeriod: {type: String},
     user: {type: userSchema},
-    serviceID: {type: String}
+    serviceId: {type: String}
 });
 
 module.exports = mongoose.model("BookingRequests", bookingRequestSchema);
