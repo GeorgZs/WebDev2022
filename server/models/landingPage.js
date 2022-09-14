@@ -1,12 +1,10 @@
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
+const mongoose = require('mongoose');
 
-var landingPageSchema = new Schema ({
-    logo: {data: Buffer, contentType: String},
-    details: {type: String},
-    primaryColor: {type: String},
-    font: {type: String},
-    businessID: {type: String}
-}, {_id: false});
+const landingPageSchema = new mongoose.Schema({
+    providerId: { type: String, required: true },
+    logo: { type: String },
+    primaryColor: { type: String },
+    content: { type: String },
+}, { _id: false });
 
-module.exports = mongoose.model("LandingPage", landingPageSchema);
+module.exports = mongoose.model("landingpages", landingPageSchema);

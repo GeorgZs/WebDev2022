@@ -1,5 +1,6 @@
 const express = require('express');
 const Provider = require('../models/provider');
+const LandingPage = require('../models/landingPage');
 
 
 
@@ -17,6 +18,10 @@ router.post('/', async (req, res, handleError) => {
 
         const provider = new Provider(providerData);
         await provider.save();
+
+        const landingPage = new LandingPage({ providerId: provider._id });
+        await landingPage.save();
+
         res.status(201).json(visibleDataFor(provider));
     }
     catch (err) {
@@ -34,7 +39,7 @@ router.get('/:providerId', async (req, res, handleError) => {
             return;
         }
 
-        res.json(visibleDataFor(provider));
+        res.status(200).json(visibleDataFor(provider));
     }
     catch (err) {
         handleError(err);
@@ -46,20 +51,20 @@ router.put('/:providerId', async (req, res, handleError) => {
     try {
         const updatedProviderData = req.body;
         const errors = validateProvider(updatedProviderData);
-        
+
         if (errors.length > 0) {
             res.status(400).json({ message: 'Invalid data for updating a provider!', errors });
             return;
         }
-        
+
         const providerId = req.params.providerId;
         const provider = await Provider.findById(providerId);
-        
+
         if (!provider) {
             res.status(404).json({ message: 'Unknown provider!' });
             return;
         }
-        
+
         Object.assign(provider, updatedProviderData);
         await provider.save();
         res.status(200).json(visibleDataFor(provider));
@@ -73,20 +78,20 @@ router.patch('/:providerId', async (req, res, handleError) => {
     try {
         const updatedProviderData = req.body;
         const errors = validateProvider(updatedProviderData, { partial: true });
-        
+
         if (errors.length > 0) {
             res.status(400).json({ message: 'Invalid data for updating a provider!', errors });
             return;
         }
-        
+
         const providerId = req.params.providerId;
         const provider = await Provider.findById(providerId);
-        
+
         if (!provider) {
             res.status(404).json({ message: 'Unknown provider!' });
             return;
         }
-        
+
         Object.assign(provider, updatedProviderData);
         await provider.save();
         res.status(200).json(visibleDataFor(provider));

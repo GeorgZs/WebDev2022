@@ -1,99 +1,128 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const LandingPage = require('../models/landingPage');
 
-var LandingPage = require('../models/landingPage');
+const router = express.Router({ mergeParams: true });
 
+// /providers/:providerId/landingPage
 
-// /businesses/:businessId/landingPages
-router.post('/', (req, res, next) => {
-    var new_landingPage = new LandingPage(req.body);
-    new_landingPage.businessId = req.params.businessId;
+router.get('/', async (req, res, handleError) => {
+    try {
+        const providerId = req.params.providerId;
+        const landingPage = await LandingPage.findOne({ providerId });
 
-    new_landingPage.save((err) => {
-        if(err) {
-            return next(err);
+        if (!landingPage) {
+            res.status(404).json({ message: 'Unknown landing page!' });
+            return;
         }
-        res.status(201).json({new_landingPage});
-    });
+
+        res.status(200).json(visibleDataFor(landingPage));
+    }
+    catch (err) {
+        handleError(err);
+    }
 });
 
-router.get('/' , (req, res, next) => {
-    LandingPage.find({businessId: req.params.businessId}, (err, landingPages) => {
-        if(err) {
-            return next(err);
+
+router.put('/', async (req, res, handleError) => {
+    try {
+        const updatedLandingPageData = req.body;
+        const errors = validateLandingPage(updatedLandingPageData);
+
+        if (errors.length > 0) {
+            res.status(400).json({ message: 'Invalid data for updating a landing page!', errors });
+            return;
         }
-        if(landingPages == null) {
-            return res.status(404).json({"Message": "Landing page not found"});
+
+        const providerId = req.params.providerId;
+        const landingPage = await LandingPage.findOne({ providerId });
+
+        if (!landingPage) {
+            res.status(404).json({ message: 'Unknown landing page!' });
+            return;
         }
-        res.json({"landingPages": landingPages});
-    });
+
+        Object.assign(landingPage, updatedLandingPageData);
+        await landingPage.save();
+        res.status(200).json(visibleDataFor(landingPage));
+    }
+    catch (err) {
+        handleError(err);
+    }
 });
 
-router.delete('/', (req, res, next) => {
-    LandingPage.deleteMany({businessId: req.params.businessId}, (err, landingPages) => {
-        if(err) {
-            return next(err);
-        } 
-        res.json({"landingPages": landingPages});
-    });
+router.put('/logo', async (req, res, handleError) => {
+    try {
+        // save the logo in a logos folder
+        // set the logo path
+        // update the landing page
+        res.status(500).json(visibleDataFor({ message: "Not implemented yet!" }));
+    }
+    catch (err) {
+        handleError(err);
+    }
 });
 
-router.get('/', (req, res, next) => {
-    LandingPage.findOne({businessId: req.params.businessId}, (err, landingPages) => {
-        if(err) {
-            return next(err);
-        }
-        if(landingPages == null) {
-            res.status(404).json({"Message": "Landing page not found"});
-        }
-        res.json(landingPages);
-    });
-});
+router.patch('/', async (req, res, handleError) => {
+    try {
+        const updatedLandingPageData = req.body;
+        const errors = validateLandingPage(updatedLandingPageData, { partial: true });
 
-router.put('/', (req, res, next) => {
-    LandingPage.findOne({businessId: req.params.businessId}, (err, landingPages) => {
-        if(err) {
-            return next(err);
+        if (errors.length > 0) {
+            res.status(400).json({ message: 'Invalid data for updating a landing page!', errors });
+            return;
         }
-        if(landingPages == null) {
-            res.status(404).json({"Message": "Landing page not found"});
-        }
-        landingPages.details = req.params.details;
-        landingPages.primaryColor = req.params.primaryColor;
-        landingPages.font = req.params.font;
-        landingPages.businessId = req.params.businessId;
-        landingPages.save();
-        res.json(landingPages);
-    });
-});
 
-router.patch('/', (req, res, next) => {
-    LandingPage.findOne({businessId: req.params.businessId}, (err, landingPages) => {
-        if(err) {
-            return next(err);
-        }
-        if(landingPages == null) {
-            res.status(404).json({"Message": "Landing page not found"});
-        }
-        landingPages.details = (req.params.details || landingPages.details);
-        landingPages.primaryColor = (req.params.primaryColor || landingPages.primaryColor);
-        landingPages.font = (req.params.font || landingPages.font);
-        landingPages.businessId = (req.params.businessId || landingPages.businessId);
-        landingPages.save();
-        res.json(landingPages);
-    });
-});
+        const providerId = req.params.providerId;
+        const landingPage = await LandingPage.findOne({ providerId });
 
-router.delete('/', (req, res, next) => {
-    LandingPage.deleteOne({businessId: req.params.businessId}, (err, landingPages) => {
-        if(err) {
-            return next(err);
+        if (!landingPage) {
+            res.status(404).json({ message: 'Unknown landing page!' });
+            return;
         }
-        if(landingPages == null) {
-            return res.status(404).json({"Message": "Landing page not found"});
-        }
-        res.json(landingPages);
-    });
+
+        Object.assign(landingPage, updatedLandingPageData);
+        await landingPage.save();
+        res.status(200).json(visibleDataFor(landingPage));
+    }
+    catch (err) {
+        handleError(err);
+    }
 });
 
 module.exports = router;
+
+
+function validateLandingPage(landingPageData, { partial } = { partial: false }) {
+    const errors = [];
+
+    if (!landingPageData.providerId) {
+        if (!partial) errors.push('providerId: missing');
+    }
+    else {
+        if (typeof landingPageData.providerId !== 'string') errors.push('email: type');
+    }
+
+    if (landingPageData.logo) {
+        errors.push('logo: should-be-uploaded');
+    }
+
+    if (landingPageData.primaryColor) {
+        if (typeof landingPageData.primaryColor !== 'string') errors.push('primaryColor: type');
+        landingPageData.primaryColor = landingPageData.primaryColor.trim();
+        if (landingPageData.primaryColor.length < 1) errors.push('primaryColor: invalid');
+    }
+
+    if (landingPageData.content) {
+        if (typeof landingPageData.content !== 'string') errors.push('content: type');
+        landingPageData.content = landingPageData.content.trim();
+        if (landingPageData.content.length < 1) errors.push('content: invalid');
+    }
+
+    return errors;
+}
+
+function visibleDataFor(landingPage) {
+    const data = landingPage.toObject();
+    delete data.__v;
+    return data;
+}
