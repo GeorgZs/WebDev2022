@@ -1,5 +1,4 @@
 const express = require('express');
-const provider = require('../models/provider');
 const Provider = require('../models/provider');
 
 
