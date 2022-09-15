@@ -40,11 +40,9 @@ router.get('/', async (req, res, handleError) => {
         const providerId = req.params.providerId;
         const services = await Service.find({ providerId }).exec();
         res.status(200).json(services.map(service => visibleDataFor(service)));
-
     }
     catch (err) {
         handleError(err);
-
     }
 });
 
