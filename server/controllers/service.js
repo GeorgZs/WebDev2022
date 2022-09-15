@@ -77,7 +77,7 @@ router.delete('/', async (req, res, handleError) => {
     try {
         const providerId = req.params.providerId;
         const services = await Service.find({ providerId }).exec();
-        await Service.deleteMany(providerId);
+        await Service.deleteMany({providerId});
         res.status(204).json(services.map(service => visibleDataFor(service)));
 
     }
