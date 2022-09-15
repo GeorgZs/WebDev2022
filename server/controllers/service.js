@@ -33,43 +33,19 @@ router.post('/', async (req, res, handleError) => {
     }
 });
 
-
-
 router.get('/', async (req, res, handleError) => {
     try {
+        var sortBy = req.query.sort ? req.query.sort.toString() : "";
+        var filterBy = req.query.filter ? req.query.filter.toString() : "";
+        
         const providerId = req.params.providerId;
-        const services = await Service.find({ providerId }).exec();
-        res.status(200).json(services.map(service => visibleDataFor(service)));
+        const services = await Service.find( { filterBy }, { providerId }).sort(sortBy).exec();
+        res.status(200).json(services.map(service => visibleDataFor(service)));        
     }
     catch (err) {
         handleError(err);
     }
 });
-
-/*
-if (req.query.sort) {
-    var sortBy = req.query.sort.toString();
-    Service.find({ businessId: req.params.businessId }).sort(sortBy).exec((err, service) => {
-        if (err) {
-            return next(err);
-        }
-        res.json({ "services": service });
-    });
-
-} else {
-    Service.find({ businessId: req.params.businessId }, (err, service) => {
-        if (err) {
-            return next(err);
-        }
-        if (service == null) {
-            return res.status(404).json({ "Message": "Business not found" });
-        }
-        res.json({ "services": service });
-    });
-}
-});
-*/
-
 
 router.delete('/', async (req, res, handleError) => {
     try {
