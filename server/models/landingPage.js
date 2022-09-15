@@ -5,6 +5,6 @@ const landingPageSchema = new mongoose.Schema({
     logo: { type: String },
     primaryColor: { type: String },
     content: { type: String },
-}, { _id: false });
+});
 
 module.exports = mongoose.model("landingpages", landingPageSchema);
