@@ -27,14 +27,11 @@
 						"method": "POST",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3000/api/{{apiVersion}}/providers",
-							"protocol": "http",
+							"raw": "{{baseUrl}}/{{apiVersion}}/providers",
 							"host": [
-								"localhost"
+								"{{baseUrl}}"
 							],
-							"port": "3000",
 							"path": [
-								"api",
 								"{{apiVersion}}",
 								"providers"
 							]
@@ -70,14 +67,11 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3000/api/{{apiVersion}}/providers",
-							"protocol": "http",
+							"raw": "{{baseUrl}}/{{apiVersion}}/providers",
 							"host": [
-								"localhost"
+								"{{baseUrl}}"
 							],
-							"port": "3000",
 							"path": [
-								"api",
 								"{{apiVersion}}",
 								"providers"
 							]
@@ -113,14 +107,11 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3000/api/{{apiVersion}}/providers",
-							"protocol": "http",
+							"raw": "{{baseUrl}}/{{apiVersion}}/providers",
 							"host": [
-								"localhost"
+								"{{baseUrl}}"
 							],
-							"port": "3000",
 							"path": [
-								"api",
 								"{{apiVersion}}",
 								"providers"
 							]
@@ -156,14 +147,11 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3000/api/{{apiVersion}}/providers",
-							"protocol": "http",
+							"raw": "{{baseUrl}}/{{apiVersion}}/providers",
 							"host": [
-								"localhost"
+								"{{baseUrl}}"
 							],
-							"port": "3000",
 							"path": [
-								"api",
 								"{{apiVersion}}",
 								"providers"
 							]
@@ -199,14 +187,11 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3000/api/{{apiVersion}}/providers",
-							"protocol": "http",
+							"raw": "{{baseUrl}}/{{apiVersion}}/providers",
 							"host": [
-								"localhost"
+								"{{baseUrl}}"
 							],
-							"port": "3000",
 							"path": [
-								"api",
 								"{{apiVersion}}",
 								"providers"
 							]
@@ -266,14 +251,11 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3000/api/{{apiVersion}}/providers",
-							"protocol": "http",
+							"raw": "{{baseUrl}}/{{apiVersion}}/providers",
 							"host": [
-								"localhost"
+								"{{baseUrl}}"
 							],
-							"port": "3000",
 							"path": [
-								"api",
 								"{{apiVersion}}",
 								"providers"
 							]
@@ -300,14 +282,11 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3000/api/{{apiVersion}}/providers/{{providerId}}",
-							"protocol": "http",
+							"raw": "{{baseUrl}}/{{apiVersion}}/providers/{{providerId}}",
 							"host": [
-								"localhost"
+								"{{baseUrl}}"
 							],
-							"port": "3000",
 							"path": [
-								"api",
 								"{{apiVersion}}",
 								"providers",
 								"{{providerId}}"
@@ -335,14 +314,11 @@
 						"method": "PUT",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3000/api/{{apiVersion}}/providers/{{providerId}}",
-							"protocol": "http",
+							"raw": "{{baseUrl}}/{{apiVersion}}/providers/{{providerId}}",
 							"host": [
-								"localhost"
+								"{{baseUrl}}"
 							],
-							"port": "3000",
 							"path": [
-								"api",
 								"{{apiVersion}}",
 								"providers",
 								"{{providerId}}"
@@ -379,14 +355,11 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3000/api/{{apiVersion}}/providers/{{providerId}}",
-							"protocol": "http",
+							"raw": "{{baseUrl}}/{{apiVersion}}/providers/{{providerId}}",
 							"host": [
-								"localhost"
+								"{{baseUrl}}"
 							],
-							"port": "3000",
 							"path": [
-								"api",
 								"{{apiVersion}}",
 								"providers",
 								"{{providerId}}"
@@ -423,14 +396,11 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3000/api/{{apiVersion}}/providers/{{providerId}}",
-							"protocol": "http",
+							"raw": "{{baseUrl}}/{{apiVersion}}/providers/{{providerId}}",
 							"host": [
-								"localhost"
+								"{{baseUrl}}"
 							],
-							"port": "3000",
 							"path": [
-								"api",
 								"{{apiVersion}}",
 								"providers",
 								"{{providerId}}"
@@ -467,14 +437,11 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3000/api/{{apiVersion}}/providers/{{providerId}}",
-							"protocol": "http",
+							"raw": "{{baseUrl}}/{{apiVersion}}/providers/{{providerId}}",
 							"host": [
-								"localhost"
+								"{{baseUrl}}"
 							],
-							"port": "3000",
 							"path": [
-								"api",
 								"{{apiVersion}}",
 								"providers",
 								"{{providerId}}"
@@ -511,14 +478,11 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3000/api/{{apiVersion}}/providers/{{providerId}}",
-							"protocol": "http",
+							"raw": "{{baseUrl}}/{{apiVersion}}/providers/{{providerId}}",
 							"host": [
-								"localhost"
+								"{{baseUrl}}"
 							],
-							"port": "3000",
 							"path": [
-								"api",
 								"{{apiVersion}}",
 								"providers",
 								"{{providerId}}"
@@ -555,14 +519,11 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3000/api/{{apiVersion}}/providers/{{providerId}}",
-							"protocol": "http",
+							"raw": "{{baseUrl}}/{{apiVersion}}/providers/{{providerId}}",
 							"host": [
-								"localhost"
+								"{{baseUrl}}"
 							],
-							"port": "3000",
 							"path": [
-								"api",
 								"{{apiVersion}}",
 								"providers",
 								"{{providerId}}"
@@ -621,14 +582,11 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3000/api/{{apiVersion}}/providers/{{providerId}}",
-							"protocol": "http",
+							"raw": "{{baseUrl}}/{{apiVersion}}/providers/{{providerId}}",
 							"host": [
-								"localhost"
+								"{{baseUrl}}"
 							],
-							"port": "3000",
 							"path": [
-								"api",
 								"{{apiVersion}}",
 								"providers",
 								"{{providerId}}"
@@ -656,14 +614,11 @@
 						"method": "PATCH",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3000/api/{{apiVersion}}/providers/{{providerId}}",
-							"protocol": "http",
+							"raw": "{{baseUrl}}/{{apiVersion}}/providers/{{providerId}}",
 							"host": [
-								"localhost"
+								"{{baseUrl}}"
 							],
-							"port": "3000",
 							"path": [
-								"api",
 								"{{apiVersion}}",
 								"providers",
 								"{{providerId}}"
@@ -700,14 +655,11 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3000/api/{{apiVersion}}/providers/{{providerId}}",
-							"protocol": "http",
+							"raw": "{{baseUrl}}/{{apiVersion}}/providers/{{providerId}}",
 							"host": [
-								"localhost"
+								"{{baseUrl}}"
 							],
-							"port": "3000",
 							"path": [
-								"api",
 								"{{apiVersion}}",
 								"providers",
 								"{{providerId}}"
@@ -744,14 +696,11 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3000/api/{{apiVersion}}/providers/{{providerId}}",
-							"protocol": "http",
+							"raw": "{{baseUrl}}/{{apiVersion}}/providers/{{providerId}}",
 							"host": [
-								"localhost"
+								"{{baseUrl}}"
 							],
-							"port": "3000",
 							"path": [
-								"api",
 								"{{apiVersion}}",
 								"providers",
 								"{{providerId}}"
@@ -788,14 +737,11 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3000/api/{{apiVersion}}/providers/{{providerId}}",
-							"protocol": "http",
+							"raw": "{{baseUrl}}/{{apiVersion}}/providers/{{providerId}}",
 							"host": [
-								"localhost"
+								"{{baseUrl}}"
 							],
-							"port": "3000",
 							"path": [
-								"api",
 								"{{apiVersion}}",
 								"providers",
 								"{{providerId}}"
@@ -832,14 +778,11 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3000/api/{{apiVersion}}/providers/{{providerId}}",
-							"protocol": "http",
+							"raw": "{{baseUrl}}/{{apiVersion}}/providers/{{providerId}}",
 							"host": [
-								"localhost"
+								"{{baseUrl}}"
 							],
-							"port": "3000",
 							"path": [
-								"api",
 								"{{apiVersion}}",
 								"providers",
 								"{{providerId}}"
@@ -876,14 +819,11 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3000/api/{{apiVersion}}/providers/{{providerId}}",
-							"protocol": "http",
+							"raw": "{{baseUrl}}/{{apiVersion}}/providers/{{providerId}}",
 							"host": [
-								"localhost"
+								"{{baseUrl}}"
 							],
-							"port": "3000",
 							"path": [
-								"api",
 								"{{apiVersion}}",
 								"providers",
 								"{{providerId}}"
@@ -942,14 +882,11 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3000/api/{{apiVersion}}/providers/{{providerId}}",
-							"protocol": "http",
+							"raw": "{{baseUrl}}/{{apiVersion}}/providers/{{providerId}}",
 							"host": [
-								"localhost"
+								"{{baseUrl}}"
 							],
-							"port": "3000",
 							"path": [
-								"api",
 								"{{apiVersion}}",
 								"providers",
 								"{{providerId}}"
@@ -977,14 +914,11 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3000/api/{{apiVersion}}/providers/{{providerId}}",
-							"protocol": "http",
+							"raw": "{{baseUrl}}/{{apiVersion}}/providers/{{providerId}}",
 							"host": [
-								"localhost"
+								"{{baseUrl}}"
 							],
-							"port": "3000",
 							"path": [
-								"api",
 								"{{apiVersion}}",
 								"providers",
 								"{{providerId}}"
@@ -1012,14 +946,11 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3000/api/{{apiVersion}}/providers/{{providerId}}",
-							"protocol": "http",
+							"raw": "{{baseUrl}}/{{apiVersion}}/providers/{{providerId}}",
 							"host": [
-								"localhost"
+								"{{baseUrl}}"
 							],
-							"port": "3000",
 							"path": [
-								"api",
 								"{{apiVersion}}",
 								"providers",
 								"{{providerId}}"
@@ -1047,14 +978,11 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3000/api/{{apiVersion}}/providers/{{providerId}}",
-							"protocol": "http",
+							"raw": "{{baseUrl}}/{{apiVersion}}/providers/{{providerId}}",
 							"host": [
-								"localhost"
+								"{{baseUrl}}"
 							],
-							"port": "3000",
 							"path": [
-								"api",
 								"{{apiVersion}}",
 								"providers",
 								"{{providerId}}"
@@ -1091,14 +1019,11 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3000/api/{{apiVersion}}/providers/{{providerId}}",
-							"protocol": "http",
+							"raw": "{{baseUrl}}/{{apiVersion}}/providers/{{providerId}}",
 							"host": [
-								"localhost"
+								"{{baseUrl}}"
 							],
-							"port": "3000",
 							"path": [
-								"api",
 								"{{apiVersion}}",
 								"providers",
 								"{{providerId}}"
@@ -1135,14 +1060,11 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3000/api/{{apiVersion}}/providers/{{providerId}}",
-							"protocol": "http",
+							"raw": "{{baseUrl}}/{{apiVersion}}/providers/{{providerId}}",
 							"host": [
-								"localhost"
+								"{{baseUrl}}"
 							],
-							"port": "3000",
 							"path": [
-								"api",
 								"{{apiVersion}}",
 								"providers",
 								"{{providerId}}"
@@ -1183,14 +1105,11 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3000/api/{{apiVersion}}/providers",
-							"protocol": "http",
+							"raw": "{{baseUrl}}/{{apiVersion}}/providers",
 							"host": [
-								"localhost"
+								"{{baseUrl}}"
 							],
-							"port": "3000",
 							"path": [
-								"api",
 								"{{apiVersion}}",
 								"providers"
 							]
@@ -1223,14 +1142,11 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3000/api/{{apiVersion}}/providers/{{providerId}}/services",
-							"protocol": "http",
+							"raw": "{{baseUrl}}/{{apiVersion}}/providers/{{providerId}}/services",
 							"host": [
-								"localhost"
+								"{{baseUrl}}"
 							],
-							"port": "3000",
 							"path": [
-								"api",
 								"{{apiVersion}}",
 								"providers",
 								"{{providerId}}",
@@ -1259,14 +1175,11 @@
 						"method": "POST",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3000/api/{{apiVersion}}/providers/{{providerId}}/services",
-							"protocol": "http",
+							"raw": "{{baseUrl}}/{{apiVersion}}/providers/{{providerId}}/services",
 							"host": [
-								"localhost"
+								"{{baseUrl}}"
 							],
-							"port": "3000",
 							"path": [
-								"api",
 								"{{apiVersion}}",
 								"providers",
 								"{{providerId}}",
@@ -1304,14 +1217,11 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3000/api/{{apiVersion}}/providers/{{providerId}}/services",
-							"protocol": "http",
+							"raw": "{{baseUrl}}/{{apiVersion}}/providers/{{providerId}}/services",
 							"host": [
-								"localhost"
+								"{{baseUrl}}"
 							],
-							"port": "3000",
 							"path": [
-								"api",
 								"{{apiVersion}}",
 								"providers",
 								"{{providerId}}",
@@ -1349,14 +1259,11 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3000/api/{{apiVersion}}/providers/{{providerId}}/services",
-							"protocol": "http",
+							"raw": "{{baseUrl}}/{{apiVersion}}/providers/{{providerId}}/services",
 							"host": [
-								"localhost"
+								"{{baseUrl}}"
 							],
-							"port": "3000",
 							"path": [
-								"api",
 								"{{apiVersion}}",
 								"providers",
 								"{{providerId}}",
@@ -1394,14 +1301,11 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3000/api/{{apiVersion}}/providers/{{providerId}}/services",
-							"protocol": "http",
+							"raw": "{{baseUrl}}/{{apiVersion}}/providers/{{providerId}}/services",
 							"host": [
-								"localhost"
+								"{{baseUrl}}"
 							],
-							"port": "3000",
 							"path": [
-								"api",
 								"{{apiVersion}}",
 								"providers",
 								"{{providerId}}",
@@ -1459,14 +1363,11 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3000/api/{{apiVersion}}/providers/{{providerId}}/services",
-							"protocol": "http",
+							"raw": "{{baseUrl}}/{{apiVersion}}/providers/{{providerId}}/services",
 							"host": [
-								"localhost"
+								"{{baseUrl}}"
 							],
-							"port": "3000",
 							"path": [
-								"api",
 								"{{apiVersion}}",
 								"providers",
 								"{{providerId}}",
@@ -1501,14 +1402,11 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3000/api/{{apiVersion}}/providers/{{providerId}}/services",
-							"protocol": "http",
+							"raw": "{{baseUrl}}/{{apiVersion}}/providers/{{providerId}}/services",
 							"host": [
-								"localhost"
+								"{{baseUrl}}"
 							],
-							"port": "3000",
 							"path": [
-								"api",
 								"{{apiVersion}}",
 								"providers",
 								"{{providerId}}",
@@ -1537,14 +1435,11 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3000/api/{{apiVersion}}/providers/{{providerId}}/services/{{serviceId}}",
-							"protocol": "http",
+							"raw": "{{baseUrl}}/{{apiVersion}}/providers/{{providerId}}/services/{{serviceId}}",
 							"host": [
-								"localhost"
+								"{{baseUrl}}"
 							],
-							"port": "3000",
 							"path": [
-								"api",
 								"{{apiVersion}}",
 								"providers",
 								"{{providerId}}",
@@ -1583,14 +1478,11 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3000/api/{{apiVersion}}/providers/{{providerId}}/services/{{serviceId}}",
-							"protocol": "http",
+							"raw": "{{baseUrl}}/{{apiVersion}}/providers/{{providerId}}/services/{{serviceId}}",
 							"host": [
-								"localhost"
+								"{{baseUrl}}"
 							],
-							"port": "3000",
 							"path": [
-								"api",
 								"{{apiVersion}}",
 								"providers",
 								"{{providerId}}",
@@ -1629,14 +1521,11 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3000/api/{{apiVersion}}/providers/{{providerId}}/services/{{serviceId}}",
-							"protocol": "http",
+							"raw": "{{baseUrl}}/{{apiVersion}}/providers/{{providerId}}/services/{{serviceId}}",
 							"host": [
-								"localhost"
+								"{{baseUrl}}"
 							],
-							"port": "3000",
 							"path": [
-								"api",
 								"{{apiVersion}}",
 								"providers",
 								"{{providerId}}",
@@ -1666,14 +1555,11 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3000/api/{{apiVersion}}/providers/{{providerId}}/services/{{serviceId}}",
-							"protocol": "http",
+							"raw": "{{baseUrl}}/{{apiVersion}}/providers/{{providerId}}/services/{{serviceId}}",
 							"host": [
-								"localhost"
+								"{{baseUrl}}"
 							],
-							"port": "3000",
 							"path": [
-								"api",
 								"{{apiVersion}}",
 								"providers",
 								"{{providerId}}",
@@ -1709,14 +1595,11 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3000/api/{{apiVersion}}/providers/{{providerId}}/services",
-							"protocol": "http",
+							"raw": "{{baseUrl}}/{{apiVersion}}/providers/{{providerId}}/services",
 							"host": [
-								"localhost"
+								"{{baseUrl}}"
 							],
-							"port": "3000",
 							"path": [
-								"api",
 								"{{apiVersion}}",
 								"providers",
 								"{{providerId}}",
@@ -1745,14 +1628,11 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3000/api/{{apiVersion}}/providers/{{providerId}}/services/",
-							"protocol": "http",
+							"raw": "{{baseUrl}}/{{apiVersion}}/providers/{{providerId}}/services/",
 							"host": [
-								"localhost"
+								"{{baseUrl}}"
 							],
-							"port": "3000",
 							"path": [
-								"api",
 								"{{apiVersion}}",
 								"providers",
 								"{{providerId}}",
@@ -1782,14 +1662,11 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3000/api/{{apiVersion}}/providers/{{providerId}}/services/{{serviceId}}",
-							"protocol": "http",
+							"raw": "{{baseUrl}}/{{apiVersion}}/providers/{{providerId}}/services/{{serviceId}}",
 							"host": [
-								"localhost"
+								"{{baseUrl}}"
 							],
-							"port": "3000",
 							"path": [
-								"api",
 								"{{apiVersion}}",
 								"providers",
 								"{{providerId}}",
@@ -1819,14 +1696,11 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3000/api/{{apiVersion}}/providers/{{providerId}}/services/{{serviceId}}",
-							"protocol": "http",
+							"raw": "{{baseUrl}}/{{apiVersion}}/providers/{{providerId}}/services/{{serviceId}}",
 							"host": [
-								"localhost"
+								"{{baseUrl}}"
 							],
-							"port": "3000",
 							"path": [
-								"api",
 								"{{apiVersion}}",
 								"providers",
 								"{{providerId}}",
@@ -1856,14 +1730,11 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3000/api/{{apiVersion}}/providers/{{providerId}}/services/{{serviceId}}",
-							"protocol": "http",
+							"raw": "{{baseUrl}}/{{apiVersion}}/providers/{{providerId}}/services/{{serviceId}}",
 							"host": [
-								"localhost"
+								"{{baseUrl}}"
 							],
-							"port": "3000",
 							"path": [
-								"api",
 								"{{apiVersion}}",
 								"providers",
 								"{{providerId}}",
@@ -1902,14 +1773,11 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3000/api/{{apiVersion}}/providers/{{providerId}}/services/{{serviceId}}",
-							"protocol": "http",
+							"raw": "{{baseUrl}}/{{apiVersion}}/providers/{{providerId}}/services/{{serviceId}}",
 							"host": [
-								"localhost"
+								"{{baseUrl}}"
 							],
-							"port": "3000",
 							"path": [
-								"api",
 								"{{apiVersion}}",
 								"providers",
 								"{{providerId}}",
@@ -1948,14 +1816,11 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3000/api/{{apiVersion}}/providers/{{providerId}}/services/{{serviceId}}",
-							"protocol": "http",
+							"raw": "{{baseUrl}}/{{apiVersion}}/providers/{{providerId}}/services/{{serviceId}}",
 							"host": [
-								"localhost"
+								"{{baseUrl}}"
 							],
-							"port": "3000",
 							"path": [
-								"api",
 								"{{apiVersion}}",
 								"providers",
 								"{{providerId}}",
@@ -1972,14 +1837,11 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3000/api/{{apiVersion}}/providers/{{providerId}}",
-							"protocol": "http",
+							"raw": "{{baseUrl}}/{{apiVersion}}/providers/{{providerId}}",
 							"host": [
-								"localhost"
+								"{{baseUrl}}"
 							],
-							"port": "3000",
 							"path": [
-								"api",
 								"{{apiVersion}}",
 								"providers",
 								"{{providerId}}"
@@ -2007,14 +1869,11 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3000/api/{{apiVersion}}/providers/🐱‍💻/services/{{serviceId}}",
-							"protocol": "http",
+							"raw": "{{baseUrl}}/{{apiVersion}}/providers/🐱‍💻/services/{{serviceId}}",
 							"host": [
-								"localhost"
+								"{{baseUrl}}"
 							],
-							"port": "3000",
 							"path": [
-								"api",
 								"{{apiVersion}}",
 								"providers",
 								"🐱‍💻",
@@ -2044,14 +1903,11 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3000/api/{{apiVersion}}/providers/🐱‍💻/services/{{serviceId}}",
-							"protocol": "http",
+							"raw": "{{baseUrl}}/{{apiVersion}}/providers/🐱‍💻/services/{{serviceId}}",
 							"host": [
-								"localhost"
+								"{{baseUrl}}"
 							],
-							"port": "3000",
 							"path": [
-								"api",
 								"{{apiVersion}}",
 								"providers",
 								"🐱‍💻",
@@ -2090,14 +1946,11 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3000/api/{{apiVersion}}/providers/🐱‍💻/services/{{serviceId}}",
-							"protocol": "http",
+							"raw": "{{baseUrl}}/{{apiVersion}}/providers/🐱‍💻/services/{{serviceId}}",
 							"host": [
-								"localhost"
+								"{{baseUrl}}"
 							],
-							"port": "3000",
 							"path": [
-								"api",
 								"{{apiVersion}}",
 								"providers",
 								"🐱‍💻",
@@ -2136,14 +1989,11 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3000/api/{{apiVersion}}/providers/🐱‍💻/services/{{serviceId}}",
-							"protocol": "http",
+							"raw": "{{baseUrl}}/{{apiVersion}}/providers/🐱‍💻/services/{{serviceId}}",
 							"host": [
-								"localhost"
+								"{{baseUrl}}"
 							],
-							"port": "3000",
 							"path": [
-								"api",
 								"{{apiVersion}}",
 								"providers",
 								"🐱‍💻",
@@ -2186,14 +2036,11 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3000/api/{{apiVersion}}/providers",
-							"protocol": "http",
+							"raw": "{{baseUrl}}/{{apiVersion}}/providers",
 							"host": [
-								"localhost"
+								"{{baseUrl}}"
 							],
-							"port": "3000",
 							"path": [
-								"api",
 								"{{apiVersion}}",
 								"providers"
 							]
@@ -2220,14 +2067,11 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3000/api/{{apiVersion}}/providers/{{providerId}}/landingPage",
-							"protocol": "http",
+							"raw": "{{baseUrl}}/{{apiVersion}}/providers/{{providerId}}/landingPage",
 							"host": [
-								"localhost"
+								"{{baseUrl}}"
 							],
-							"port": "3000",
 							"path": [
-								"api",
 								"{{apiVersion}}",
 								"providers",
 								"{{providerId}}",
@@ -2265,14 +2109,11 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3000/api/{{apiVersion}}/providers/{{providerId}}/landingPage",
-							"protocol": "http",
+							"raw": "{{baseUrl}}/{{apiVersion}}/providers/{{providerId}}/landingPage",
 							"host": [
-								"localhost"
+								"{{baseUrl}}"
 							],
-							"port": "3000",
 							"path": [
-								"api",
 								"{{apiVersion}}",
 								"providers",
 								"{{providerId}}",
@@ -2310,14 +2151,11 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3000/api/{{apiVersion}}/providers/{{providerId}}/landingPage",
-							"protocol": "http",
+							"raw": "{{baseUrl}}/{{apiVersion}}/providers/{{providerId}}/landingPage",
 							"host": [
-								"localhost"
+								"{{baseUrl}}"
 							],
-							"port": "3000",
 							"path": [
-								"api",
 								"{{apiVersion}}",
 								"providers",
 								"{{providerId}}",
@@ -2333,14 +2171,11 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3000/api/{{apiVersion}}/providers/{{providerId}}",
-							"protocol": "http",
+							"raw": "{{baseUrl}}/{{apiVersion}}/providers/{{providerId}}",
 							"host": [
-								"localhost"
+								"{{baseUrl}}"
 							],
-							"port": "3000",
 							"path": [
-								"api",
 								"{{apiVersion}}",
 								"providers",
 								"{{providerId}}"
@@ -2368,14 +2203,11 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3000/api/{{apiVersion}}/providers/🐱‍💻/landingPage",
-							"protocol": "http",
+							"raw": "{{baseUrl}}/{{apiVersion}}/providers/🐱‍💻/landingPage",
 							"host": [
-								"localhost"
+								"{{baseUrl}}"
 							],
-							"port": "3000",
 							"path": [
-								"api",
 								"{{apiVersion}}",
 								"providers",
 								"🐱‍💻",
@@ -2413,14 +2245,11 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3000/api/{{apiVersion}}/providers/🐱‍💻/landingPage",
-							"protocol": "http",
+							"raw": "{{baseUrl}}/{{apiVersion}}/providers/🐱‍💻/landingPage",
 							"host": [
-								"localhost"
+								"{{baseUrl}}"
 							],
-							"port": "3000",
 							"path": [
-								"api",
 								"{{apiVersion}}",
 								"providers",
 								"🐱‍💻",
@@ -2458,14 +2287,11 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3000/api/{{apiVersion}}/providers/🐱‍💻/landingPage",
-							"protocol": "http",
+							"raw": "{{baseUrl}}/{{apiVersion}}/providers/🐱‍💻/landingPage",
 							"host": [
-								"localhost"
+								"{{baseUrl}}"
 							],
-							"port": "3000",
 							"path": [
-								"api",
 								"{{apiVersion}}",
 								"providers",
 								"🐱‍💻",
@@ -2507,14 +2333,11 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3000/api/{{apiVersion}}/providers",
-							"protocol": "http",
+							"raw": "{{baseUrl}}/{{apiVersion}}/providers",
 							"host": [
-								"localhost"
+								"{{baseUrl}}"
 							],
-							"port": "3000",
 							"path": [
-								"api",
 								"{{apiVersion}}",
 								"providers"
 							]
@@ -2553,14 +2376,11 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3000/api/{{apiVersion}}/providers/{{providerId}}/services",
-							"protocol": "http",
+							"raw": "{{baseUrl}}/{{apiVersion}}/providers/{{providerId}}/services",
 							"host": [
-								"localhost"
+								"{{baseUrl}}"
 							],
-							"port": "3000",
 							"path": [
-								"api",
 								"{{apiVersion}}",
 								"providers",
 								"{{providerId}}",
@@ -2595,14 +2415,11 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3000/api/{{apiVersion}}/services/{{serviceId}}/bookingRequests",
-							"protocol": "http",
+							"raw": "{{baseUrl}}/{{apiVersion}}/services/{{serviceId}}/bookingRequests",
 							"host": [
-								"localhost"
+								"{{baseUrl}}"
 							],
-							"port": "3000",
 							"path": [
-								"api",
 								"{{apiVersion}}",
 								"services",
 								"{{serviceId}}",
@@ -2631,14 +2448,11 @@
 						"method": "POST",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3000/api/{{apiVersion}}/services/{{serviceId}}/bookingRequests",
-							"protocol": "http",
+							"raw": "{{baseUrl}}/{{apiVersion}}/services/{{serviceId}}/bookingRequests",
 							"host": [
-								"localhost"
+								"{{baseUrl}}"
 							],
-							"port": "3000",
 							"path": [
-								"api",
 								"{{apiVersion}}",
 								"services",
 								"{{serviceId}}",
@@ -2676,14 +2490,11 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3000/api/{{apiVersion}}/services/{{serviceId}}/bookingRequests",
-							"protocol": "http",
+							"raw": "{{baseUrl}}/{{apiVersion}}/services/{{serviceId}}/bookingRequests",
 							"host": [
-								"localhost"
+								"{{baseUrl}}"
 							],
-							"port": "3000",
 							"path": [
-								"api",
 								"{{apiVersion}}",
 								"services",
 								"{{serviceId}}",
@@ -2721,14 +2532,11 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3000/api/{{apiVersion}}/services/{{serviceId}}/bookingRequests",
-							"protocol": "http",
+							"raw": "{{baseUrl}}/{{apiVersion}}/services/{{serviceId}}/bookingRequests",
 							"host": [
-								"localhost"
+								"{{baseUrl}}"
 							],
-							"port": "3000",
 							"path": [
-								"api",
 								"{{apiVersion}}",
 								"services",
 								"{{serviceId}}",
@@ -2766,14 +2574,11 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3000/api/{{apiVersion}}/services/{{serviceId}}/bookingRequests",
-							"protocol": "http",
+							"raw": "{{baseUrl}}/{{apiVersion}}/services/{{serviceId}}/bookingRequests",
 							"host": [
-								"localhost"
+								"{{baseUrl}}"
 							],
-							"port": "3000",
 							"path": [
-								"api",
 								"{{apiVersion}}",
 								"services",
 								"{{serviceId}}",
@@ -2840,14 +2645,11 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3000/api/{{apiVersion}}/services/{{serviceId}}/bookingRequests",
-							"protocol": "http",
+							"raw": "{{baseUrl}}/{{apiVersion}}/services/{{serviceId}}/bookingRequests",
 							"host": [
-								"localhost"
+								"{{baseUrl}}"
 							],
-							"port": "3000",
 							"path": [
-								"api",
 								"{{apiVersion}}",
 								"services",
 								"{{serviceId}}",
@@ -2882,14 +2684,11 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3000/api/{{apiVersion}}/services/{{serviceId}}/bookingRequests",
-							"protocol": "http",
+							"raw": "{{baseUrl}}/{{apiVersion}}/services/{{serviceId}}/bookingRequests",
 							"host": [
-								"localhost"
+								"{{baseUrl}}"
 							],
-							"port": "3000",
 							"path": [
-								"api",
 								"{{apiVersion}}",
 								"services",
 								"{{serviceId}}",
@@ -2918,14 +2717,11 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3000/api/{{apiVersion}}/services/{{serviceId}}/bookingRequests/{{bookingId}}",
-							"protocol": "http",
+							"raw": "{{baseUrl}}/{{apiVersion}}/services/{{serviceId}}/bookingRequests/{{bookingId}}",
 							"host": [
-								"localhost"
+								"{{baseUrl}}"
 							],
-							"port": "3000",
 							"path": [
-								"api",
 								"{{apiVersion}}",
 								"services",
 								"{{serviceId}}",
@@ -2964,14 +2760,11 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3000/api/{{apiVersion}}/services/{{serviceId}}/bookingRequests/{{bookingId}}",
-							"protocol": "http",
+							"raw": "{{baseUrl}}/{{apiVersion}}/services/{{serviceId}}/bookingRequests/{{bookingId}}",
 							"host": [
-								"localhost"
+								"{{baseUrl}}"
 							],
-							"port": "3000",
 							"path": [
-								"api",
 								"{{apiVersion}}",
 								"services",
 								"{{serviceId}}",
@@ -3010,14 +2803,11 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3000/api/{{apiVersion}}/services/{{serviceId}}/bookingRequests/{{bookingId}}",
-							"protocol": "http",
+							"raw": "{{baseUrl}}/{{apiVersion}}/services/{{serviceId}}/bookingRequests/{{bookingId}}",
 							"host": [
-								"localhost"
+								"{{baseUrl}}"
 							],
-							"port": "3000",
 							"path": [
-								"api",
 								"{{apiVersion}}",
 								"services",
 								"{{serviceId}}",
@@ -3047,14 +2837,11 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3000/api/{{apiVersion}}/services/{{serviceId}}/bookingRequests/{{bookingId}}",
-							"protocol": "http",
+							"raw": "{{baseUrl}}/{{apiVersion}}/services/{{serviceId}}/bookingRequests/{{bookingId}}",
 							"host": [
-								"localhost"
+								"{{baseUrl}}"
 							],
-							"port": "3000",
 							"path": [
-								"api",
 								"{{apiVersion}}",
 								"services",
 								"{{serviceId}}",
@@ -3090,14 +2877,11 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3000/api/{{apiVersion}}/services/{{serviceId}}/bookingRequests",
-							"protocol": "http",
+							"raw": "{{baseUrl}}/{{apiVersion}}/services/{{serviceId}}/bookingRequests",
 							"host": [
-								"localhost"
+								"{{baseUrl}}"
 							],
-							"port": "3000",
 							"path": [
-								"api",
 								"{{apiVersion}}",
 								"services",
 								"{{serviceId}}",
@@ -3126,14 +2910,11 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3000/api/{{apiVersion}}/services/{{serviceId}}/bookingRequests",
-							"protocol": "http",
+							"raw": "{{baseUrl}}/{{apiVersion}}/services/{{serviceId}}/bookingRequests",
 							"host": [
-								"localhost"
+								"{{baseUrl}}"
 							],
-							"port": "3000",
 							"path": [
-								"api",
 								"{{apiVersion}}",
 								"services",
 								"{{serviceId}}",
@@ -3162,14 +2943,11 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3000/api/{{apiVersion}}/services/{{serviceId}}/bookingRequests",
-							"protocol": "http",
+							"raw": "{{baseUrl}}/{{apiVersion}}/services/{{serviceId}}/bookingRequests",
 							"host": [
-								"localhost"
+								"{{baseUrl}}"
 							],
-							"port": "3000",
 							"path": [
-								"api",
 								"{{apiVersion}}",
 								"services",
 								"{{serviceId}}",
@@ -3198,14 +2976,11 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3000/api/{{apiVersion}}/services/{{serviceId}}/bookingRequests/{{bookingId}}",
-							"protocol": "http",
+							"raw": "{{baseUrl}}/{{apiVersion}}/services/{{serviceId}}/bookingRequests/{{bookingId}}",
 							"host": [
-								"localhost"
+								"{{baseUrl}}"
 							],
-							"port": "3000",
 							"path": [
-								"api",
 								"{{apiVersion}}",
 								"services",
 								"{{serviceId}}",
@@ -3235,14 +3010,11 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3000/api/{{apiVersion}}/services/{{serviceId}}/bookingRequests/{{bookingId}}",
-							"protocol": "http",
+							"raw": "{{baseUrl}}/{{apiVersion}}/services/{{serviceId}}/bookingRequests/{{bookingId}}",
 							"host": [
-								"localhost"
+								"{{baseUrl}}"
 							],
-							"port": "3000",
 							"path": [
-								"api",
 								"{{apiVersion}}",
 								"services",
 								"{{serviceId}}",
@@ -3281,14 +3053,11 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3000/api/{{apiVersion}}/services/{{serviceId}}/bookingRequests/{{bookingId}}",
-							"protocol": "http",
+							"raw": "{{baseUrl}}/{{apiVersion}}/services/{{serviceId}}/bookingRequests/{{bookingId}}",
 							"host": [
-								"localhost"
+								"{{baseUrl}}"
 							],
-							"port": "3000",
 							"path": [
-								"api",
 								"{{apiVersion}}",
 								"services",
 								"{{serviceId}}",
@@ -3327,14 +3096,11 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3000/api/{{apiVersion}}/services/{{serviceId}}/bookingRequests/{{bookingId}}",
-							"protocol": "http",
+							"raw": "{{baseUrl}}/{{apiVersion}}/services/{{serviceId}}/bookingRequests/{{bookingId}}",
 							"host": [
-								"localhost"
+								"{{baseUrl}}"
 							],
-							"port": "3000",
 							"path": [
-								"api",
 								"{{apiVersion}}",
 								"services",
 								"{{serviceId}}",
@@ -3351,14 +3117,11 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3000/api/{{apiVersion}}/providers/{{providerId}}/services/{{serviceId}}",
-							"protocol": "http",
+							"raw": "{{baseUrl}}/{{apiVersion}}/providers/{{providerId}}/services/{{serviceId}}",
 							"host": [
-								"localhost"
+								"{{baseUrl}}"
 							],
-							"port": "3000",
 							"path": [
-								"api",
 								"{{apiVersion}}",
 								"providers",
 								"{{providerId}}",
@@ -3375,14 +3138,11 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3000/api/{{apiVersion}}/providers/{{providerId}}",
-							"protocol": "http",
+							"raw": "{{baseUrl}}/{{apiVersion}}/providers/{{providerId}}",
 							"host": [
-								"localhost"
+								"{{baseUrl}}"
 							],
-							"port": "3000",
 							"path": [
-								"api",
 								"{{apiVersion}}",
 								"providers",
 								"{{providerId}}"
@@ -3410,14 +3170,11 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3000/api/{{apiVersion}}/services/🐱‍💻/bookingRequests/{{bookingId}}",
-							"protocol": "http",
+							"raw": "{{baseUrl}}/{{apiVersion}}/services/🐱‍💻/bookingRequests/{{bookingId}}",
 							"host": [
-								"localhost"
+								"{{baseUrl}}"
 							],
-							"port": "3000",
 							"path": [
-								"api",
 								"{{apiVersion}}",
 								"services",
 								"🐱‍💻",
@@ -3447,14 +3204,11 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3000/api/{{apiVersion}}/services/🐱‍💻/bookingRequests/{{bookingId}}",
-							"protocol": "http",
+							"raw": "{{baseUrl}}/{{apiVersion}}/services/🐱‍💻/bookingRequests/{{bookingId}}",
 							"host": [
-								"localhost"
+								"{{baseUrl}}"
 							],
-							"port": "3000",
 							"path": [
-								"api",
 								"{{apiVersion}}",
 								"services",
 								"🐱‍💻",
@@ -3493,14 +3247,11 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3000/api/{{apiVersion}}/services/🐱‍💻/bookingRequests/{{bookingId}}",
-							"protocol": "http",
+							"raw": "{{baseUrl}}/{{apiVersion}}/services/🐱‍💻/bookingRequests/{{bookingId}}",
 							"host": [
-								"localhost"
+								"{{baseUrl}}"
 							],
-							"port": "3000",
 							"path": [
-								"api",
 								"{{apiVersion}}",
 								"services",
 								"🐱‍💻",
@@ -3539,14 +3290,11 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3000/api/{{apiVersion}}/services/🐱‍💻/bookingRequests/{{bookingId}}",
-							"protocol": "http",
+							"raw": "{{baseUrl}}/{{apiVersion}}/services/🐱‍💻/bookingRequests/{{bookingId}}",
 							"host": [
-								"localhost"
+								"{{baseUrl}}"
 							],
-							"port": "3000",
 							"path": [
-								"api",
 								"{{apiVersion}}",
 								"services",
 								"🐱‍💻",
@@ -3581,6 +3329,11 @@
 		}
 	],
 	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "{{host}}/api",
+			"type": "default"
+		},
 		{
 			"key": "apiVersion",
 			"value": "v1",

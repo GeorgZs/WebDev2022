@@ -111,6 +111,7 @@ router.put('/:bookingRequestId', async (req, res, handleError) => {
 
         if (!booking) {
             res.status(404).json({ message: 'Unknown booking!' });
+            return;
         }
 
         Object.assign(booking, updatedBooking);
@@ -137,6 +138,7 @@ router.patch('/:bookingRequestId', async (req, res, handleError) => {
 
         if (!booking) {
             res.status(404).json({ message: 'Unknown booking!' });
+            return;
         }
 
         Object.assign(booking, updatedBooking);
