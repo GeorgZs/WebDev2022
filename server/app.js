@@ -67,12 +67,12 @@ function addRoutesToApp(app) {
     const bookingRequestController = require('./controllers/bookingRequest');
     app.use('/api/v1/providers', providerController);
     app.use('/api/v1/providers/:providerId/services', serviceController);
-    app.use('/api/v1/providers/:providerId/landingPages', landingPageController);
+    app.use('/api/v1/providers/:providerId/landingPage', landingPageController);
     app.use('/api/v1/services/:serviceId/bookingRequests', bookingRequestController);
 
     // Catch all non-error handler for api (i.e., 404 Not Found)
     app.use('/api/*', function (req, res) {
-        res.status(404).json({ 'message': 'Not Found' });
+        res.status(404).json({ 'message': 'Endpoint Not Found' });
     });
 }
 

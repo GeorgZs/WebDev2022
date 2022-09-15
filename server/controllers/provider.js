@@ -105,7 +105,7 @@ router.delete('/:providerId', async (req, res, handleError) => {
     try {
         const providerId = req.params.providerId;
         const provider = await Provider.findById(providerId);
-        const landingPage = await LandingPage.findOne({providerId});
+        const landingPage = await LandingPage.findOne({ providerId });
 
         if (landingPage) await landingPage.delete();
         if (provider) await provider.delete();
@@ -123,16 +123,20 @@ module.exports = router;
 function validateProvider(providerData, { partial } = { partial: false }) {
     const errors = [];
 
-    if (!providerData.email) {
+    if (!('email' in providerData)) {
         if (!partial) errors.push('email: missing');
     }
     else {
-        if (typeof providerData.email !== 'string') errors.push('email: type');
-        providerData.email = providerData.email.trim();
-        if (!providerData.email.includes("@") || !providerData.email.includes(".") || providerData.email.length < 5) errors.push('email: invalid');
+        if (typeof providerData.email !== 'string') {
+            errors.push('email: type');
+        }
+        else {
+            providerData.email = providerData.email.trim();
+            if (!providerData.email.includes('@') || !providerData.email.includes('.') || providerData.email.length < 5) errors.push('email: invalid');
+        }
     }
 
-    if (!providerData.password) {
+    if (!('password' in providerData)) {
         if (!partial) errors.push('password: missing');
     }
     else {
@@ -140,43 +144,61 @@ function validateProvider(providerData, { partial } = { partial: false }) {
         if (providerData.password.length < 4) errors.push('password: invalid');
     }
 
-    if (!providerData.name) {
+    if (!('name' in providerData)) {
         if (!partial) errors.push('name: missing');
     }
     else {
-        if (typeof providerData.name !== 'string') errors.push('name: type');
-        providerData.name = providerData.name.trim();
-        if (providerData.name.length < 1) errors.push('name: invalid');
+        if (typeof providerData.name !== 'string') {
+            errors.push('name: type');
+        }
+        else {
+            providerData.name = providerData.name.trim();
+            if (providerData.name.length < 1) errors.push('name: invalid');
+        }
     }
 
-    if (!providerData.address) {
+    if (!('address' in providerData)) {
         if (!partial) errors.push('address: missing');
     }
     else {
-        if (typeof providerData.address !== 'string') errors.push('address: type');
-        providerData.address = providerData.address.trim();
-        if (providerData.address.length < 1) errors.push('address: invalid');
+        if (typeof providerData.address !== 'string') {
+            errors.push('address: type');
+        }
+        else {
+            providerData.address = providerData.address.trim();
+            if (providerData.address.length < 1) errors.push('address: invalid');
+        }
     }
 
-    if (!providerData.sector) {
+    if (!('sector' in providerData)) {
         if (!partial) errors.push('sector: missing');
     }
     else {
-        if (typeof providerData.sector !== 'string') errors.push('sector: type');
-        providerData.sector = providerData.sector.trim();
-        if (providerData.sector.length < 1) errors.push('sector: invalid');
+        if (typeof providerData.sector !== 'string') {
+            errors.push('sector: type');
+        }
+        else {
+            providerData.sector = providerData.sector.trim();
+            if (providerData.sector.length < 1) errors.push('sector: invalid');
+        }
     }
 
-    if (providerData.phoneNumber) {
-        if (typeof providerData.phoneNumber !== 'string') errors.push('phoneNumber: type');
-        providerData.phoneNumber = providerData.phoneNumber.trim();
-        if (providerData.phoneNumber.length < 1) errors.push('phoneNumber: invalid');
+    if ('phoneNumber' in providerData) {
+        if (typeof providerData.phoneNumber !== 'string') {
+            errors.push('phoneNumber: type');
+        }
+        else {
+            providerData.phoneNumber = providerData.phoneNumber.trim();
+            if (providerData.phoneNumber.length < 1) errors.push('phoneNumber: invalid');
+        }
     }
 
     return errors;
 }
 
 function visibleDataFor(provider) {
+    if (!provider) return null;
+
     const data = provider.toObject();
     delete data.__v;
     delete data.password;

@@ -50,17 +50,17 @@ router.put('/', async (req, res, handleError) => {
     }
 });
 
-router.put('/logo', async (req, res, handleError) => {
-    try {
-        // save the logo in a logos folder
-        // set the logo path
-        // update the landing page
-        res.status(500).json(visibleDataFor({ message: "Not implemented yet!" }));
-    }
-    catch (err) {
-        handleError(err);
-    }
-});
+// router.put('/logo', async (req, res, handleError) => {
+//     try {
+//         // save the logo in a logos folder
+//         // set the logo path
+//         // update the landing page
+//         res.status(500).json(visibleDataFor({ message: "Not implemented yet!" }));
+//     }
+//     catch (err) {
+//         handleError(err);
+//     }
+// });
 
 router.patch('/', async (req, res, handleError) => {
     try {
@@ -95,27 +95,32 @@ module.exports = router;
 function validateLandingPage(landingPageData, { partial } = { partial: false }) {
     const errors = [];
 
-    if (!landingPageData.providerId) {
-        if (!partial) errors.push('providerId: missing');
-    }
-    else {
-        if (typeof landingPageData.providerId !== 'string') errors.push('email: type');
+    if ("providerId" in landingPageData) {
+        errors.push('providerId: disallowed');
     }
 
-    if (landingPageData.logo) {
+    if ("logo" in landingPageData) {
         errors.push('logo: should-be-uploaded');
     }
 
-    if (landingPageData.primaryColor) {
-        if (typeof landingPageData.primaryColor !== 'string') errors.push('primaryColor: type');
-        landingPageData.primaryColor = landingPageData.primaryColor.trim();
-        if (landingPageData.primaryColor.length < 1) errors.push('primaryColor: invalid');
+    if ("primaryColor" in landingPageData) {
+        if (typeof landingPageData.primaryColor !== 'string') {
+            errors.push('primaryColor: type');
+        }
+        else {
+            landingPageData.primaryColor = landingPageData.primaryColor.trim();
+            if (landingPageData.primaryColor.length < 1) errors.push('primaryColor: invalid');
+        }
     }
 
-    if (landingPageData.content) {
-        if (typeof landingPageData.content !== 'string') errors.push('content: type');
-        landingPageData.content = landingPageData.content.trim();
-        if (landingPageData.content.length < 1) errors.push('content: invalid');
+    if ("content" in landingPageData) {
+        if (typeof landingPageData.content !== 'string') {
+            errors.push('content: type');
+        }
+        else {
+            landingPageData.content = landingPageData.content.trim();
+            if (landingPageData.content.length < 1) errors.push('content: invalid');
+        }
     }
 
     return errors;

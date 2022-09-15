@@ -1,11 +1,12 @@
-var express = require('express');
-var router = express.Router({mergeParams: true});
+const express = require('express');
+const BookingRequest = require('../models/bookingRequest');
+const Service = require('../models/service');
 
-var BookingRequest = require('../models/bookingRequest');
+const router = express.Router({ mergeParams: true });
 
 // /services/:serviceId/bookingRequests
 
-router.get('/', async (req, res, next) => {
+router.get('/', async (req, res, handleError) => {
     /*
     var sort = {}
 
@@ -13,13 +14,13 @@ router.get('/', async (req, res, next) => {
         sort[req.query.sort.substring(1)] = req.query.sort.startsWith("-") ? -1 : 1 
     } 
     */
-   try {
-        const bookings = await BookingRequest.find({serviceId: req.params.serviceId}).exec();
+    try {
+        const bookings = await BookingRequest.find({ serviceId: req.params.serviceId }).exec();
         res.status(200).json(bookings.map(booking => visibleDataFor(booking)));
-   } catch (err) {
+    } catch (err) {
         handleError(err)
-   }
-    
+    }
+
 });
 
 router.post('/', async (req, res, handleError) => {
@@ -29,16 +30,18 @@ router.post('/', async (req, res, handleError) => {
 
         if (errors.length > 0) {
             res.status(400).json({ message: 'Invalid data for creating a booking', errors })
-        }
-
-        bookingData.serviceId = req.params.serviceId;
-        const provider  = await BookingRequest.findById(bookingData.serviceId);
-
-        if (!provider) {
-            res.status(404).json({ message: 'Unknown Booking' });
             return;
         }
 
+        bookingData.serviceId = req.params.serviceId;
+        const service = await Service.findById(bookingData.serviceId);
+
+        if (!service) {
+            res.status(404).json({ message: 'Unknown service' });
+            return;
+        }
+
+        bookingData.providerId = service.providerId;
         const booking = new BookingRequest(bookingData);
         await booking.save();
         res.status(201).json(visibleDataFor(booking));
@@ -49,21 +52,21 @@ router.post('/', async (req, res, handleError) => {
 
 router.delete('/', async (req, res, handleError) => {
     try {
-        const bookings = await BookingRequest.find({serviceId: req.params.serviceId}).exec();
-        await BookingRequest.deleteMany(bookings);
-        res.status(204).json({"bookingRequests": bookings.map(booking => visibleDataFor(booking))});
+        const bookings = await BookingRequest.find({ serviceId: req.params.serviceId }).exec();
+        await BookingRequest.deleteMany({ serviceId: req.params.serviceId });
+        res.status(204).json(bookings.map(booking => visibleDataFor(booking)));
     } catch (err) {
         handleError(err);
     }
 });
 
-router.get('/:bookingRequestId', async (req, res, handleError) => { 
+router.get('/:bookingRequestId', async (req, res, handleError) => {
     try {
         const serviceId = req.params.serviceId;
         const bookingRequestId = req.params.bookingRequestId;
 
-        const booking = await BookingRequest.findOne({ serviceId, _id: bookingRequestId});
-    
+        const booking = await BookingRequest.findOne({ serviceId, _id: bookingRequestId });
+
         if (!booking) {
             res.status(404).json({ message: 'Unknown booking!' });
             return;
@@ -73,15 +76,15 @@ router.get('/:bookingRequestId', async (req, res, handleError) => {
     } catch (err) {
         handleError(err);
     }
-}); 
+});
 
 router.delete('/:bookingRequestId', async (req, res, handleError) => {
     try {
         const serviceId = req.params.serviceId;
         const bookingRequestId = req.params.bookingRequestId;
 
-        const booking = await BookingRequest.findOne({ serviceId, _id: bookingRequestId});
-    
+        const booking = await BookingRequest.findOne({ serviceId, _id: bookingRequestId });
+
         if (booking) {
             await booking.delete();
         }
@@ -98,16 +101,16 @@ router.put('/:bookingRequestId', async (req, res, handleError) => {
         const errors = validateBooking(updatedBooking);
 
         if (errors.length > 0) {
-            res.status(400).json({ message: 'Invalid data for updating booking', errors})
+            res.status(400).json({ message: 'Invalid data for updating booking', errors })
             return;
         }
 
         const serviceId = req.params.serviceId;
         const bookingRequestId = req.params.bookingRequestId;
-        const booking = await BookingRequest.findOne({ serviceId, _id: bookingRequestId});
+        const booking = await BookingRequest.findOne({ serviceId, _id: bookingRequestId });
 
         if (!booking) {
-            res.status(404).json({ message: 'Unknown booking!'});
+            res.status(404).json({ message: 'Unknown booking!' });
         }
 
         Object.assign(booking, updatedBooking);
@@ -124,16 +127,16 @@ router.patch('/:bookingRequestId', async (req, res, handleError) => {
         const errors = validateBooking(updatedBooking, { partial: true });
 
         if (errors.length > 0) {
-            res.status(400).json({ message: 'Invalid data for updating booking', errors})
+            res.status(400).json({ message: 'Invalid data for updating booking', errors })
             return;
         }
 
         const serviceId = req.params.serviceId;
         const bookingRequestId = req.params.bookingRequestId;
-        const booking = await BookingRequest.findOne({ serviceId, _id: bookingRequestId});
+        const booking = await BookingRequest.findOne({ serviceId, _id: bookingRequestId });
 
         if (!booking) {
-            res.status(404).json({ message: 'Unknown booking!'});
+            res.status(404).json({ message: 'Unknown booking!' });
         }
 
         Object.assign(booking, updatedBooking);
@@ -149,51 +152,80 @@ module.exports = router;
 function validateBooking(bookingData, { partial } = { partial: false }) {
     const errors = [];
 
-    if (!bookingData.message) {
-        if (!partial) errors.push('message: missing');
-    } else {
-        if (typeof bookingData.message !== 'string') errors.push('message: type');
-        bookingData.message = bookingData.message.trim();
-        if (bookingData.message.length < 1) errors.push('message: invalid length');
+    if ("providerId" in bookingData) {
+        errors.push('providerId: disallowed');
     }
 
-    if (bookingData.date) {
-        if (typeof bookingData.date !== 'string') errors.push('message: type');
-        if (bookingData.date.length < 1) errors.push('message: invalid length');
+    if ("serviceId" in bookingData) {
+        errors.push('serviceId: disallowed');
     }
 
-    if (!bookingData.timePeriod) {
-        if (!partial) errors.push('message: missing');
+    if (!("timePeriod" in bookingData)) {
+        if (!partial) errors.push('timePeriod: missing');
     } else {
-        if (typeof bookingData.timePeriod !== 'string') errors.push('message: type');
-        bookingData.message = bookingData.message.trim();
-        if (bookingData.timePeriod.length < 1) errors.push('message: invalid length');
+        if (typeof bookingData.timePeriod !== 'string') {
+            errors.push('timePeriod: type');
+        }
+        else {
+            bookingData.timePeriod = bookingData.timePeriod.trim();
+            if (bookingData.timePeriod.length < 1) errors.push('timePeriod: invalid length');
+        }
     }
 
-    if (!bookingData.user) {
-        if (!partial) errors.push('message: missing');
+    if (!("user" in bookingData)) {
+        if (!partial) errors.push('user: missing');
     } else {
-        
-        if (!bookingData.user.email) {
-            if (!partial) errors.push('message: missing');
+        if (!("name" in bookingData.user)) {
+            if (!partial) errors.push('user.name: missing');
         } else {
-            if (typeof bookingData.user.email !== 'string') errors.push('message: type');
-            bookingData.user.email = bookingData.message.trim();
-            if (bookingData.user.email.length < 1) errors.push('message: invalid length');
-        } 
-        
-        if (bookingData.user.phoneNumber) {
-            if (typeof bookingData.user.email !== 'string') errors.push('message: type');
-            bookingData.user.email = bookingData.message.trim();
-            if (bookingData.user.email.length < 1) errors.push('message: invalid length');
-        } 
-        
-        if (!bookingData.user.name) {
-            if (!partial) errors.push('message: missing');
+            if (typeof bookingData.user.name !== 'string') {
+                errors.push('user.name: type');
+            }
+            else {
+                bookingData.user.name = bookingData.user.name.trim();
+                if (bookingData.user.name.length < 1) errors.push('user.name: invalid length');
+            }
+        }
+
+        if (!("email" in bookingData.user)) {
+            if (!partial) errors.push('user.email: missing');
         } else {
-            if (typeof bookingData.user.name !== 'string') errors.push('message: type');
-            bookingData.user.name = bookingData.message.trim();
-            if (bookingData.user.name.length < 1) errors.push('message: invalid length');
+            if (typeof bookingData.user.email !== 'string') {
+                errors.push('user.email: type');
+            }
+            else {
+                bookingData.user.email = bookingData.user.email.trim();
+                if (!bookingData.user.email.includes('@') || !bookingData.user.email.includes('.') || bookingData.user.email.length < 5) errors.push('user.email: invalid');
+            }
+        }
+
+        if ("phoneNumber" in bookingData.user) {
+            if (typeof bookingData.user.phoneNumber !== 'string') {
+                errors.push('user.phoneNumber: type');
+            }
+            else {
+                bookingData.user.phoneNumber = bookingData.user.phoneNumber.trim();
+                if (bookingData.user.phoneNumber.length < 1) errors.push('user.phoneNumber: invalid length');
+            }
+        }
+    }
+
+    if ("date" in bookingData) {
+        if (typeof bookingData.date !== 'string') {
+            errors.push('date: type');
+        }
+        else {
+            if (bookingData.date.length < 1) errors.push('date: invalid length');
+        }
+    }
+
+    if ("message" in bookingData) {
+        if (typeof bookingData.message !== 'string') {
+            errors.push('message: type');
+        }
+        else {
+            bookingData.message = bookingData.message.trim();
+            if (bookingData.message.length < 1) errors.push('message: invalid length');
         }
     }
 
@@ -201,6 +233,8 @@ function validateBooking(bookingData, { partial } = { partial: false }) {
 }
 
 function visibleDataFor(booking) {
+    if (!booking) return null;
+
     const data = booking.toObject();
     delete data.__v;
     return data;
