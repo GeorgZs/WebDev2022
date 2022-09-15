@@ -1,51 +1,3317 @@
 {
 	"info": {
-		"_postman_id": "f7ee95b5-9cb9-442f-a6a9-42de46138872",
-		"name": "server",
+		"_postman_id": "1bac8013-a572-4a68-bb32-d02b9f7be720",
+		"name": "group-33-tests",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
-			"name": "GET /api",
-			"event": [
+			"name": "provider",
+			"item": [
 				{
-					"listen": "prerequest",
-					"script": {
-						"id": "b58d92ec-5214-450c-adb0-28e068aa71b9",
-						"exec": [
-							""
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "Accept",
-						"value": "application/json",
-						"type": "text"
-					}
-				],
-				"url": {
-					"raw": "{{host}}/api",
-					"host": [
-						"{{host}}"
+					"name": "Post provider (no data)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
 					],
-					"path": [
-						"api"
-					]
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/{{apiVersion}}/providers",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"{{apiVersion}}",
+								"providers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Post provider (invalid email)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"invalid\",\r\n    \"password\": \"definitly-secure\",\r\n    \"name\": \"Max Hair Saloon\",\r\n    \"address\": \"1200 Vienna, Austria\",\r\n    \"sector\": \"hairstyling\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/{{apiVersion}}/providers",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"{{apiVersion}}",
+								"providers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Post provider (too short password)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"service@maxhairsaloon.at\",\r\n    \"password\": \"lol\",\r\n    \"name\": \"Max Hair Saloon\",\r\n    \"address\": \"1200 Vienna, Austria\",\r\n    \"sector\": \"hairstyling\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/{{apiVersion}}/providers",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"{{apiVersion}}",
+								"providers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Post provider (invalid optional data)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"service@maxhairsaloon.at\",\r\n    \"password\": \"definitly-secure\",\r\n    \"name\": \"Max Hair Saloon\",\r\n    \"address\": \"1200 Vienna, Austria\",\r\n    \"sector\": \"hairstyling\",\r\n    \"phoneNumber\": false\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/{{apiVersion}}/providers",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"{{apiVersion}}",
+								"providers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Post provider (valid data)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"service@maxhairsaloon.at\",\r\n    \"password\": \"definitly-secure\",\r\n    \"name\": \"Max Hair Saloon\",\r\n    \"address\": \"1200 Vienna, Austria\",\r\n    \"sector\": \"hairstyling\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/{{apiVersion}}/providers",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"{{apiVersion}}",
+								"providers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Post provider (with optional data)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"const provider = pm.response.json();\r",
+									"\r",
+									"pm.test(\"A provider has the required properties\", () => {\r",
+									"    pm.expect(provider._id).to.be.a('string');\r",
+									"\r",
+									"    pm.expect(provider.email).to.be.a('string');\r",
+									"    pm.expect(provider.email).to.include('@');\r",
+									"    pm.expect(provider.email).to.include('.');\r",
+									"\r",
+									"    pm.expect(provider.name).to.be.a('string');\r",
+									"    pm.expect(provider.name).to.have.lengthOf.above(0);\r",
+									"\r",
+									"    pm.expect(provider.address).to.be.a('string');\r",
+									"    pm.expect(provider.address).to.have.lengthOf.above(0);\r",
+									"\r",
+									"    pm.expect(provider.sector).to.be.a('string');\r",
+									"    pm.expect(provider.sector).to.have.lengthOf.above(0);\r",
+									"\r",
+									"    pm.expect(provider.phoneNumber).to.be.a('string');\r",
+									"    pm.expect(provider.phoneNumber).to.have.lengthOf.above(0);\r",
+									"});\r",
+									"\r",
+									"pm.collectionVariables.set(\"providerId\", provider._id);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"service@maxhairsaloon.at\",\r\n    \"password\": \"definitly-secure\",\r\n    \"name\": \"Max Hair Saloon\",\r\n    \"address\": \"1200 Vienna, Austria\",\r\n    \"sector\": \"hairstyling\",\r\n    \"phoneNumber\": \"+43 670 1234 9867\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/{{apiVersion}}/providers",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"{{apiVersion}}",
+								"providers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get one provider",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/{{apiVersion}}/providers/{{providerId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"{{apiVersion}}",
+								"providers",
+								"{{providerId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Put provider (no data)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/{{apiVersion}}/providers/{{providerId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"{{apiVersion}}",
+								"providers",
+								"{{providerId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Put provider (invalid email)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"invalid again\",\r\n    \"password\": \"definitly-secure\",\r\n    \"name\": \"Max Hair Saloon\",\r\n    \"address\": \"1200 Vienna, Austria\",\r\n    \"sector\": \"hairstyling\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/{{apiVersion}}/providers/{{providerId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"{{apiVersion}}",
+								"providers",
+								"{{providerId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Put provider (too short password)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"service@maxhairsaloon.at\",\r\n    \"password\": \"hej\",\r\n    \"name\": \"Max Hair Saloon\",\r\n    \"address\": \"1200 Vienna, Austria\",\r\n    \"sector\": \"hairstyling\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/{{apiVersion}}/providers/{{providerId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"{{apiVersion}}",
+								"providers",
+								"{{providerId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Put provider (invalid optional data)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"service@maxhairsaloon.at\",\r\n    \"password\": \"definitly-secure\",\r\n    \"name\": \"Max Hair Saloon\",\r\n    \"address\": \"1200 Vienna, Austria\",\r\n    \"sector\": \"hairstyling\",\r\n    \"phoneNumber\": -1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/{{apiVersion}}/providers/{{providerId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"{{apiVersion}}",
+								"providers",
+								"{{providerId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Put provider (partial data)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"sector\": \"hairdressers\",\r\n    \"phoneNumber\": \"+43 677 1234 9867\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/{{apiVersion}}/providers/{{providerId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"{{apiVersion}}",
+								"providers",
+								"{{providerId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Put provider (valid data)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"service@maxhairsaloon.at\",\r\n    \"password\": \"yes-secure\",\r\n    \"name\": \"Max Hair Saloon\",\r\n    \"address\": \"1200 Vienna, Austria\",\r\n    \"sector\": \"hairstyling\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/{{apiVersion}}/providers/{{providerId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"{{apiVersion}}",
+								"providers",
+								"{{providerId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Put provider (with optional data)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"const provider = pm.response.json();\r",
+									"\r",
+									"pm.test(\"A provider has the required properties\", () => {\r",
+									"    pm.expect(provider._id).to.be.a('string');\r",
+									"\r",
+									"    pm.expect(provider.email).to.be.a('string');\r",
+									"    pm.expect(provider.email).to.include('@');\r",
+									"    pm.expect(provider.email).to.include('.');\r",
+									"\r",
+									"    pm.expect(provider.name).to.be.a('string');\r",
+									"    pm.expect(provider.name).to.have.lengthOf.above(0);\r",
+									"\r",
+									"    pm.expect(provider.address).to.be.a('string');\r",
+									"    pm.expect(provider.address).to.have.lengthOf.above(0);\r",
+									"\r",
+									"    pm.expect(provider.sector).to.be.a('string');\r",
+									"    pm.expect(provider.sector).to.have.lengthOf.above(0);\r",
+									"\r",
+									"    pm.expect(provider.phoneNumber).to.be.a('string');\r",
+									"    pm.expect(provider.phoneNumber).to.have.lengthOf.above(0);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"office@maxhairsaloon.at\",\r\n    \"password\": \"yes-secure\",\r\n    \"name\": \"Max Hair Saloon\",\r\n    \"address\": \"1200 Vienna, Austria\",\r\n    \"sector\": \"hairstyling\",\r\n    \"phoneNumber\": \"+43 670 1234 9867\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/{{apiVersion}}/providers/{{providerId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"{{apiVersion}}",
+								"providers",
+								"{{providerId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Patch provider (no data)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/{{apiVersion}}/providers/{{providerId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"{{apiVersion}}",
+								"providers",
+								"{{providerId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Patch provider (invalid email)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"invalid again\",\r\n    \"password\": \"definitly-secure\",\r\n    \"name\": \"Max Hair Saloon\",\r\n    \"address\": \"1200 Vienna, Austria\",\r\n    \"sector\": \"hairstyling\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/{{apiVersion}}/providers/{{providerId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"{{apiVersion}}",
+								"providers",
+								"{{providerId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Patch provider (too short password)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"service@maxhairsaloon.at\",\r\n    \"password\": \"hej\",\r\n    \"name\": \"Max Hair Saloon\",\r\n    \"address\": \"1200 Vienna, Austria\",\r\n    \"sector\": \"hairstyling\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/{{apiVersion}}/providers/{{providerId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"{{apiVersion}}",
+								"providers",
+								"{{providerId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Patch provider (invalid optional data)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"service@maxhairsaloon.at\",\r\n    \"password\": \"definitly-secure\",\r\n    \"name\": \"Max Hair Saloon\",\r\n    \"address\": \"1200 Vienna, Austria\",\r\n    \"sector\": \"hairstyling\",\r\n    \"phoneNumber\": -1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/{{apiVersion}}/providers/{{providerId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"{{apiVersion}}",
+								"providers",
+								"{{providerId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Patch provider (valid data)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"office@maxhairsaloon.at\",\r\n    \"password\": \"yes-secure\",\r\n    \"name\": \"Max Hair Saloon\",\r\n    \"address\": \"1200 Vienna, Austria\",\r\n    \"sector\": \"hairstyling\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/{{apiVersion}}/providers/{{providerId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"{{apiVersion}}",
+								"providers",
+								"{{providerId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Patch provider (partial data)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"sector\": \"hairdressers\",\r\n    \"phoneNumber\": \"+43 677 1234 9867\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/{{apiVersion}}/providers/{{providerId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"{{apiVersion}}",
+								"providers",
+								"{{providerId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Patch provider (with optional data)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"const provider = pm.response.json();\r",
+									"\r",
+									"pm.test(\"A provider has the required properties\", () => {\r",
+									"    pm.expect(provider._id).to.be.a('string');\r",
+									"\r",
+									"    pm.expect(provider.email).to.be.a('string');\r",
+									"    pm.expect(provider.email).to.include('@');\r",
+									"    pm.expect(provider.email).to.include('.');\r",
+									"\r",
+									"    pm.expect(provider.name).to.be.a('string');\r",
+									"    pm.expect(provider.name).to.have.lengthOf.above(0);\r",
+									"\r",
+									"    pm.expect(provider.address).to.be.a('string');\r",
+									"    pm.expect(provider.address).to.have.lengthOf.above(0);\r",
+									"\r",
+									"    pm.expect(provider.sector).to.be.a('string');\r",
+									"    pm.expect(provider.sector).to.have.lengthOf.above(0);\r",
+									"\r",
+									"    pm.expect(provider.phoneNumber).to.be.a('string');\r",
+									"    pm.expect(provider.phoneNumber).to.have.lengthOf.above(0);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"service@maxhairsaloon.at\",\r\n    \"password\": \"definitly-secure\",\r\n    \"name\": \"Max Hair Saloon\",\r\n    \"address\": \"1200 Vienna, Austria\",\r\n    \"sector\": \"hairstyling\",\r\n    \"phoneNumber\": \"+43 670 1234 9867\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/{{apiVersion}}/providers/{{providerId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"{{apiVersion}}",
+								"providers",
+								"{{providerId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete one provider",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {\r",
+									"    pm.response.to.have.status(204);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/{{apiVersion}}/providers/{{providerId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"{{apiVersion}}",
+								"providers",
+								"{{providerId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete one provider (unknown id)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {\r",
+									"    pm.response.to.have.status(204);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/{{apiVersion}}/providers/{{providerId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"{{apiVersion}}",
+								"providers",
+								"{{providerId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get one provider (unknown id)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/{{apiVersion}}/providers/{{providerId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"{{apiVersion}}",
+								"providers",
+								"{{providerId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Put one provider (unknown id)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"service@maxhairsaloon.at\",\r\n    \"password\": \"yes-secure\",\r\n    \"name\": \"Max Hair Saloon\",\r\n    \"address\": \"1200 Vienna, Austria\",\r\n    \"sector\": \"hairstyling\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/{{apiVersion}}/providers/{{providerId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"{{apiVersion}}",
+								"providers",
+								"{{providerId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Patch one provider (unknown id)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"service@maxhairsaloon.at\",\r\n    \"password\": \"yes-secure\",\r\n    \"name\": \"Max Hair Saloon\",\r\n    \"address\": \"1200 Vienna, Austria\",\r\n    \"sector\": \"hairstyling\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/{{apiVersion}}/providers/{{providerId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"{{apiVersion}}",
+								"providers",
+								"{{providerId}}"
+							]
+						}
+					},
+					"response": []
 				}
-			},
-			"response": []
+			]
+		},
+		{
+			"name": "service",
+			"item": [
+				{
+					"name": "Prepare provider to test service",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const provider = pm.response.json();\r",
+									"pm.collectionVariables.set(\"providerId\", provider._id);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"service@maxhairsaloon.at\",\r\n    \"password\": \"definitly-secure\",\r\n    \"name\": \"Max Hair Saloon\",\r\n    \"address\": \"1200 Vienna, Austria\",\r\n    \"sector\": \"hairstyling\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/{{apiVersion}}/providers",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"{{apiVersion}}",
+								"providers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all services (empty)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"const services = pm.response.json();\r",
+									"\r",
+									"pm.test(\"It finds the created services\", () => {\r",
+									"    pm.expect(services.length).to.be.equal(0);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/{{apiVersion}}/providers/{{providerId}}/services",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"{{apiVersion}}",
+								"providers",
+								"{{providerId}}",
+								"services"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Post service (no data)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/{{apiVersion}}/providers/{{providerId}}/services",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"{{apiVersion}}",
+								"providers",
+								"{{providerId}}",
+								"services"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Post service (invalid price)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"haircut men\",\r\n    \"price\": -150\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/{{apiVersion}}/providers/{{providerId}}/services",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"{{apiVersion}}",
+								"providers",
+								"{{providerId}}",
+								"services"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Post service (invalid optional data)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"haircut men\",\r\n    \"price\": 150,\r\n    \"duration\": 0\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/{{apiVersion}}/providers/{{providerId}}/services",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"{{apiVersion}}",
+								"providers",
+								"{{providerId}}",
+								"services"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Post service (valid data)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"haircut men\",\r\n    \"price\": 150\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/{{apiVersion}}/providers/{{providerId}}/services",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"{{apiVersion}}",
+								"providers",
+								"{{providerId}}",
+								"services"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Post service (with optional data)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"const service = pm.response.json();\r",
+									"\r",
+									"pm.test(\"A service has the required properties\", () => {\r",
+									"    pm.expect(service._id).to.be.a('string');\r",
+									"\r",
+									"    pm.expect(service.name).to.be.a('string');\r",
+									"    pm.expect(service.name).to.have.lengthOf.above(0);\r",
+									"\r",
+									"    pm.expect(service.price).to.be.a('number');\r",
+									"    pm.expect(service.price).to.be.above(0);\r",
+									"\r",
+									"    pm.expect(service.details).to.be.a('string');\r",
+									"    pm.expect(service.details).to.have.lengthOf.above(0);\r",
+									"\r",
+									"    pm.expect(service.duration).to.be.a('number');\r",
+									"    pm.expect(service.duration).to.be.above(1);\r",
+									"});\r",
+									"\r",
+									"pm.collectionVariables.set(\"serviceId\", service._id);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"haircut men\",\r\n    \"price\": 150,\r\n    \"duration\": 45,\r\n    \"details\": \"I cut hair, you give money\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/{{apiVersion}}/providers/{{providerId}}/services",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"{{apiVersion}}",
+								"providers",
+								"{{providerId}}",
+								"services"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all services",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"const services = pm.response.json();\r",
+									"\r",
+									"pm.test(\"It finds the created services\", () => {\r",
+									"    pm.expect(services.length).to.be.equal(2);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/{{apiVersion}}/providers/{{providerId}}/services",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"{{apiVersion}}",
+								"providers",
+								"{{providerId}}",
+								"services"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get one service",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/{{apiVersion}}/providers/{{providerId}}/services/{{serviceId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"{{apiVersion}}",
+								"providers",
+								"{{providerId}}",
+								"services",
+								"{{serviceId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Put service (valid data)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"haircut women\",\r\n    \"price\": 1500\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/{{apiVersion}}/providers/{{providerId}}/services/{{serviceId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"{{apiVersion}}",
+								"providers",
+								"{{providerId}}",
+								"services",
+								"{{serviceId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Patch service (valid data)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"haircut women\",\r\n    \"price\": 1500\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/{{apiVersion}}/providers/{{providerId}}/services/{{serviceId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"{{apiVersion}}",
+								"providers",
+								"{{providerId}}",
+								"services",
+								"{{serviceId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete one service",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {\r",
+									"    pm.response.to.have.status(204);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/{{apiVersion}}/providers/{{providerId}}/services/{{serviceId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"{{apiVersion}}",
+								"providers",
+								"{{providerId}}",
+								"services",
+								"{{serviceId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all services (one deleted)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"const services = pm.response.json();\r",
+									"\r",
+									"pm.test(\"It finds the created services\", () => {\r",
+									"    pm.expect(services.length).to.be.equal(1);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/{{apiVersion}}/providers/{{providerId}}/services",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"{{apiVersion}}",
+								"providers",
+								"{{providerId}}",
+								"services"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete all services",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {\r",
+									"    pm.response.to.have.status(204);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/{{apiVersion}}/providers/{{providerId}}/services/",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"{{apiVersion}}",
+								"providers",
+								"{{providerId}}",
+								"services",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete all services (empty)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {\r",
+									"    pm.response.to.have.status(204);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/{{apiVersion}}/providers/{{providerId}}/services/{{serviceId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"{{apiVersion}}",
+								"providers",
+								"{{providerId}}",
+								"services",
+								"{{serviceId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete one service (unknown id)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {\r",
+									"    pm.response.to.have.status(204);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/{{apiVersion}}/providers/{{providerId}}/services/{{serviceId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"{{apiVersion}}",
+								"providers",
+								"{{providerId}}",
+								"services",
+								"{{serviceId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get one service (unknown id)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/{{apiVersion}}/providers/{{providerId}}/services/{{serviceId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"{{apiVersion}}",
+								"providers",
+								"{{providerId}}",
+								"services",
+								"{{serviceId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Put one service (unknown id)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"haircut men\",\r\n    \"price\": 150\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/{{apiVersion}}/providers/{{providerId}}/services/{{serviceId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"{{apiVersion}}",
+								"providers",
+								"{{providerId}}",
+								"services",
+								"{{serviceId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Patch one service (unknown id)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"haircut men\",\r\n    \"price\": 150\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/{{apiVersion}}/providers/{{providerId}}/services/{{serviceId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"{{apiVersion}}",
+								"providers",
+								"{{providerId}}",
+								"services",
+								"{{serviceId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Clean up provider to test service",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/{{apiVersion}}/providers/{{providerId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"{{apiVersion}}",
+								"providers",
+								"{{providerId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete one service (unknown provider id)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {\r",
+									"    pm.response.to.have.status(204);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/{{apiVersion}}/providers/🐱‍💻/services/{{serviceId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"{{apiVersion}}",
+								"providers",
+								"🐱‍💻",
+								"services",
+								"{{serviceId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get one service (unknown provider id)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/{{apiVersion}}/providers/🐱‍💻/services/{{serviceId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"{{apiVersion}}",
+								"providers",
+								"🐱‍💻",
+								"services",
+								"{{serviceId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Put one service (unknown provider id)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"haircut men\",\r\n    \"price\": 150\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/{{apiVersion}}/providers/🐱‍💻/services/{{serviceId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"{{apiVersion}}",
+								"providers",
+								"🐱‍💻",
+								"services",
+								"{{serviceId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Patch one service (unknown provider id)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"haircut men\",\r\n    \"price\": 150\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/{{apiVersion}}/providers/🐱‍💻/services/{{serviceId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"{{apiVersion}}",
+								"providers",
+								"🐱‍💻",
+								"services",
+								"{{serviceId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "landing page",
+			"item": [
+				{
+					"name": "Prepare provider to test landing page",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const provider = pm.response.json();\r",
+									"pm.collectionVariables.set(\"providerId\", provider._id);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"service@maxhairsaloon.at\",\r\n    \"password\": \"definitly-secure\",\r\n    \"name\": \"Max Hair Saloon\",\r\n    \"address\": \"1200 Vienna, Austria\",\r\n    \"sector\": \"hairstyling\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/{{apiVersion}}/providers",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"{{apiVersion}}",
+								"providers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get landing page",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/{{apiVersion}}/providers/{{providerId}}/landingPage",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"{{apiVersion}}",
+								"providers",
+								"{{providerId}}",
+								"landingPage"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Put landing page (valid data)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"primaryColor\": \"#153153\",\r\n    \"content\": \"The best hair saloon, gives u a free drink while you are there :)\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/{{apiVersion}}/providers/{{providerId}}/landingPage",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"{{apiVersion}}",
+								"providers",
+								"{{providerId}}",
+								"landingPage"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Patch landing page (valid data)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"primaryColor\": \"#153153\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/{{apiVersion}}/providers/{{providerId}}/landingPage",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"{{apiVersion}}",
+								"providers",
+								"{{providerId}}",
+								"landingPage"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Clean up provider to test landing page",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/{{apiVersion}}/providers/{{providerId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"{{apiVersion}}",
+								"providers",
+								"{{providerId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get landing page (unknown provider id)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/{{apiVersion}}/providers/🐱‍💻/landingPage",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"{{apiVersion}}",
+								"providers",
+								"🐱‍💻",
+								"landingPage"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Put landing page (unknown provider id)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"primaryColor\": \"#153153\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/{{apiVersion}}/providers/🐱‍💻/landingPage",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"{{apiVersion}}",
+								"providers",
+								"🐱‍💻",
+								"landingPage"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Patch landing page (unknown provider id)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"primaryColor\": \"#153153\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/{{apiVersion}}/providers/🐱‍💻/landingPage",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"{{apiVersion}}",
+								"providers",
+								"🐱‍💻",
+								"landingPage"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "booking request",
+			"item": [
+				{
+					"name": "Prepare provider to test booking request",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const provider = pm.response.json();\r",
+									"pm.collectionVariables.set(\"providerId\", provider._id);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"service@maxhairsaloon.at\",\r\n    \"password\": \"definitly-secure\",\r\n    \"name\": \"Max Hair Saloon\",\r\n    \"address\": \"1200 Vienna, Austria\",\r\n    \"sector\": \"hairstyling\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/{{apiVersion}}/providers",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"{{apiVersion}}",
+								"providers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Prepare service to test booking request",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"const service = pm.response.json();\r",
+									"pm.collectionVariables.set(\"serviceId\", service._id);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"haircut men\",\r\n    \"price\": 150,\r\n    \"duration\": 45,\r\n    \"details\": \"I cut hair, you give money\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/{{apiVersion}}/providers/{{providerId}}/services",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"{{apiVersion}}",
+								"providers",
+								"{{providerId}}",
+								"services"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all booking request (empty)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"const bookingRequests = pm.response.json();\r",
+									"\r",
+									"pm.test(\"It finds the created booking requests\", () => {\r",
+									"    pm.expect(bookingRequests.length).to.be.equal(0);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/{{apiVersion}}/services/{{serviceId}}/bookingRequests",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"{{apiVersion}}",
+								"services",
+								"{{serviceId}}",
+								"bookingRequests"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Post booking request (no data)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/{{apiVersion}}/services/{{serviceId}}/bookingRequests",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"{{apiVersion}}",
+								"services",
+								"{{serviceId}}",
+								"bookingRequests"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Post booking request (invalid user email)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n   \"timePeriod\": \"afternoon\",\r\n   \"user\": {\r\n       \"name\": \"Dr. Doof\",\r\n       \"email\": \"drdoof.mail\"\r\n   }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/{{apiVersion}}/services/{{serviceId}}/bookingRequests",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"{{apiVersion}}",
+								"services",
+								"{{serviceId}}",
+								"bookingRequests"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Post booking request (invalid optional data)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n   \"timePeriod\": \"afternoon\",\r\n   \"date\": -1,\r\n   \"user\": {\r\n       \"name\": \"Dr. Doof\",\r\n       \"email\": \"dr@doof.mail\"\r\n   }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/{{apiVersion}}/services/{{serviceId}}/bookingRequests",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"{{apiVersion}}",
+								"services",
+								"{{serviceId}}",
+								"bookingRequests"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Post booking request (valid data)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n   \"timePeriod\": \"afternoon\",\r\n   \"user\": {\r\n       \"name\": \"Dr. Doof\",\r\n       \"email\": \"dr@doof.mail\"\r\n   }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/{{apiVersion}}/services/{{serviceId}}/bookingRequests",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"{{apiVersion}}",
+								"services",
+								"{{serviceId}}",
+								"bookingRequests"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Post booking request (with optional data)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"const booking = pm.response.json();\r",
+									"\r",
+									"pm.test(\"A booking request has the required properties\", () => {\r",
+									"    pm.expect(booking._id).to.be.a('string');\r",
+									"\r",
+									"    pm.expect(booking.timePeriod).to.be.a('string');\r",
+									"    pm.expect(booking.timePeriod).to.have.lengthOf.above(0);\r",
+									"\r",
+									"    pm.expect(booking.date).to.be.a('string');\r",
+									"    pm.expect(booking.date).to.have.lengthOf.above(0);\r",
+									"\r",
+									"    pm.expect(booking.user).to.be.a('object');\r",
+									"\r",
+									"    pm.expect(booking.user.name).to.be.a('string');\r",
+									"    pm.expect(booking.user.name).to.have.lengthOf.above(0);\r",
+									"\r",
+									"    pm.expect(booking.user.email).to.be.a('string');\r",
+									"    pm.expect(booking.user.email).to.include('@');\r",
+									"    pm.expect(booking.user.email).to.include('.');\r",
+									"\r",
+									"    pm.expect(booking.user.phoneNumber).to.be.a('string');\r",
+									"    pm.expect(booking.user.phoneNumber).to.have.lengthOf.above(0);\r",
+									"\r",
+									"    pm.expect(booking.message).to.be.a('string');\r",
+									"    pm.expect(booking.message).to.have.lengthOf.above(0);\r",
+									"});\r",
+									"\r",
+									"pm.collectionVariables.set(\"bookingId\", booking._id);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n   \"timePeriod\": \"afternoon\",\r\n   \"date\": \"2022-09-17\",\r\n   \"user\": {\r\n       \"name\": \"Dr. Doof\",\r\n       \"email\": \"dr@doof.mail\",\r\n       \"phoneNumber\": \"+43 672 1234 9867\"\r\n   },\r\n   \"message\": \"me got many hair, please make it little hair, thank you\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/{{apiVersion}}/services/{{serviceId}}/bookingRequests",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"{{apiVersion}}",
+								"services",
+								"{{serviceId}}",
+								"bookingRequests"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all booking requests",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"const bookings = pm.response.json();\r",
+									"\r",
+									"pm.test(\"It finds the created booking requests\", () => {\r",
+									"    pm.expect(bookings.length).to.be.equal(2);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/{{apiVersion}}/services/{{serviceId}}/bookingRequests",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"{{apiVersion}}",
+								"services",
+								"{{serviceId}}",
+								"bookingRequests"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get one booking request",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/{{apiVersion}}/services/{{serviceId}}/bookingRequests/{{bookingId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"{{apiVersion}}",
+								"services",
+								"{{serviceId}}",
+								"bookingRequests",
+								"{{bookingId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Put booking request (valid data)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n   \"timePeriod\": \"afternoon\",\r\n   \"user\": {\r\n       \"name\": \"Dr. Doof\",\r\n       \"email\": \"dr@doof.mail\"\r\n   }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/{{apiVersion}}/services/{{serviceId}}/bookingRequests/{{bookingId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"{{apiVersion}}",
+								"services",
+								"{{serviceId}}",
+								"bookingRequests",
+								"{{bookingId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Patch booking request (valid data)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n   \"timePeriod\": \"afternoon\",\r\n   \"user\": {\r\n       \"name\": \"Dr. Doof\",\r\n       \"email\": \"dr@doof.mail\"\r\n   }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/{{apiVersion}}/services/{{serviceId}}/bookingRequests/{{bookingId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"{{apiVersion}}",
+								"services",
+								"{{serviceId}}",
+								"bookingRequests",
+								"{{bookingId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete one booking request",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {\r",
+									"    pm.response.to.have.status(204);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/{{apiVersion}}/services/{{serviceId}}/bookingRequests/{{bookingId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"{{apiVersion}}",
+								"services",
+								"{{serviceId}}",
+								"bookingRequests",
+								"{{bookingId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all booking requests (one deleted)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"const bookings = pm.response.json();\r",
+									"\r",
+									"pm.test(\"It finds the created booking requests\", () => {\r",
+									"    pm.expect(bookings.length).to.be.equal(1);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/{{apiVersion}}/services/{{serviceId}}/bookingRequests",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"{{apiVersion}}",
+								"services",
+								"{{serviceId}}",
+								"bookingRequests"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete all booking requests",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {\r",
+									"    pm.response.to.have.status(204);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/{{apiVersion}}/services/{{serviceId}}/bookingRequests",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"{{apiVersion}}",
+								"services",
+								"{{serviceId}}",
+								"bookingRequests"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete all booking requests (empty)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {\r",
+									"    pm.response.to.have.status(204);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/{{apiVersion}}/services/{{serviceId}}/bookingRequests",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"{{apiVersion}}",
+								"services",
+								"{{serviceId}}",
+								"bookingRequests"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete one booking request (unknown id)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {\r",
+									"    pm.response.to.have.status(204);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/{{apiVersion}}/services/{{serviceId}}/bookingRequests/{{bookingId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"{{apiVersion}}",
+								"services",
+								"{{serviceId}}",
+								"bookingRequests",
+								"{{bookingId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get one booking request (unknown id)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/{{apiVersion}}/services/{{serviceId}}/bookingRequests/{{bookingId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"{{apiVersion}}",
+								"services",
+								"{{serviceId}}",
+								"bookingRequests",
+								"{{bookingId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Put one booking request (unknown id)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n   \"timePeriod\": \"afternoon\",\r\n   \"user\": {\r\n       \"name\": \"Dr. Doof\",\r\n       \"email\": \"dr@doof.mail\"\r\n   }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/{{apiVersion}}/services/{{serviceId}}/bookingRequests/{{bookingId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"{{apiVersion}}",
+								"services",
+								"{{serviceId}}",
+								"bookingRequests",
+								"{{bookingId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Patch one booking request (unknown id)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n   \"timePeriod\": \"afternoon\",\r\n   \"user\": {\r\n       \"name\": \"Dr. Doof\",\r\n       \"email\": \"dr@doof.mail\"\r\n   }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/{{apiVersion}}/services/{{serviceId}}/bookingRequests/{{bookingId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"{{apiVersion}}",
+								"services",
+								"{{serviceId}}",
+								"bookingRequests",
+								"{{bookingId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Clean up service to test booking request",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/{{apiVersion}}/providers/{{providerId}}/services/{{serviceId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"{{apiVersion}}",
+								"providers",
+								"{{providerId}}",
+								"services",
+								"{{serviceId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Clean up provider to test booking request",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/{{apiVersion}}/providers/{{providerId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"{{apiVersion}}",
+								"providers",
+								"{{providerId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete one booking request (unknown service id)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {\r",
+									"    pm.response.to.have.status(204);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/{{apiVersion}}/services/🐱‍💻/bookingRequests/{{bookingId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"{{apiVersion}}",
+								"services",
+								"🐱‍💻",
+								"bookingRequests",
+								"{{bookingId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get one booking request (unknown service id)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/{{apiVersion}}/services/🐱‍💻/bookingRequests/{{bookingId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"{{apiVersion}}",
+								"services",
+								"🐱‍💻",
+								"bookingRequests",
+								"{{bookingId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Put one booking request (unknown service id)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n   \"timePeriod\": \"afternoon\",\r\n   \"user\": {\r\n       \"name\": \"Dr. Doof\",\r\n       \"email\": \"dr@doof.mail\"\r\n   }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/{{apiVersion}}/services/🐱‍💻/bookingRequests/{{bookingId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"{{apiVersion}}",
+								"services",
+								"🐱‍💻",
+								"bookingRequests",
+								"{{bookingId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Patch one booking request (unknown service id)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n   \"timePeriod\": \"afternoon\",\r\n   \"user\": {\r\n       \"name\": \"Dr. Doof\",\r\n       \"email\": \"dr@doof.mail\"\r\n   }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/{{apiVersion}}/services/🐱‍💻/bookingRequests/{{bookingId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"{{apiVersion}}",
+								"services",
+								"🐱‍💻",
+								"bookingRequests",
+								"{{bookingId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		}
 	],
 	"event": [
 		{
 			"listen": "prerequest",
 			"script": {
-				"id": "05864cff-5cba-4070-bac3-a59328954ebf",
 				"type": "text/javascript",
 				"exec": [
 					""
@@ -55,7 +3321,6 @@
 		{
 			"listen": "test",
 			"script": {
-				"id": "e9c319be-3306-4fc5-ba34-fcf64391213a",
 				"type": "text/javascript",
 				"exec": [
 					""
@@ -65,11 +3330,26 @@
 	],
 	"variable": [
 		{
-			"id": "cd185905-a834-4211-8030-583d17702534",
-			"key": "host",
-			"value": "http://localhost:3000",
-			"type": "string"
+			"key": "baseUrl",
+			"value": "{{host}}/api",
+			"type": "default"
+		},
+		{
+			"key": "apiVersion",
+			"value": "v1",
+			"type": "default"
+		},
+		{
+			"key": "providerId",
+			"value": ""
+		},
+		{
+			"key": "serviceId",
+			"value": ""
+		},
+		{
+			"key": "bookingId",
+			"value": ""
 		}
-	],
-	"protocolProfileBehavior": {}
+	]
 }
