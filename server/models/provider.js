@@ -7,6 +7,7 @@ const providerSchema = new mongoose.Schema({
     address: { type: String, required: true },
     sector: { type: String, required: true },
     phoneNumber: { type: String },
+    //logoPicture: { type: String }, url path to images folder 
 });
 
 module.exports = mongoose.model("providers", providerSchema);
