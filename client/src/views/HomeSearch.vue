@@ -1,16 +1,5 @@
 <template>
     <div class="main-container">
-        <div class="navbar">
-            <div class="navbar-left">
-                <router-link to="/home">
-                    <img src="" alt="Gabagool"/>
-                </router-link>
-            </div>
-            <div class="navbar-right">
-                <b-button variant="outline-secondary">Login</b-button>
-                <b-button>Register</b-button>
-            </div>
-        </div>
         <div class="page-content">
             <h1 style="padding-bottom: 2rem">What are you searching for</h1>
             <div class="search-bar">
@@ -36,14 +25,6 @@
 <style>
 .main-container {
     height: 100vh;
-}
-
-.navbar {
-    box-shadow: 0 1px 3px rgb(0 0 0 / 10%), 0 2px 2px rgb(0 0 0 / 6%), 0 0 2px rgb(0 0 0 / 7%);
-}
-
-.navbar-right > *, .navbar-left > * {
-    margin: 1rem;
 }
 
 .page-content {
