@@ -3,7 +3,7 @@
         <div id="login-component">
             <h2>Login</h2>
             <div class="no-account-text">
-                <span>No account?</span><a href="/"><span> Create here!</span></a>
+                <span>No account?</span><a href="register"><span> Create here!</span></a>
             </div>
 
             <div class="login-credentials">
@@ -19,7 +19,7 @@
                             <span class="content-name">password</span>
                         </label>
                 </div>
-                <b-button class="button-login" disabled variant="primary">Disabled Login</b-button>
+                <b-button class="button-login" variant="primary">Disabled Login</b-button>
             </div>
         </div>
 
