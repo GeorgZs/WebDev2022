@@ -6,7 +6,7 @@ var router = express.Router({ mergeParams: true });
 
 // /providers/:providerId/services
 
-router.post('/', async (req, res, handleError) => {
+router.post('/providers/:providerId/services', async (req, res, handleError) => {
     try {
         const serviceData = req.body;
         const errors = validateService(serviceData);
@@ -33,7 +33,20 @@ router.post('/', async (req, res, handleError) => {
     }
 });
 
-router.get('/', async (req, res, handleError) => {
+router.get('/services', async (req, res, handleError) => {
+    //when searching for service
+    try {
+        const search = req.query.search ? req.query.search.toString() : "";
+
+        const services = await Service.find().exec();
+        res.status(200).json(services.map(service => visibleDataFor(service)));
+    }
+    catch (err) {
+        handleError(err);
+    }
+});
+
+router.get('/providers/:providerId/services', async (req, res, handleError) => {
     try {
         const sortBy = req.query.sort ? req.query.sort.toString() : "";
 
@@ -46,7 +59,7 @@ router.get('/', async (req, res, handleError) => {
     }
 });
 
-router.delete('/', async (req, res, handleError) => {
+router.delete('/providers/:providerId/services', async (req, res, handleError) => {
     try {
         const providerId = req.params.providerId;
         const services = await Service.find({ providerId }).exec();
@@ -59,7 +72,7 @@ router.delete('/', async (req, res, handleError) => {
     }
 });
 
-router.get('/:serviceId', async (req, res, handleError) => {
+router.get('/providers/:providerId/services/:serviceId', async (req, res, handleError) => {
     try {
         const providerId = req.params.providerId;
         const serviceId = req.params.serviceId;
@@ -77,7 +90,7 @@ router.get('/:serviceId', async (req, res, handleError) => {
     }
 });
 
-router.put('/:serviceId', async (req, res, handleError) => {
+router.put('/providers/:providerId/services/:serviceId', async (req, res, handleError) => {
     try {
         const updatedServiceData = req.body;
         const errors = validateService(updatedServiceData);
@@ -105,7 +118,7 @@ router.put('/:serviceId', async (req, res, handleError) => {
     }
 });
 
-router.patch('/:serviceId', async (req, res, handleError) => {
+router.patch('/providers/:providerId/services/:serviceId', async (req, res, handleError) => {
     try {
         const updatedServiceData = req.body;
         const errors = validateService(updatedServiceData, { partial: true });
@@ -133,7 +146,7 @@ router.patch('/:serviceId', async (req, res, handleError) => {
     }
 });
 
-router.delete('/:serviceId', async (req, res, handleError) => {
+router.delete('/providers/:providerId/services/:serviceId', async (req, res, handleError) => {
     try {
         const providerId = req.params.providerId;
         const serviceId = req.params.serviceId;
