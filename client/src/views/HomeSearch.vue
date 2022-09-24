@@ -35,7 +35,11 @@ export default {
   methods: {
     onLoad() {
       document.getElementById('input-bar').addEventListener('keypress', event => {
-        this.searchValue += `${event.key}`
+        if (event.key === 'Enter') {
+          location.replace(window.location.href + this.searchValue)
+        } else {
+          this.searchValue += `${event.key}`
+        }
       })
     }
   }
