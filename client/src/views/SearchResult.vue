@@ -1,40 +1,36 @@
 <template>
     <div class="main-container">
-        <div :onload="loadServices()" class="list-container">
-            <div id="list" v-for="service in services" :key="service._id">
-                <div class="details">
-                    <div>Name: {{ service.name }}</div>
-                    <div>Price: {{ service.price }}</div>
-                    <div>Duration: {{ service.duration }}</div>
-                    <div>Details: {{ service.details }}</div>
-                </div>
-                <div class="form">
-                    FD
-                </div>
-            </div>
+      <div class="search-bar-container">
+        <div id="search-bar">
+          <h3 id="results-for">Result for:</h3>
+          <b-form-input id="input-bar" v-model="this.urlParamsSearch"></b-form-input>
+              <!--add filter and sort for the results-->
+          <b-button @click="getList()" id="search-button">Search</b-button>
         </div>
+      </div>
+        <Accordion :services="this.services"></Accordion>
     </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import { services } from './HomeSearch.vue'
 import { Api } from '@/Api'
-
-console.log(services)
+import Accordion from '../components/Accordion.vue'
 
 export default {
   name: 'searchResult',
   data() {
     return {
-      services: services,
-      urlParams: window.location.search
+      visible: false,
+      services: [],
+      urlParams: window.location.search,
+      urlParamsSearch: ''
     }
   },
   methods: {
-    async loadServices() {
-      // await Api.get('v1/services?search=' + this.query) for query
-      // + this.urlParams
+    async getList() {
+      // add + this.urlParamsSearch
+      console.log('clicked')
       await Api.get('v1/services')
         .then(response => {
           this.services = response.data
@@ -42,25 +38,82 @@ export default {
         .catch(error => {
           this.services = error
         })
-      console.log(services)
+    },
+    accordionClick(card) {
+      this.visible = card
     }
-  }
+  },
+  async mounted() {
+    // await Api.get('v1/services?search=' + this.query) for query
+    // + this.urlParams
+    let tempArr = []
+    const params = new URLSearchParams(this.urlParams)
+    this.urlParamsSearch = params.get('query')
+    await Api.get('v1/services')
+      .then(response => {
+        tempArr = response.data
+      })
+      .catch(error => {
+        tempArr = error
+      })
+
+    let counter = 1
+    tempArr.forEach(element => {
+      this.services.push({
+        ...element,
+        isFormValid: 'null',
+        visible: false,
+        counter: 'collapse-' + counter,
+        formInput: {
+          name: '',
+          email: '',
+          phoneNumber: '',
+          message: '',
+          date: '',
+          timePeriod: ''
+        }
+      })
+      counter++
+    })
+  },
+  components: { Accordion }
 }
 </script>
 
 <style>
-.list-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+
+.search-bar-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-#list {
-    width: 100vh;
-    display: flex;
-    justify-content: space-evenly;
-    margin: 0.25rem;
-    border: 0.05rem solid black;
-    width: 60%;
+#results-for {
+  width: 30vh;
+  margin-bottom: 0
 }
+
+#search-button {
+  border-radius: 100px;
+  width: 18%;
+}
+
+#search-bar {
+  width: 100vh;
+  display: flex;
+  align-items: flex-start;
+  height: fit-content;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+}
+
+#search-bar > * {
+  margin: 1rem;
+}
+
+#input-bar {
+  border-radius: 100px;
+  margin: auto;
+}
+
 </style>
