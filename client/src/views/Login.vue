@@ -44,7 +44,7 @@ export default {
       return alert('Hello world')
     },
     loginUser() {
-      Api.post('/' + 'businesses', this.credentials)
+      Api.post('/v1/providers/login', this.credentials)
         .then(response => {
           console.log(response)
         })

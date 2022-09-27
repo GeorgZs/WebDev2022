@@ -1,6 +1,5 @@
 {
     "env" :{
-        "JWT_KEY": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJwcm92aWRlciI6IiJ9.HSu6e0ih7p9uR6deGIgPPVv-VcH4NpCHBXQjRXFPPgG7BalWEANZmw3-RAmSE9HEwFAMeckPHtEE7zXhJyhJ9p8tNSpx1TdgeWSSijWpBejBxZSMQdQoHjCSTsDOEyesXlR69kQeA04SUie6LcfLVHCzYp_9VeTknXlCa9cIev97p-fYSQGef4-0aPxdWlpUVtZ-AwkphbesIfZWax-OXt1XKmISzXVt6ujPhJYKTMNPegbYSslZTyoItJQ84HdijLZtfrzBumXZYpp8GhpaVniWgzPnUYTjc9BiO9TzO4ZkGk9QT1YDqUf2nFvzkCH08j3amiUcYdhud0XFRCQeKQ"
-        
+        "JWT_KEY": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9"
     }
 }
