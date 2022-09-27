@@ -3,12 +3,19 @@
       <div class="search-bar-container">
         <div id="search-bar">
           <h3 id="results-for">Result for:</h3>
-          <b-form-input id="input-bar" v-model="this.urlParamsSearch"></b-form-input>
+          <b-form-input id="input-bar" v-model="urlParamsSearch"></b-form-input>
               <!--add filter and sort for the results-->
           <b-button @click="getList()" id="search-button">Search</b-button>
         </div>
       </div>
-        <Accordion :services="this.services"></Accordion>
+      <div class="filter">
+        <b-button v-b-toggle.collapse-sortBy id="sort-by-btn">Sort By</b-button>
+        <b-collapse id="collapse-sortBy" class="mt-2">
+          <b-card></b-card>
+        </b-collapse>
+        <b-button id="filter-by-btn">Filter By</b-button>
+      </div>
+      <Accordion :services="this.services"></Accordion>
     </div>
 </template>
 
@@ -24,13 +31,16 @@ export default {
       visible: false,
       services: [],
       urlParams: window.location.search,
-      urlParamsSearch: ''
+      urlParamsSearch: '',
+      sortBy: ''
     }
   },
   methods: {
     async getList() {
       // add + this.urlParamsSearch
-      console.log('clicked')
+      location.replace('results?query=' + this.urlParamsSearch)
+
+      // temporary get method, has no filter or index applied
       await Api.get('v1/services')
         .then(response => {
           this.services = response.data
@@ -38,9 +48,6 @@ export default {
         .catch(error => {
           this.services = error
         })
-    },
-    accordionClick(card) {
-      this.visible = card
     }
   },
   async mounted() {
@@ -81,6 +88,10 @@ export default {
 </script>
 
 <style>
+.main-container {
+    display: flex;
+    flex-direction: column;
+}
 
 .search-bar-container {
   display: flex;
@@ -114,6 +125,29 @@ export default {
 #input-bar {
   border-radius: 100px;
   margin: auto;
+}
+
+.filter {
+  width: 60%;
+  align-self: flex-end;
+}
+
+.filter > * {
+  margin: 1rem;
+  margin-top: 0.25rem;
+  margin-bottom: 0;
+}
+
+#filter-by-btn, #sort-by-btn {
+  border-radius: 100px;
+  width: 10%;
+  background-color: rgb(136, 0, 0);
+}
+
+#collapse-sortBy {
+  position: fixed;
+  width: 15rem;
+  margin-left: 17rem;
 }
 
 </style>
