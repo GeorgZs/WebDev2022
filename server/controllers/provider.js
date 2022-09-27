@@ -1,30 +1,80 @@
 const express = require('express');
+const bcrypt = require('bcryptjs');
+const jwt = require('jwt');
 const Provider = require('../models/provider');
 const LandingPage = require('../models/landingPage');
+const verifyToken = require("../jwtVerifier")
 
 
 
 const router = express.Router({ mergeParams: true });
 
-router.post('/', async (req, res, handleError) => {
+router.post('/register', async (req, res, handleError) => {
     try {
         const providerData = req.body;
+        /*
         const errors = validateProvider(providerData);
 
         if (errors.length > 0) {
             res.status(400).json({ message: 'Invalid data for creating a provider!', errors });
             return;
         }
+        */
 
+       const existingProvider = await Provider.findOne({email: providerData.email})
+       if(existingProvider != null) {
+        providerData.password = await bcrypt.hash(providerData.password, 10)
         const provider = new Provider(providerData);
         await provider.save();
+
+        const token = jwt.sign(
+            {provider: password}, 
+            process.env.JWT_KEY, 
+            {
+                expiresIn: "1h"
+            }
+        )
+        provider.token = token
 
         const landingPage = new LandingPage({ providerId: provider._id });
         await landingPage.save();
 
         res.status(201).json(visibleDataFor(provider));
+       } 
+       return res.status(409).send("Provider already exists.") 
     }
     catch (err) {
+        handleError(err);
+    }
+});
+
+router.post('/login', verifyToken, async (req, res, handleError) => {
+    try {
+        const { email, password } = req.body;
+        if(!(email && password)) {
+            return res.status(400).send("All fields need to be filled in")
+        }
+
+        const provider = await Provider.findOne({email: email});
+
+        if(!provider) return res.status(404).json({"Message:" : "Provider not found"})
+
+        if(email === provider.email && await bcrypt.compare(password, provider.password)) {
+            const token = jwt.sign(
+                {provider: password}, 
+                process.env.JWT_KEY, 
+                {
+                    expiresIn: "1h"
+                }
+            )
+            provider.token = token
+
+            res.status(200).json(visibleDataFor(provider));
+        } else {
+            res.status(400).json({"message" : "Wrong login details"})
+        }
+         
+    } catch (error) {
         handleError(err);
     }
 });
