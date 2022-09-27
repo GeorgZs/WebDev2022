@@ -3,7 +3,7 @@
         <div id="list" v-for="service in servicesList" :key="service._id">
               <div id="card-view">
                 <!--block v-b-toggle.service.counter-->
-                <div @click="resetForm(service)" id="details-list">
+                <div @click="clickForm(service)" id="details-list">
                     <h2>{{ service.name }}</h2>
                     <div class="circle">
                         <h4 id="bubble-text">{{ service.price }}</h4>
@@ -24,18 +24,19 @@
                   <b-card>
                     <h3 class="card-text">Create a booking request</h3>
                     <form class="form">
-                        <!--Clear form upon collapsing-->
                         <div class="card-paragraph">
                             <br>
-                            <!--add map here based on location-->
-                            <p>Here you can create a booking request from {{ service.name }}
-                                and directly send them the booking. </p>
+                            <!--fix width and height to be responsive-->
+                            <iframe
+                            id="mapElement"
+                            width="250"
+                            height="250"
+                            style="border:0"
+                            loading="lazy"
+                            :src='`https://www.google.com/maps/embed/v1/place?key=${apiKey}&q=${address}`'></iframe> <!--use service.address after finished-->
                                 <br>
-                                <p> Details about this service: {{ service.details }} </p>
-                                <br>
-                            <p>
-                                To complete the booking, enter the fields and hit the button below, its as simple as that!
-                            </p>
+                                <p> Address: {{ service.address }} </p>
+                                <p> Details: {{ service.details }} </p>
                         </div>
                         <div class="left-form">
                             Name*
@@ -90,6 +91,7 @@
                 </b-collapse>
               </div>
         </div>
+        <h4 v-if="services.length === 0">There were no services availabe, please try something else</h4>
     </div>
 </template>
 
@@ -101,11 +103,18 @@ export default {
   props: ['services'],
   data() {
     return {
-      servicesList: this.services
+      servicesList: this.services,
+      apiKey: 'AIzaSyDwRByjwDc9rECZ8631Up2NHGFbuk-1qE0',
+      address: 'Paris'
     }
   },
   methods: {
-    resetForm(service) {
+    clickForm(service) {
+      if (this.address.length > 1) {
+        // on opening form, render map
+        document.getElementById('mapElement').src = 'https://www.google.com/maps/embed/v1/place?key=' + this.apiKey + '&q=' + this.address
+      }
+
       service.visible = !service.visible
       service.formInput.name = ''
       service.formInput.email = ''
@@ -120,14 +129,17 @@ export default {
       return '/providers/' + serviceId + '/landingPage'
     },
     isVisible(isFormValid) {
-      return isFormValid === 'null' ? 'visible' : 'hidden'
+      return isFormValid === 'false' ? 'visible' : 'hidden'
     },
+
+    // broken
+    // make sure on resubmission after false form, resets state and does check
     checkFormValidity(service) {
       if (service.formInput.name === '' || service.formInput.email === '' ||
           service.formInput.timePeriod === '' || service.formInput.message === '') {
         service.isFormValid = 'false'
         return false
-      } else if (validator.isEmail(service.formInput.email) || service.formInput.phoneNumber.length < 9) {
+      } else if (!validator.isEmail(service.formInput.email) || service.formInput.phoneNumber.length < 8) {
         service.isFormValid = 'false'
         return false
       } else {
@@ -136,6 +148,8 @@ export default {
       }
     },
     async submitForm(serviceId, service) {
+      service.isFormValid = 'null'
+
       const formValiditiy = this.checkFormValidity(service)
 
       // finish form validation
@@ -160,10 +174,12 @@ export default {
         await Api.post('v1/services/' + serviceId + '/bookingRequests', {
           timePeriod: service.formInput.timePeriod,
           date: service.formInput.date,
-          message: service.formInput.message,
-          name: service.formInput.name,
-          email: service.formInput.email,
-          phoneNumber: service.formInput.phoneNumber
+          user: {
+            name: service.formInput.name,
+            email: service.formInput.email,
+            phoneNumber: service.formInput.phoneNumber
+          },
+          message: service.formInput.message
         })
           .then(response => {
             console.log(response)
