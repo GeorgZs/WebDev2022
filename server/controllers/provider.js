@@ -1,6 +1,6 @@
 const express = require('express');
 const bcrypt = require('bcryptjs');
-const jwt = require('jwt');
+const jwt = require('jsonwebtoken');
 const Provider = require('../models/provider');
 const LandingPage = require('../models/landingPage');
 const verifyToken = require("../jwtVerifier")
@@ -21,14 +21,14 @@ router.post('/register', async (req, res, handleError) => {
         }
         */
 
-       const existingProvider = await Provider.findOne({email: providerData.email})
+       const existingProvider = await Provider.find({email: providerData.email})
        if(existingProvider != null) {
         providerData.password = await bcrypt.hash(providerData.password, 10)
         const provider = new Provider(providerData);
         await provider.save();
 
         const token = jwt.sign(
-            {provider: password}, 
+            {provider: providerData.password}, 
             process.env.JWT_KEY, 
             {
                 expiresIn: "1h"
@@ -39,7 +39,7 @@ router.post('/register', async (req, res, handleError) => {
         const landingPage = new LandingPage({ providerId: provider._id });
         await landingPage.save();
 
-        res.status(201).json(visibleDataFor(provider));
+        return res.status(201).json(visibleDataFor(provider));
        } 
        return res.status(409).send("Provider already exists.") 
     }

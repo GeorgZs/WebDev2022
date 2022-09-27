@@ -3,8 +3,8 @@ import Router from 'vue-router'
 import Home from './views/Home.vue'
 import HomeSearch from './views/HomeSearch.vue'
 import Login from './views/Login.vue'
-import SearchResult from './views/SearchResult.vue'
 import Register from './views/Register.vue'
+import SearchResult from './views/SearchResult.vue'
 
 Vue.use(Router)
 
