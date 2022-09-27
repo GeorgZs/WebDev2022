@@ -2,10 +2,7 @@
     <div class="main-container">
         <div class="page-content">
             <h1 style="padding-bottom: 2rem">What are you searching for</h1>
-            <div class="search-bar">
-                <b-form-input @click="onLoad()" id="input-bar"></b-form-input>
-                <b-button :to="this.searchValue" id="search-button">Search</b-button>
-            </div>
+            <SearchBar></SearchBar>
             <div class="recommendations">
                 <p>Recommendations</p>
                 <div class="recommendation-list-top">
@@ -24,21 +21,10 @@
 
 <script>
 // @ is an alias to /src
+import SearchBar from '../components/SearchBar.vue'
 
 export default {
-  name: 'homeSearch',
-  data() {
-    return {
-      searchValue: 'results?query='
-    }
-  },
-  methods: {
-    onLoad() {
-      document.getElementById('input-bar').addEventListener('keypress', event => {
-        this.searchValue += `${event.key}`
-      })
-    }
-  }
+  components: { SearchBar }
 }
 </script>
 
@@ -52,25 +38,6 @@ export default {
     flex-direction: column;
     align-items: center;
     padding-top: 8rem;
-}
-
-.search-bar {
-    width: 100vh;
-    padding-bottom: 6rem;
-}
-
-.search-bar > * {
-    margin: 1rem;
-}
-
-#input-bar {
-    border-radius: 100px;
-    margin: auto;
-}
-
-#search-button {
-    border-radius: 100px;
-    width: 18%;
 }
 
 .recommendations {

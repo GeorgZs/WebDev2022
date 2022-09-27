@@ -37,8 +37,9 @@ router.get('/services', async (req, res, handleError) => {
     //when searching for service
     try {
         const search = req.query.search ? req.query.search.toString() : "";
+        const sortBy = req.query.sort ? req.query.sort.toString() : "";
 
-        const services = await Service.find().exec();
+        const services = await Service.find().sort(sortBy).exec();
         res.status(200).json(services.map(service => visibleDataFor(service)));
     }
     catch (err) {
