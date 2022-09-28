@@ -5,6 +5,7 @@ import HomeSearch from './views/HomeSearch.vue'
 import Login from './views/Login.vue'
 import SearchResult from './views/SearchResult.vue'
 import Register from './views/Register.vue'
+import LandingPage from './views/LandingPage.vue'
 
 Vue.use(Router)
 
@@ -36,6 +37,11 @@ export default new Router({
       path: '/register',
       name: 'register',
       component: Register
+    },
+    {
+      path: '/providers/:id/landingPage',
+      name: 'landingPage',
+      component: LandingPage
     }
   ]
 })
