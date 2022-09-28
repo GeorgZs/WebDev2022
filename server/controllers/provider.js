@@ -5,7 +5,13 @@ const Provider = require('../models/provider');
 const LandingPage = require('../models/landingPage');
 const verifyToken = require("../jwtVerifier")
 
-
+// Auth Info
+// ---------
+// - JWT tokens are like billboards on a busy road, don't put private information in them
+// - The security from the JWT tokens comes from the signing, since we created it, we can trust the user is logged in
+// - Someone who has a token is logged in
+// - Add verifyToken and a check for forbidden actions to all protected routes
+// - Protected routes are actions that only should be allowed when the provider is logged in
 
 const router = express.Router({ mergeParams: true });
 
@@ -21,48 +27,48 @@ router.post('/register', async (req, res, handleError) => {
         }
         */
 
-       const existingProvider = await Provider.findOne({email: providerData.email})
-       if(existingProvider != null) {
-        providerData.password = await bcrypt.hash(providerData.password, 10)
-        const provider = new Provider(providerData);
-        await provider.save();
+        const existingProvider = await Provider.find({ email: providerData.email })
+        if (existingProvider != null) {
+            providerData.password = await bcrypt.hash(providerData.password, 10)
+            const provider = new Provider(providerData);
+            await provider.save();
 
-        const token = jwt.sign(
-            {provider: password}, 
-            process.env.JWT_KEY, 
-            {
-                expiresIn: "1h"
-            }
-        )
-        provider.token = token
+            const token = jwt.sign(
+                { providerId: provider._id },
+                process.env.JWT_KEY,
+                {
+                    expiresIn: "1h"
+                }
+            )
+            provider.token = token
 
-        const landingPage = new LandingPage({ providerId: provider._id });
-        await landingPage.save();
+            const landingPage = new LandingPage({ providerId: provider._id });
+            await landingPage.save();
 
-        res.status(201).json(visibleDataFor(provider));
-       } 
-       return res.status(409).send("Provider already exists.") 
+            return res.status(201).json(visibleDataFor(provider));
+        }
+        return res.status(409).send("Provider already exists.")
     }
-    catch (err) {
-        handleError(err);
+    catch (error) {
+        handleError(error);
     }
 });
 
-router.post('/login', verifyToken, async (req, res, handleError) => {
+router.post('/login', async (req, res, handleError) => {
     try {
         const { email, password } = req.body;
-        if(!(email && password)) {
-            return res.status(400).send("All fields need to be filled in")
+        if (!(email && password)) {
+            return res.status(401).json({ "message": "invalid credentials" })
         }
 
-        const provider = await Provider.findOne({email: email});
+        const provider = await Provider.findOne({ email: email });
 
-        if(!provider) return res.status(404).json({"Message:" : "Provider not found"})
+        if (!provider) return res.status(404).json({ "Message:": "Provider not found" })
 
-        if(email === provider.email && await bcrypt.compare(password, provider.password)) {
+        if (email === provider.email && await bcrypt.compare(password, provider.password)) {
             const token = jwt.sign(
-                {provider: password}, 
-                process.env.JWT_KEY, 
+                { providerId: provider._id },
+                process.env.JWT_KEY,
                 {
                     expiresIn: "1h"
                 }
@@ -71,11 +77,11 @@ router.post('/login', verifyToken, async (req, res, handleError) => {
 
             res.status(200).json(visibleDataFor(provider));
         } else {
-            res.status(400).json({"message" : "Wrong login details"})
+            res.status(401).json({ "message": "invalid credentials" })
         }
-         
+
     } catch (error) {
-        handleError(err);
+        handleError(error);
     }
 });
 
@@ -97,8 +103,16 @@ router.get('/:providerId', async (req, res, handleError) => {
 });
 
 
-router.put('/:providerId', async (req, res, handleError) => {
+router.put('/:providerId', verifyToken, async (req, res, handleError) => {
     try {
+        // You could move this over to verifyToken
+        const providerId = req.params.providerId;
+
+        if (providerId !== req.auth.providerId) {
+            res.status(403).json({ message: 'Forbidden!' });
+            return;
+        }
+
         const updatedProviderData = req.body;
         const errors = validateProvider(updatedProviderData);
 
@@ -107,7 +121,6 @@ router.put('/:providerId', async (req, res, handleError) => {
             return;
         }
 
-        const providerId = req.params.providerId;
         const provider = await Provider.findById(providerId);
 
         if (!provider) {

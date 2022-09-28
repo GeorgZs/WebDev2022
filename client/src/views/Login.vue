@@ -8,23 +8,51 @@
 
             <div class="login-credentials">
                 <div class="login-form">
-                    <input type="text" name="email" autocomplete="off" required>
+                    <input id="email-field" type="text" name="email" autocomplete="off" v-model="credentials.email" required>
                         <label for="email" class="email-name">
                             <span class="content-name">email</span>
                         </label>
                 </div>
                 <div class="login-form">
-                    <input type="password" name="password" autocomplete="off" required>
+                    <input id="password-field" type="password" name="password" autocomplete="off" v-model="credentials.password" required>
                         <label for="password" class="password-name">
                             <span class="content-name">password</span>
                         </label>
                 </div>
-                <b-button class="button-login" variant="primary">Disabled Login</b-button>
+                <b-button class="button-login" v-on:click="loginUser()" variant="primary">Disabled Login</b-button>
             </div>
         </div>
 
     </div>
 </template>
+
+<script>
+import { Api } from '../Api'
+
+export default {
+  name: 'login',
+  data() {
+    return {
+      credentials: {
+        email: '',
+        password: ''
+      }
+    }
+  },
+  methods: {
+    hello() {
+      return alert('Hello world')
+    },
+    loginUser() {
+      Api.post('/v1/providers/login', this.credentials)
+        .then(response => {
+          console.log(response)
+        })
+    }
+
+  }
+}
+</script>
 
 <style>
 #body-content {
