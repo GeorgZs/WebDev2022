@@ -5,10 +5,11 @@
           <router-link to="/home">
               <img src="" alt="Gabagool"/>
           </router-link>
+          <b-button variant="outline-secondary" to="/">Search</b-button>
       </div>
       <div class="navbar-right">
-          <b-button variant="outline-secondary">Login</b-button>
-          <b-button>Register</b-button>
+          <b-button variant="outline-secondary" to="/login">Login</b-button>
+          <b-button to="/register">Register</b-button>
       </div>
   </div>
     <!-- Render the content of the current page view -->

@@ -14,7 +14,7 @@
                     <div class="circle">
                         <h4 id="bubble-text">Reviews</h4>
                     </div>
-                    <router-link :to="landingPage(service.providerId)">
+                    <router-link :to="`/providers/${service.providerId}/landingPage`">
                         <h4>Provider name</h4>
                     </router-link>
                     <!--Add link to provider here using providerId-->
@@ -100,7 +100,7 @@ import { Api } from '@/Api'
 const validator = require('validator')
 
 export default {
-  props: ['services'],
+  props: ['services', 'isLandingPage'],
   data() {
     return {
       servicesList: this.services,
@@ -110,12 +110,16 @@ export default {
   },
   methods: {
     clickForm(service) {
+      service.visible = !service.visible
+
       if (this.address.length > 1) {
         // on opening form, render map
+        if (this.address.contains(' ')) {
+          this.address.split(' ').join('+')
+        }
         document.getElementById('mapElement').src = 'https://www.google.com/maps/embed/v1/place?key=' + this.apiKey + '&q=' + this.address
       }
 
-      service.visible = !service.visible
       service.formInput.name = ''
       service.formInput.email = ''
       service.formInput.phoneNumber = ''
@@ -124,9 +128,6 @@ export default {
       service.formInput.message = ''
       service.isFormValid = 'null'
       console.log(service)
-    },
-    landingPage(serviceId) {
-      return '/providers/' + serviceId + '/landingPage'
     },
     isVisible(isFormValid) {
       return isFormValid === 'false' ? 'visible' : 'hidden'
