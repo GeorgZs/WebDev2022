@@ -1,6 +1,6 @@
 const express = require('express');
 const bcrypt = require('bcryptjs');
-const jwt = require('jwt');
+const jwt = require('jsonwebtoken');
 const Provider = require('../models/provider');
 const LandingPage = require('../models/landingPage');
 const verifyToken = require("../jwtVerifier")

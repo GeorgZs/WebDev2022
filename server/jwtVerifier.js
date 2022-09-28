@@ -1,4 +1,4 @@
-const jwt = require(jsonwebtoken);
+const jwt = require('jsonwebtoken');
 
 const verifyToken = async (req, res, err) => {
     const token = req.body.token || req.query.token //req.headers["x-access-token"];
