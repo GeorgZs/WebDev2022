@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "1bac8013-a572-4a68-bb32-d02b9f7be720",
+		"_postman_id": "3e56ec18-301b-47f1-8f12-591c70f301a4",
 		"name": "group-33-tests",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -27,13 +27,14 @@
 						"method": "POST",
 						"header": [],
 						"url": {
-							"raw": "{{baseUrl}}/{{apiVersion}}/providers",
+							"raw": "{{baseUrl}}/{{apiVersion}}/providers/register",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
 								"{{apiVersion}}",
-								"providers"
+								"providers",
+								"register"
 							]
 						}
 					},
@@ -67,13 +68,14 @@
 							}
 						},
 						"url": {
-							"raw": "{{baseUrl}}/{{apiVersion}}/providers",
+							"raw": "{{baseUrl}}/{{apiVersion}}/providers/register",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
 								"{{apiVersion}}",
-								"providers"
+								"providers",
+								"register"
 							]
 						}
 					},
@@ -107,13 +109,14 @@
 							}
 						},
 						"url": {
-							"raw": "{{baseUrl}}/{{apiVersion}}/providers",
+							"raw": "{{baseUrl}}/{{apiVersion}}/providers/register",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
 								"{{apiVersion}}",
-								"providers"
+								"providers",
+								"register"
 							]
 						}
 					},
@@ -147,13 +150,14 @@
 							}
 						},
 						"url": {
-							"raw": "{{baseUrl}}/{{apiVersion}}/providers",
+							"raw": "{{baseUrl}}/{{apiVersion}}/providers/register",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
 								"{{apiVersion}}",
-								"providers"
+								"providers",
+								"register"
 							]
 						}
 					},
@@ -187,13 +191,14 @@
 							}
 						},
 						"url": {
-							"raw": "{{baseUrl}}/{{apiVersion}}/providers",
+							"raw": "{{baseUrl}}/{{apiVersion}}/providers/register",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
 								"{{apiVersion}}",
-								"providers"
+								"providers",
+								"register"
 							]
 						}
 					},
@@ -251,13 +256,14 @@
 							}
 						},
 						"url": {
-							"raw": "{{baseUrl}}/{{apiVersion}}/providers",
+							"raw": "{{baseUrl}}/{{apiVersion}}/providers/register",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
 								"{{apiVersion}}",
-								"providers"
+								"providers",
+								"register"
 							]
 						}
 					},
@@ -1105,13 +1111,14 @@
 							}
 						},
 						"url": {
-							"raw": "{{baseUrl}}/{{apiVersion}}/providers",
+							"raw": "{{baseUrl}}/{{apiVersion}}/providers/register",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
 								"{{apiVersion}}",
-								"providers"
+								"providers",
+								"register"
 							]
 						}
 					},
@@ -2036,13 +2043,14 @@
 							}
 						},
 						"url": {
-							"raw": "{{baseUrl}}/{{apiVersion}}/providers",
+							"raw": "{{baseUrl}}/{{apiVersion}}/providers/register",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
 								"{{apiVersion}}",
-								"providers"
+								"providers",
+								"register"
 							]
 						}
 					},
@@ -2333,13 +2341,14 @@
 							}
 						},
 						"url": {
-							"raw": "{{baseUrl}}/{{apiVersion}}/providers",
+							"raw": "{{baseUrl}}/{{apiVersion}}/providers/register",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
 								"{{apiVersion}}",
-								"providers"
+								"providers",
+								"register"
 							]
 						}
 					},

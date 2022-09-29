@@ -66,7 +66,7 @@ function addRoutesToApp(app) {
     const landingPageController = require('./controllers/landingPage');
     const bookingRequestController = require('./controllers/bookingRequest');
     app.use('/api/v1/providers', providerController);
-    app.use('/api/v1/providers/:providerId/services', serviceController);
+    app.use('/api/v1', serviceController);
     app.use('/api/v1/providers/:providerId/landingPage', landingPageController);
     app.use('/api/v1/services/:serviceId/bookingRequests', bookingRequestController);
 
