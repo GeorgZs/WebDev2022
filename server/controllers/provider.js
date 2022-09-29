@@ -3,7 +3,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const Provider = require('../models/provider');
 const LandingPage = require('../models/landingPage');
-const verifyToken = require("../jwtVerifier")
+// const verifyToken = require("../jwtVerifier")
 
 // Auth Info
 // ---------
@@ -18,17 +18,16 @@ const router = express.Router({ mergeParams: true });
 router.post('/register', async (req, res, handleError) => {
     try {
         const providerData = req.body;
-        /*
+        
         const errors = validateProvider(providerData);
 
         if (errors.length > 0) {
             res.status(400).json({ message: 'Invalid data for creating a provider!', errors });
             return;
         }
-        */
 
         const existingProvider = await Provider.find({ email: providerData.email })
-        if (existingProvider != null) {
+        if (existingProvider !== null || existingProvider !== undefined) {
             providerData.password = await bcrypt.hash(providerData.password, 10)
             const provider = new Provider(providerData);
             await provider.save();
@@ -103,15 +102,17 @@ router.get('/:providerId', async (req, res, handleError) => {
 });
 
 
-router.put('/:providerId', verifyToken, async (req, res, handleError) => {
+router.put('/:providerId', async (req, res, handleError) => {
     try {
         // You could move this over to verifyToken
         const providerId = req.params.providerId;
 
+        /*
         if (providerId !== req.auth.providerId) {
             res.status(403).json({ message: 'Forbidden!' });
             return;
         }
+        */  
 
         const updatedProviderData = req.body;
         const errors = validateProvider(updatedProviderData);
