@@ -2,10 +2,12 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Home from './views/Home.vue'
 import HomeSearch from './views/HomeSearch.vue'
+import LandingPage from './views/LandingPage.vue'
 import Login from './views/Login.vue'
 import Register from './views/Register.vue'
-import LandingPage from './views/LandingPage.vue'
 import SearchResult from './views/SearchResult.vue'
+// import { component } from 'vue/types/umd'
+import Settings from './views/Settings.vue'
 
 Vue.use(Router)
 
@@ -42,6 +44,11 @@ export default new Router({
       path: '/providers/:id/landingPage',
       name: 'landingPage',
       component: LandingPage
+    },
+    {
+      path: '/settings',
+      name: 'settings',
+      component: Settings
     }
   ]
 })
