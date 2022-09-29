@@ -11,11 +11,26 @@
       <div class="filter">
         <b-button v-b-toggle.collapse-sortBy id="sort-by-btn">Sort By</b-button>
         <b-collapse id="collapse-sortBy" class="mt-2">
-          <b-card></b-card>
+          <b-card>
+            Sort by
+            <b-form-checkbox-group v-model="categoryChecked">
+              <b-form-checkbox value="name">Name</b-form-checkbox>
+              <b-form-checkbox value="duration">Duration</b-form-checkbox>
+              <b-form-checkbox value="price">Price</b-form-checkbox>
+              <b-form-checkbox value="location">Location</b-form-checkbox>
+            </b-form-checkbox-group>
+            <br>
+            Order by
+            <b-form-checkbox-group v-model="ordering">
+              <b-form-checkbox value="asc">Asc</b-form-checkbox>
+              <b-form-checkbox value="desc">Desc</b-form-checkbox>
+            </b-form-checkbox-group>
+            <b-button @click="reload()">Apply Filter</b-button>
+          </b-card>
         </b-collapse>
         <b-button id="filter-by-btn">Filter By</b-button>
       </div>
-      <Accordion :services="this.services"></Accordion>
+      <Accordion :key="rerenderIndex" :services="this.services"/>
     </div>
 </template>
 
@@ -32,27 +47,12 @@ export default {
       services: [],
       urlParams: window.location.search,
       urlParamsSearch: '',
-      sortBy: ''
-    }
-  },
-  methods: {
-    async getList() {
-      // add + this.urlParamsSearch
-      location.replace('results?query=' + this.urlParamsSearch)
-
-      // temporary get method, has no filter or index applied
-      await Api.get('v1/services')
-        .then(response => {
-          this.services = response.data
-        })
-        .catch(error => {
-          this.services = error
-        })
+      ordering: [],
+      categoryChecked: [],
+      rerenderIndex: 1
     }
   },
   async mounted() {
-    // await Api.get('v1/services?search=' + this.query) for query
-    // + this.urlParams
     let tempArr = []
     const params = new URLSearchParams(this.urlParams)
     this.urlParamsSearch = params.get('query')
@@ -82,6 +82,37 @@ export default {
       })
       counter++
     })
+  },
+  methods: {
+    async getAppendedList() {
+      const ordering = this.ordering[0] === 'asc' ? 1 : this.ordering[0] === 'desc' ? -1 : 0
+      const sortByCondition = '?sort=' + this.categoryChecked[0] + ':' + ordering
+
+      await Api.get('v1/services' + sortByCondition)
+        .then(response => {
+          this.services = response.data
+        })
+        .catch(error => {
+          this.services = error
+        })
+    },
+    async getList() {
+      // add + this.urlParamsSearch
+      location.replace('results?query=' + this.urlParamsSearch)
+
+      // temporary get method, has no filter or index applied
+      await Api.get('v1/services')
+        .then(response => {
+          this.services = response.data
+        })
+        .catch(error => {
+          this.services = error
+        })
+    },
+    reload() {
+      this.getAppendedList()
+      this.rerenderIndex += 1
+    }
   },
   components: { Accordion }
 }
@@ -146,6 +177,7 @@ export default {
 
 #collapse-sortBy {
   position: fixed;
+  z-index: 2;
   width: 15rem;
   margin-left: 17rem;
 }

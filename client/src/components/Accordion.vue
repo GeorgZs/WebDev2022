@@ -1,6 +1,6 @@
 <template>
     <div class="list-container">
-        <div id="list" v-for="service in servicesList" :key="service._id">
+        <div id="list" v-for="service in services" :key="service._id">
               <div id="card-view">
                 <!--block v-b-toggle.service.counter-->
                 <div @click="clickForm(service)" id="details-list">
@@ -52,7 +52,7 @@
                             Phone Number
                             <b-input-group>
                                 <template #prepend>
-                                  <b-input-group-text >+46</b-input-group-text>
+                                  <b-input-group-text >{{ countryCode }}</b-input-group-text>
                                 </template>
                             <b-form-input :state='service.isFormValid === "null" ? null : service.isFormValid === "true" ? true : false' v-model="service.formInput.phoneNumber" id="phone-number-input" type="number"></b-form-input>
                             <b-form-invalid-feedback id="feedback">
@@ -103,9 +103,12 @@ export default {
   props: ['services', 'isLandingPage'],
   data() {
     return {
-      servicesList: this.services,
+      servicesList: [],
       apiKey: 'AIzaSyDwRByjwDc9rECZ8631Up2NHGFbuk-1qE0',
-      address: 'Paris'
+      address: 'Paris',
+      urlParamsSearch: '',
+      urlParams: window.location.search,
+      countryCode: '+46'
     }
   },
   methods: {
@@ -178,7 +181,7 @@ export default {
           user: {
             name: service.formInput.name,
             email: service.formInput.email,
-            phoneNumber: service.formInput.phoneNumber
+            phoneNumber: this.countryCode + service.formInput.phoneNumber
           },
           message: service.formInput.message
         })
