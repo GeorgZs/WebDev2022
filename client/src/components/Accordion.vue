@@ -1,5 +1,12 @@
 <template>
     <div class="list-container">
+      <div v-if="isLandingPage" class="mutation-div">
+        Add Service <b-button v-b-modal.modal-1 id="mutation-button" variant="success">+</b-button>
+        <b-modal v-model="showModal" id="modal-1" title="Add a new Service" @ok="submitNewService" @show="resetModal">
+          <p class="my-4">Something</p>
+        </b-modal>
+        Remove Service <b-button id="mutation-button" variant="danger">-</b-button>
+      </div>
         <div id="list" v-for="service in services" :key="service._id">
               <div id="card-view">
                 <!--block v-b-toggle.service.counter-->
@@ -100,7 +107,15 @@ import { Api } from '@/Api'
 const validator = require('validator')
 
 export default {
-  props: ['services', 'isLandingPage'],
+  props: {
+    services: {
+      default: []
+    },
+    isLandingPage: {
+      type: Boolean,
+      default: true
+    }
+  },
   data() {
     return {
       servicesList: [],
@@ -108,10 +123,25 @@ export default {
       address: 'Paris',
       urlParamsSearch: '',
       urlParams: window.location.search,
-      countryCode: '+46'
+      countryCode: '+46',
+      showModal: false
     }
   },
   methods: {
+    resetModal() {
+      // empty the form data
+    },
+    submitNewService(bvModalEvent) {
+      // Prevent modal from closing
+      bvModalEvent.preventDefault()
+      // Trigger submit handler
+      // this.handleSubmit() ---> post new service
+      this.createService()
+    },
+    createService() {
+      // closes modal manually
+      this.showModal = !this.showModal
+    },
     clickForm(service) {
       service.visible = !service.visible
 
@@ -206,6 +236,11 @@ export default {
 #card-view {
     flex-direction: column;
     width: 100%;
+}
+
+#mutation-button {
+  border-radius: 100px;
+  width: 2.75rem;
 }
 
 #row {
