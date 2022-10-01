@@ -24,7 +24,7 @@ export default {
 <template>
   <nav class="sidebar">
     <router-link to="/">
-      <img id="logo" src="/logo.svg" alt="Gabagool"/>
+      <img id="sidebar-logo" src="/logo.svg" alt="Gabagool"/>
     </router-link>
     <router-link v-for="route in routes" :key="route.link" :to="route.link" class="nav-item" :class="{ active: activeRoute.endsWith(route.link)}">
       <b-icon :icon="route.icon" />
@@ -50,7 +50,7 @@ export default {
   margin-left: 6rem;
 }
 
-#logo {
+#sidebar-logo {
   margin: 1rem;
   margin-bottom: 3rem;
 
