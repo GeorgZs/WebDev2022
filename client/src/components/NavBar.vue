@@ -10,7 +10,7 @@ export default {
 <template>
     <div class="navbar">
         <div class="navbar-left">
-            <router-link to="/home">
+            <router-link to="/">
                 <img id="logo" src="/logo.svg" alt="Gabagool"/>
             </router-link>
             <b-button variant="outline-secondary" to="/">Search</b-button>

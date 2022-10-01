@@ -1,25 +1,26 @@
 <template>
     <div class="list-container">
-      <div v-if="isLandingPage" class="mutation-div">
-        <b-button v-b-modal.modal-1 id="mutation-button"  variant="success">
-          Add Service <b-icon icon="plus" aria-hidden="true"></b-icon>
+        <b-button v-if="isLoggedIn" v-b-modal.modal-1 id="mutation-button"  variant="success">
+          Add Service <b-icon icon="plus" aria-hidden="true"/>
         </b-button>
-        <b-modal v-model="showModal" id="modal-1" title="Add a new Service" @ok="submitNewService" @show="resetModal">
+        <b-modal v-model="showModal" id="modal-1" title="Add a new Service" @ok="submitNewService()" @show="resetModal()">
           <p class="my-4">Enter your details</p>
-          <p>Name</p>
-          <!--
-            name: {type: String, required: true},
-            price: {type: Number, required: true},
-            providerId: {type: String, required: true},
-            duration: {type: Number},
-            details: {type: String},
-            address: {type: String}
-          -->
+          <span>Name</span>
+          <b-form-input v-model="updatedService.name" placeholder="Enter new name" id="popup-form"/>
+          <span>Price</span>
+          <b-form-input v-model="updatedService.price" placeholder="Enter new price" id="popup-form"/>
+          <span>Duration</span>
+          <b-form-input v-model="updatedService.duration" placeholder="Enter new duration" id="popup-form"/>
+          <span>Details</span>
+          <b-form-textarea
+            rows="2"
+            no-resize
+            placeholder="Enter new details"
+            v-model="updatedService.details"
+            id="popup-form"/>
+          <span>Address</span>
+          <b-form-input v-model="updatedService.address" placeholder="Enter address" id="popup-form"/>
         </b-modal>
-        <b-button id="mutation-button" variant="danger">
-          Remove Service <b-icon icon="dash" aria-hidden="true"></b-icon>
-        </b-button>
-      </div>
         <div id="list" v-for="service in services" :key="service._id">
               <div id="card-view">
                 <!--block v-b-toggle.service.counter-->
@@ -34,9 +35,20 @@
                     <div class="circle">
                         <h4 id="bubble-text">Reviews</h4>
                     </div>
-                    <router-link :to="`/providers/${service.providerId}/landingPage`">
+                    <router-link :to="`/providers/${service.providerId}`">
                         <h4>Provider name</h4>
                     </router-link>
+                    <div v-if="isLoggedIn" class="edit-functionality">
+                      <b-icon @click="service.confirmEdit = !service.confirmEdit" icon="pencil" aria-hidden="true"/>
+                      <b-modal v-model="service.confirmEdit" title="Update Current Service" @ok="deleteService(service.providerId, service._id)">
+                        <p class="my-4">Update currnet Service</p>
+                      </b-modal>
+                      <b-icon @click="service.confirmDelete = !service.confirmDelete" icon="trash" aria-hidden="true"/>
+                      <b-modal v-model="service.confirmDelete" title="Delete Service" @ok="deleteService(service.providerId, service._id)">
+                        <p>Are you sure you want to delete this service?</p>
+                        <p>Service Name: {{ service.name }}</p>
+                      </b-modal>
+                    </div>
                     <!--Add link to provider here using providerId-->
                     <!--Div [text] div column div -> service name and below 3 divs with price location review-->
                 </div>
@@ -124,7 +136,7 @@ export default {
     services: {
       default: []
     },
-    isLandingPage: {
+    isLoggedIn: {
       type: Boolean,
       default: true
     }
@@ -137,34 +149,49 @@ export default {
       urlParamsSearch: '',
       urlParams: window.location.search,
       countryCode: '+46',
-      showModal: false
+      showModal: false,
+      updatedService: {
+        name: '',
+        price: '',
+        duration: '',
+        detail: '',
+        address: ''
+      }
     }
   },
   methods: {
+    async deleteService(providerId, serviceId) {
+      await Api.delete('/providers/' + providerId + '/services/' + serviceId)
+        .then(response => {
+          console.log(response)
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    },
     resetModal() {
       // empty the form data
     },
-    submitNewService(bvModalEvent) {
+    async submitNewService(bvModalEvent) {
       // Prevent modal from closing
       bvModalEvent.preventDefault()
+
+      const providerId = this.$route.params.providerId
       // Trigger submit handler
       // this.handleSubmit() ---> post new service
-      this.createService()
-    },
-    createService() {
-      // closes modal manually
+      await Api.post('/providers/' + providerId + '/services', {
+        name: this.updatedService.name,
+        price: this.updatedService.price,
+        providerId: providerId,
+        duration: this.updatedService.duration,
+        details: this.updatedService.details,
+        address: this.updatedService.address
+      })
       this.showModal = !this.showModal
     },
     clickForm(service) {
       service.visible = !service.visible
-
-      if (this.address.length > 1) {
-        // on opening form, render map
-        if (this.address.contains(' ')) {
-          this.address.split(' ').join('+')
-        }
-        document.getElementById('mapElement').src = 'https://www.google.com/maps/embed/v1/place?key=' + this.apiKey + '&q=' + this.address
-      }
+      service.isFormValid = 'null'
 
       service.formInput.name = ''
       service.formInput.email = ''
@@ -172,8 +199,15 @@ export default {
       service.formInput.date = ''
       service.formInput.timePeriod = ''
       service.formInput.message = ''
-      service.isFormValid = 'null'
-      console.log(service)
+
+      if (this.address.length > 1) {
+        this.address.trim()
+        // on opening form, render map
+        if (this.address.includes(' ')) {
+          this.address.split(' ').join('+')
+        }
+        document.getElementById('mapElement').src = 'https://www.google.com/maps/embed/v1/place?key=' + this.apiKey + '&q=' + this.address
+      }
     },
     isVisible(isFormValid) {
       return isFormValid === 'false' ? 'visible' : 'hidden'
@@ -251,9 +285,23 @@ export default {
     width: 100%;
 }
 
+#popup-form {
+  margin-bottom: 1rem;
+}
+
 #mutation-button {
   border-radius: 100px;
-  width: 2.75rem;
+  align-self: center;
+}
+
+.edit-functionality {
+  display: flex;
+  flex-direction: column;
+}
+
+.edit-functionality > * {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
 }
 
 #row {
@@ -310,6 +358,7 @@ export default {
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
+    flex-wrap: wrap;
 }
 
 .details > *, .card-paragraph > *, .right-form > *, .left-form > * {

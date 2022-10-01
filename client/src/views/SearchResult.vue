@@ -5,32 +5,33 @@
       <div class="search-bar-container">
         <div id="search-bar">
           <h3 id="results-for">Result for:</h3>
-          <b-form-input id="input-bar" v-model="urlParamsSearch"></b-form-input>
+          <b-form-input id="input-bar-search" v-model="urlParamsSearch"></b-form-input>
               <!--add filter and sort for the results-->
           <b-button @click="getList()" id="search-button">Search</b-button>
         </div>
-      </div>
-      <div class="filter">
-        <b-button v-b-toggle.collapse-sortBy id="sort-by-btn">Sort By</b-button>
-        <b-collapse id="collapse-sortBy" class="mt-2">
-          <b-card>
-            Sort by
-            <b-form-checkbox-group v-model="categoryChecked">
-              <b-form-checkbox value="name">Name</b-form-checkbox>
-              <b-form-checkbox value="duration">Duration</b-form-checkbox>
-              <b-form-checkbox value="price">Price</b-form-checkbox>
-              <b-form-checkbox value="location">Location</b-form-checkbox>
-            </b-form-checkbox-group>
-            <br>
-            Order by
-            <b-form-checkbox-group v-model="ordering">
-              <b-form-checkbox value="asc">Asc</b-form-checkbox>
-              <b-form-checkbox value="desc">Desc</b-form-checkbox>
-            </b-form-checkbox-group>
-            <b-button @click="reload()">Apply Filter</b-button>
-          </b-card>
-        </b-collapse>
-        <b-button id="filter-by-btn">Filter By</b-button>
+        <div class="filter">
+          <b-button v-b-toggle.collapse-sortBy id="sort-by-btn">Sort By</b-button>
+          <b-collapse id="collapse-sortBy" class="mt-2">
+            <b-card>
+              Sort by
+              <b-form-checkbox-group v-model="categoryChecked">
+                <b-form-checkbox value="name">Name</b-form-checkbox>
+                <b-form-checkbox value="duration">Duration</b-form-checkbox>
+                <b-form-checkbox value="price">Price</b-form-checkbox>
+                <b-form-checkbox value="location">Location</b-form-checkbox>
+              </b-form-checkbox-group>
+              <br>
+              Order by
+              <b-form-checkbox-group v-model="ordering">
+                <b-form-checkbox value="asc">Asc</b-form-checkbox>
+                <b-form-checkbox value="desc">Desc</b-form-checkbox>
+              </b-form-checkbox-group>
+              <b-button @click="reload()">Apply Filter</b-button>
+            </b-card>
+          </b-collapse>
+          <b-button id="filter-by-btn">Filter By</b-button>
+        </div>
+
       </div>
       <Accordion :key="rerenderIndex" :services="this.services"/>
     </div>
@@ -75,6 +76,9 @@ export default {
         isFormValid: 'null',
         visible: false,
         counter: 'collapse-' + counter,
+        popUp: 'modal-' + counter,
+        confirmDelete: false,
+        confirmEdit: false,
         formInput: {
           name: '',
           email: '',
@@ -132,6 +136,7 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
 }
 
 #results-for {
@@ -147,19 +152,17 @@ export default {
 #search-bar {
   width: 100vh;
   display: flex;
-  align-items: flex-start;
-  height: fit-content;
-  padding-top: 2rem;
-  padding-bottom: 2rem;
+  align-items: center;
+  height: 10rem;
 }
 
 #search-bar > * {
   margin: 1rem;
 }
 
-#input-bar {
+#input-bar-search {
   border-radius: 100px;
-  margin: auto;
+  margin: auto
 }
 
 .filter {
