@@ -1,11 +1,24 @@
 <template>
     <div class="list-container">
       <div v-if="isLandingPage" class="mutation-div">
-        Add Service <b-button v-b-modal.modal-1 id="mutation-button" variant="success">+</b-button>
+        <b-button v-b-modal.modal-1 id="mutation-button"  variant="success">
+          Add Service <b-icon icon="plus" aria-hidden="true"></b-icon>
+        </b-button>
         <b-modal v-model="showModal" id="modal-1" title="Add a new Service" @ok="submitNewService" @show="resetModal">
-          <p class="my-4">Something</p>
+          <p class="my-4">Enter your details</p>
+          <p>Name</p>
+          <!--
+            name: {type: String, required: true},
+            price: {type: Number, required: true},
+            providerId: {type: String, required: true},
+            duration: {type: Number},
+            details: {type: String},
+            address: {type: String}
+          -->
         </b-modal>
-        Remove Service <b-button id="mutation-button" variant="danger">-</b-button>
+        <b-button id="mutation-button" variant="danger">
+          Remove Service <b-icon icon="dash" aria-hidden="true"></b-icon>
+        </b-button>
       </div>
         <div id="list" v-for="service in services" :key="service._id">
               <div id="card-view">
