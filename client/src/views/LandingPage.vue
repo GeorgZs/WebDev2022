@@ -124,7 +124,7 @@ export default {
 }
 
 .name {
-  font-size: 1.5em;
+  font-size: 1.75rem;
   color: #65a30d;
 }
 

@@ -8,6 +8,7 @@ import Register from './views/Register.vue'
 import SearchResult from './views/SearchResult.vue'
 // import { component } from 'vue/types/umd'
 import Settings from './views/Settings.vue'
+import Inbox from './views/Inbox.vue'
 
 Vue.use(Router)
 
@@ -49,6 +50,11 @@ export default new Router({
       path: '/settings',
       name: 'settings',
       component: Settings
+    },
+    {
+      path: '/dashboard/inbox',
+      name: 'inbox',
+      component: Inbox
     }
   ]
 })
