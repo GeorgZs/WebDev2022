@@ -1,33 +1,36 @@
 <template>
-    <div id="body-content">
-        <div id="login-component">
-            <h2>Login</h2>
-            <div class="no-account-text">
-                <span>No account?</span><a href="register"><span> Create here!</span></a>
-            </div>
+    <div>
+        <NavBar/>
+        <div id="body-content">
+            <div id="login-component">
+                <h2>Login</h2>
+                <div class="no-account-text">
+                    <span>No account?</span><a href="register"><span> Create here!</span></a>
+                </div>
 
-            <div class="login-credentials">
-                <div class="login-form">
-                    <input id="email-field" type="text" name="email" autocomplete="off" v-model="credentials.email" required>
-                        <label for="email" class="email-name">
-                            <span class="content-name">email</span>
-                        </label>
+                <div class="login-credentials">
+                    <div class="login-form">
+                        <input id="email-field" type="text" name="email" autocomplete="off" v-model="credentials.email" required>
+                            <label for="email" class="email-name">
+                                <span class="content-name">email</span>
+                            </label>
+                    </div>
+                    <div class="login-form">
+                        <input id="password-field" type="password" name="password" autocomplete="off" v-model="credentials.password" required>
+                            <label for="password" class="password-name">
+                                <span class="content-name">password</span>
+                            </label>
+                    </div>
+                    <b-button class="button-login" v-on:click="loginUser()" variant="primary">Disabled Login</b-button>
                 </div>
-                <div class="login-form">
-                    <input id="password-field" type="password" name="password" autocomplete="off" v-model="credentials.password" required>
-                        <label for="password" class="password-name">
-                            <span class="content-name">password</span>
-                        </label>
-                </div>
-                <b-button class="button-login" v-on:click="loginUser()" variant="primary">Disabled Login</b-button>
             </div>
         </div>
-
     </div>
 </template>
 
 <script>
 import { Api } from '../Api'
+import NavBar from '@/components/NavBar.vue'
 
 export default {
   name: 'login',
@@ -49,8 +52,8 @@ export default {
           console.log(response)
         })
     }
-
-  }
+  },
+  components: { NavBar }
 }
 </script>
 

@@ -1,4 +1,6 @@
 <template>
+  <div>
+    <NavBar />
     <div class="main-container">
       <div class="search-bar-container">
         <div id="search-bar">
@@ -32,12 +34,14 @@
       </div>
       <Accordion :key="rerenderIndex" :services="this.services"/>
     </div>
+  </div>
 </template>
 
 <script>
 // @ is an alias to /src
 import { Api } from '@/Api'
-import Accordion from '../components/Accordion.vue'
+import Accordion from '@/components/Accordion.vue'
+import NavBar from '@/components/NavBar.vue'
 
 export default {
   name: 'searchResult',
@@ -114,7 +118,7 @@ export default {
       this.rerenderIndex += 1
     }
   },
-  components: { Accordion }
+  components: { Accordion, NavBar }
 }
 </script>
 

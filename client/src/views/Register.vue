@@ -1,55 +1,58 @@
 <template>
-    <div id="main-content">
-        <div id="register-component">
-            <div class="register-information">
-                <h1>Register</h1>
-                <span>Welcome, please fill in information about your business</span>
-            </div>
-            <div class="left-right">
-                <div class="left-side">
-                    <div class="register-form">
-                        <input type="text" name="name" autocomplete="off" v-model="register.name" required>
-                        <label for="name" class="field-name">
-                            <span class="content-name">Name</span>
-                        </label>
-                    </div>
-                    <div class="register-form">
-                        <input id="address" type="text" name="address" autocomplete="off" v-model="register.address" required>
-                        <label for="address" class="field-name">
-                            <span class="content-name">Address</span>
-                        </label>
-                    </div>
-                    <div class="register-form">
-                        <input id="sector" type="text" name="sector" autocomplete="off" v-model="register.sector" required>
-                        <label for="sector" class="field-name">
-                            <span class="content-name">Sector</span>
-                        </label>
-                    </div>
+    <div>
+        <NavBar />
+        <div id="main-content">
+            <div id="register-component">
+                <div class="register-information">
+                    <h1>Register</h1>
+                    <span>Welcome, please fill in information about your business</span>
+                </div>
+                <div class="left-right">
+                    <div class="left-side">
+                        <div class="register-form">
+                            <input type="text" name="name" autocomplete="off" v-model="register.name" required>
+                            <label for="name" class="field-name">
+                                <span class="content-name">Name</span>
+                            </label>
+                        </div>
+                        <div class="register-form">
+                            <input id="address" type="text" name="address" autocomplete="off" v-model="register.address" required>
+                            <label for="address" class="field-name">
+                                <span class="content-name">Address</span>
+                            </label>
+                        </div>
+                        <div class="register-form">
+                            <input id="sector" type="text" name="sector" autocomplete="off" v-model="register.sector" required>
+                            <label for="sector" class="field-name">
+                                <span class="content-name">Sector</span>
+                            </label>
+                        </div>
 
+                    </div>
+                    <div class="right-side">
+                        <div class="register-form">
+                            <input id="email" type="text" name="email" autocomplete="off" v-model="register.email" required>
+                            <label for="email" class="field-name">
+                                <span class="content-name">Email</span>
+                            </label>
+                        </div>
+                        <div class="register-form">
+                            <input id="password" type="text" name="password" autocomplete="off" v-model="register.password" required>
+                            <label for="password" class="field-name">
+                                <span class="content-name">Password</span>
+                            </label>
+                        </div>
+                        <div class="register-form">
+                            <input id="phoneNumber" type="text" name="phoneNumber" autocomplete="off" v-model="register.phoneNumber" required>
+                            <label for="phoneNumber" class="field-name">
+                                <span class="content-name">Phone number</span>
+                            </label>
+                        </div>
+                    </div>
                 </div>
-                <div class="right-side">
-                    <div class="register-form">
-                        <input id="email" type="text" name="email" autocomplete="off" v-model="register.email" required>
-                        <label for="email" class="field-name">
-                            <span class="content-name">Email</span>
-                        </label>
-                    </div>
-                    <div class="register-form">
-                        <input id="password" type="text" name="password" autocomplete="off" v-model="register.password" required>
-                        <label for="password" class="field-name">
-                            <span class="content-name">Password</span>
-                        </label>
-                    </div>
-                    <div class="register-form">
-                        <input id="phoneNumber" type="text" name="phoneNumber" autocomplete="off" v-model="register.phoneNumber" required>
-                        <label for="phoneNumber" class="field-name">
-                            <span class="content-name">Phone number</span>
-                        </label>
-                    </div>
+                <div class="button-for-register">
+                    <b-button class="register-button" v-on:click="registerUser()" variant="primary">Register</b-button>
                 </div>
-            </div>
-            <div class="button-for-register">
-                <b-button class="register-button" v-on:click="registerUser()" variant="primary">Register</b-button>
             </div>
         </div>
     </div>
@@ -57,6 +60,7 @@
 
 <script>
 import { Api } from '../Api'
+import NavBar from '@/components/NavBar.vue'
 
 export default {
   name: 'register',
@@ -92,9 +96,10 @@ export default {
         .catch(error => { console.log(error) })
       console.log('failed to register')
     }
-
+  },
+  components: {
+    NavBar
   }
-
 }
 </script>
 

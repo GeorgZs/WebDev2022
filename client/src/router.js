@@ -41,7 +41,7 @@ export default new Router({
       component: Register
     },
     {
-      path: '/providers/:id/landingPage',
+      path: '/providers/:providerId',
       name: 'landingPage',
       component: LandingPage
     },
