@@ -84,6 +84,8 @@ export default {
 }
 
 .info a:hover {
+  color: #0d9488;
+  text-decoration: none;
   background-color: #f0fdfa;
 }
 
