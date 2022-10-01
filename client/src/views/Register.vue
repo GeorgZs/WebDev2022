@@ -91,7 +91,7 @@ export default {
       })
         .then(response => {
           this.register = response.data
-          console.log(response)
+          localStorage.loginToken = response.data
         })
         .catch(error => { console.log(error) })
       console.log('failed to register')

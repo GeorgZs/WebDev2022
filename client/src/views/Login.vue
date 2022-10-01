@@ -49,7 +49,7 @@ export default {
     loginUser() {
       Api.post('/v1/providers/login', this.credentials)
         .then(response => {
-          console.log(response)
+          localStorage.loginToken = response.data
         })
     }
   },
