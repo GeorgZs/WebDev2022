@@ -44,7 +44,7 @@ router.post('/register', async (req, res, handleError) => {
             const landingPage = new LandingPage({ providerId: provider._id });
             await landingPage.save();
 
-            return res.status(200).json(provider.token);
+            return res.status(201).json(visibleDataFor(provider));
         }
         return res.status(409).send("Provider already exists.")
     }
