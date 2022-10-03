@@ -9,6 +9,7 @@ import SearchResult from './views/SearchResult.vue'
 // import { component } from 'vue/types/umd'
 import Settings from './views/Settings.vue'
 import Inbox from './views/Inbox.vue'
+import Dashboard from './views/Dashboard.vue'
 
 Vue.use(Router)
 
@@ -55,6 +56,11 @@ export default new Router({
       path: '/dashboard/inbox',
       name: 'inbox',
       component: Inbox
+    },
+    {
+      path: '/dashboard',
+      name: 'dashboard',
+      component: Dashboard
     }
   ]
 })
