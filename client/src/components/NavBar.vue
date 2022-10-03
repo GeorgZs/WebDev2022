@@ -19,6 +19,9 @@ export default {
             <b-button variant="outline-secondary" to="/login">Login</b-button>
             <b-button to="/register">Register</b-button>
         </div>
+        <div v-if="isLoggedIn" class="navbar-right">
+            <b-button to="/dashboard/inbox">My Account <b-icon icon="person-circle" aria-hidden="true"/></b-button>
+        </div>
     </div>
 </template>
 
