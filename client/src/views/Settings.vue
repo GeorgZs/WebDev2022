@@ -1,5 +1,6 @@
 <template>
     <div class="main-component">
+    <SideBar/>
         <div class="settings-component">
             <div class="top-bar">
                 <div class="profile-pic">
@@ -135,6 +136,7 @@
 
 <script>
 import { Api } from '../Api'
+import SideBar from '../components/SideBar.vue'
 
 export default {
   name: 'settings',
@@ -171,7 +173,6 @@ export default {
         })
         .catch(error => { console.log(error) })
     },
-
     async updateLandingPage() {
       await Api.patch('', {
         logo: this.landingPage.logo,
@@ -183,7 +184,6 @@ export default {
         })
         .catch(error => { console.log(error) })
     },
-
     async deleteAccount() {
       await Api.delete('')
         .then(response => {
@@ -191,8 +191,8 @@ export default {
         })
         .catch(error => { console.log(error) })
     }
-
-  }
+  },
+  components: { SideBar }
 }
 </script>
 
@@ -200,8 +200,7 @@ export default {
 .main-component {
     height: 100%;
     background-color:white;
-    margin: 0 80px;
-    padding: 16px 16px 0px 16px;
+    padding-right: 1rem;
 }
 .settings-component{
     background-color: bisque;

@@ -47,7 +47,7 @@ export default new Router({
       component: LandingPage
     },
     {
-      path: '/settings',
+      path: '/dashboard/settings',
       name: 'settings',
       component: Settings
     },
