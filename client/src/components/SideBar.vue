@@ -1,4 +1,5 @@
 <script>
+import { Api } from '../Api'
 export default {
   name: 'SideBar',
   data() {
@@ -17,6 +18,15 @@ export default {
       }],
       activeRoute: location.pathname
     }
+  },
+  methods: {
+    async logoutUser() {
+      await Api.patch('v1/providers/' + localStorage.loginId, {
+        token: ''
+      })
+      localStorage.clear()
+      this.$router.push('/login')
+    } // patch the user via the saved id -- remove token -- clear localstorage
   }
 }
 </script>
@@ -29,7 +39,7 @@ export default {
     <router-link v-for="route in routes" :key="route.link" :to="route.link" class="nav-item" :class="{ active: activeRoute.endsWith(route.link)}">
       <b-icon :icon="route.icon" />
     </router-link>
-    <span class="nav-item logout"><b-icon icon="box-arrow-right" /></span>
+    <span @click="logoutUser()" class="nav-item logout"><b-icon icon="box-arrow-right" /></span>
   </nav>
 </template>
 

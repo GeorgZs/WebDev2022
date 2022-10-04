@@ -92,6 +92,7 @@ export default {
         .then(response => {
           this.register = response.data
           localStorage.loginToken = response.data.token
+          this.$router.push('/login')
         })
         .catch(error => { console.log(error) })
       console.log('failed to register')

@@ -2,13 +2,7 @@
     <div class="main-component">
     <SideBar/>
         <div class="settings-component">
-            <div class="top-bar">
-                <div class="profile-pic">
-                </div>
-                <div class="landing-page-button">
-                    <h3>button</h3>
-                </div>
-            </div>
+            <NavBar/>
             <div class="settings-body">
                 <div class="heading-text">
                     <h3>My Account</h3>
@@ -69,34 +63,42 @@
                         </b-form-input>
                         </b-form-group>
                     </b-form>
-                    <b-button variant="info">Update Profile</b-button>
+                    <b-button id="profile-button" variant="info">Update Profile</b-button>
                 </div>
                 <div class="landing-page-text">
                     <h3>Landing page data </h3>
                 </div>
                 <div class="landing-page-form">
                     <b-form class="inputs">
-                        <p>Enter Logo:</p>
-                        <b-form-group
-                        id="input-group-6"
-                        label-for="input-6"
-                        >
-                        <b-form-input id="input-6" type="text" placeholder="Logo" required v-model="landingPage.logo">
+                    <div class="logo-and-color-input">
+                        <div class="logo-color">
+                            <p>Enter Logo:</p>
+                            <b-form-file
+                                v-model="file1"
+                                :state="(file1)"
+                                placeholder="Choose a file or drop it here..."
+                                drop-placeholder="Drop file here..."
+                            ></b-form-file>
 
-                        </b-form-input>
-                        </b-form-group>
-
-                        <p>Enter Color:</p>
+                        <p id="color-text">Enter Color:</p>
                         <b-form-group
                         id="input-group-7"
                         label-for="input-7"
 
                         >
-                        <b-form-input id="input-7" type="text" placeholder="Color" required v-model="landingPage.color">
+                        <b-form-input id="input-7" type="color" placeholder="Color" required v-model="landingPage.color">
 
                         </b-form-input>
                         </b-form-group>
+                        </div>
 
+                        <div class="logo-image">
+                            <img id="sidebar-logo" src="/logo.svg" alt="Gabagool"/>
+                        </div>
+
+                    </div>
+
+                    <div class="details-input">
                         <p>Enter Details:</p>
                         <b-form-group
                         id="input-group-8"
@@ -107,8 +109,10 @@
 
                         </b-form-input>
                         </b-form-group>
+                    </div>
+
                     </b-form>
-                    <b-button variant="info">Update Landing page</b-button>
+                    <b-button id="landing-page-button" variant="info">Update Landing page</b-button>
                 </div>
                 <div class="danger-zone">
                     <div class="danger-text">
@@ -136,6 +140,7 @@
 
 <script>
 import { Api } from '../Api'
+import NavBar from '../components/NavBar.vue'
 import SideBar from '../components/SideBar.vue'
 
 export default {
@@ -192,19 +197,20 @@ export default {
         .catch(error => { console.log(error) })
     }
   },
-  components: { SideBar }
+  components: { SideBar, NavBar }
 }
 </script>
 
 <style>
 .main-component {
     height: 100%;
-    background-color:white;
     padding-right: 1rem;
 }
 .settings-component{
-    background-color: bisque;
     height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 .top-bar {
     display: flex;
@@ -222,12 +228,13 @@ export default {
 }
 .settings-body {
     height: 100%;
+    width: 80%;
     background-color: white;
-    padding-left: 200px;
-    padding-right: 200px;
-    padding-top: 50px;
-    border: 1px solid black;
-
+    padding-left: 4rem;
+    padding-right: 4rem;
+    padding-top: 1.25rem;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px 0 rgba(140, 139, 139, 0.2);
 }
 .heading-text {
     display: flex;
@@ -247,11 +254,36 @@ p {
     display: flex;
     align-self: flex-start;
 }
+#profile-button {
+    background-color: #0d9488;
+    border:none;
+}
+#landing-page-button {
+    background-color: #0d9488;
+    border:none;
+}
 .landing-page-text {
     display: flex;
     border-bottom: 1px solid black;
     margin-bottom: 20px;
 }
+.logo-and-color-input {
+    display: flex;
+    flex-wrap: wrap;
+}
+.logo-color {
+    width: 60%;
+    margin-right: 5rem;
+}
+#color-text {
+    margin-top: 1.25rem;
+}
+.logo-image {
+    width: 20%;
+    border: 1px solid black;
+    border-radius: 100%;
+}
+
 .danger-zone {
     border: 1px solid red;
     margin-top: 40px;

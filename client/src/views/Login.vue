@@ -46,11 +46,12 @@ export default {
     hello() {
       return alert('Hello world')
     },
-    loginUser() {
-      Api.post('/v1/providers/login', this.credentials)
+    async loginUser() {
+      await Api.post('/v1/providers/login', this.credentials)
         .then(response => {
           localStorage.loginToken = response.data.token
           localStorage.loginId = response.data.id
+          this.$router.push('/dashboard')
         })
     }
   },
