@@ -32,7 +32,7 @@
               <div class="quick-add">
                 <h4 id="active-services">Quick Actions</h4>
                 <row>
-                  <b-button id="curve-button" to="/dashboard/services">Add Service <b-icon icon="plus" aria-hidden="true"/></b-button> <!--add the pop up for quick add-->
+                  <b-button id="curve-button" to="/results#mutation-button">Add Service <b-icon icon="plus" aria-hidden="true"/></b-button> <!--add the pop up for quick add-->
                   <b-button id="curve-button" to="/dashboard/services">See all Services</b-button>
                 </row>
                 <row>

@@ -156,6 +156,11 @@ export default {
       rerenderIndex: 1
     }
   },
+  mounted() {
+    const values = window.location.href.split('#')
+    if (values[1] !== undefined) document.getElementById(values[1]).focus()
+    console.log(values[1])
+  },
   methods: {
     async beforeCreate(serviceId) {
       await Api.get('v1/providers/' + serviceId)
@@ -305,6 +310,18 @@ export default {
 #mutation-button {
   border-radius: 100px;
   align-self: center;
+}
+
+#mutation-button:focus {
+  border: 2px green;
+  animation: blinker 1s linear;
+  animation-duration: 2s;
+}
+
+@keyframes blinker {
+  50% {
+    opacity: 0;
+  }
 }
 
 .edit-functionality, .price-location {
