@@ -51,7 +51,7 @@
                     </div>
                 </div>
                 <div class="button-for-register">
-                    <b-button class="register-button" v-on:click="registerUser()" variant="primary">Register</b-button>
+                    <b-button id="register-button" v-on:click="registerUser()" variant="primary">Register</b-button>
                 </div>
             </div>
         </div>
@@ -59,8 +59,8 @@
 </template>
 
 <script>
-import { Api } from '../Api'
 import NavBar from '@/components/NavBar.vue'
+import { Api } from '../Api'
 
 export default {
   name: 'register',
@@ -122,20 +122,23 @@ export default {
     justify-content: flex-start;
     align-content: center;
     flex-direction: column;
-    border: 1px solid black;
     text-align: left;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
 }
 .register-information {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
+    margin-left: 45px;
+    margin-top: 20px;
 
 }
 
 .left-right {
     display: flex;
     justify-content: space-evenly;
-    margin-top: 7rem;
+    margin-top: 4rem;
     height: 50%;
 }
 .left-side {
@@ -198,6 +201,10 @@ export default {
     justify-content: center;
     align-items: center;
     align-content: center;
+}
+#register-button {
+    background-color: #0d9488;
+    border:none;
 }
 
 </style>
