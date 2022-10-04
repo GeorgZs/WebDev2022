@@ -10,6 +10,7 @@ import SearchResult from './views/SearchResult.vue'
 import Settings from './views/Settings.vue'
 import Inbox from './views/Inbox.vue'
 import Dashboard from './views/Dashboard.vue'
+import ServiceList from './views/ServiceList.vue'
 
 Vue.use(Router)
 
@@ -46,6 +47,11 @@ export default new Router({
       path: '/providers/:providerId',
       name: 'landingPage',
       component: LandingPage
+    },
+    {
+      path: '/dashboard/services',
+      name: 'service list',
+      component: ServiceList
     },
     {
       path: '/dashboard/settings',
