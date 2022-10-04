@@ -1,6 +1,6 @@
 <template>
     <div class="list-container">
-        <b-button v-if="isLoggedIn" v-b-modal.modal-1 id="mutation-button"  variant="success">
+        <b-button v-if="isLoggedIn" v-b-modal.modal-1 id="mutation-button" variant="success">
           Add Service <b-icon icon="plus" aria-hidden="true"/>
         </b-button>
         <b-modal v-model="showModal" id="modal-1" title="Add a new Service" @ok="submitNewService()" @show="resetModal()">
@@ -22,35 +22,31 @@
           <b-form-input v-model="updatedService.address" placeholder="Enter address" id="popup-form"/>
         </b-modal>
         <div id="list" v-for="service in services" :key="service._id">
-              <div id="card-view">
-                <!--block v-b-toggle.service.counter-->
+              <div id="card-view" @load="loadNames(service.providerId)">
                 <div @click="clickForm(service)" id="details-list">
-                    <h2>{{ service.name }}</h2>
-                    <div class="circle">
-                        <h4 id="bubble-text">{{ service.price }}</h4>
+                    <div id="service-name-container">
+                      <h2>{{ service.name }}</h2>
+                      <router-link id="route-to-service" :to="`/providers/${service.providerId}`">
+                        <h6> {{ providerName }} </h6>
+                      </router-link>
                     </div>
-                    <div class="circle">
-                        <h4 id="bubble-text">Location</h4>
+                    <div class="price-container">
+                      <div class="price-location">
+                        <h4 id="bubble-text">{{ service.price }} SEK</h4>
+                        <span id="location-tag"> <b-icon icon="geo"/> {{ service.address || "Location" }}</span>
+                      </div>
+                      <div v-if="isLoggedIn" class="edit-functionality">
+                        <b-icon @click="service.confirmEdit = !service.confirmEdit" icon="pencil" aria-hidden="true"/>
+                        <b-modal v-model="service.confirmEdit" title="Update Current Service" @ok="deleteService(service.providerId, service._id)">
+                          <p class="my-4">Update currnet Service</p>
+                        </b-modal>
+                        <b-icon @click="service.confirmDelete = !service.confirmDelete" icon="trash" aria-hidden="true"/>
+                        <b-modal v-model="service.confirmDelete" title="Delete Service" @ok="deleteService(service.providerId, service._id)">
+                          <p>Are you sure you want to delete this service?</p>
+                          <p>Service Name: {{ service.name }}</p>
+                        </b-modal>
+                      </div>
                     </div>
-                    <div class="circle">
-                        <h4 id="bubble-text">Reviews</h4>
-                    </div>
-                    <router-link :to="`/providers/${service.providerId}`">
-                        <h4>Provider name</h4>
-                    </router-link>
-                    <div v-if="isLoggedIn" class="edit-functionality">
-                      <b-icon @click="service.confirmEdit = !service.confirmEdit" icon="pencil" aria-hidden="true"/>
-                      <b-modal v-model="service.confirmEdit" title="Update Current Service" @ok="deleteService(service.providerId, service._id)">
-                        <p class="my-4">Update currnet Service</p>
-                      </b-modal>
-                      <b-icon @click="service.confirmDelete = !service.confirmDelete" icon="trash" aria-hidden="true"/>
-                      <b-modal v-model="service.confirmDelete" title="Delete Service" @ok="deleteService(service.providerId, service._id)">
-                        <p>Are you sure you want to delete this service?</p>
-                        <p>Service Name: {{ service.name }}</p>
-                      </b-modal>
-                    </div>
-                    <!--Add link to provider here using providerId-->
-                    <!--Div [text] div column div -> service name and below 3 divs with price location review-->
                 </div>
                 <b-collapse v-model="service.visible" :id="service.counter" class="mt-2">
                   <b-card>
@@ -60,9 +56,7 @@
                             <br>
                             <!--fix width and height to be responsive-->
                             <iframe
-                            id="mapElement"
-                            width="250"
-                            height="250"
+                            id="map-element"
                             style="border:0"
                             loading="lazy"
                             :src='`https://www.google.com/maps/embed/v1/place?key=${apiKey}&q=${address}`'></iframe> <!--use service.address after finished-->
@@ -145,6 +139,7 @@ export default {
     return {
       servicesList: [],
       apiKey: 'AIzaSyDwRByjwDc9rECZ8631Up2NHGFbuk-1qE0',
+      lanceApiKey: 'AIzaSyAX4EG0aDD8SPrmWIavGP5gBpdZPsWWAjE',
       address: 'Paris',
       urlParamsSearch: '',
       urlParams: window.location.search,
@@ -156,12 +151,20 @@ export default {
         duration: '',
         detail: '',
         address: ''
-      }
+      },
+      providerName: 'NA'
     }
   },
   methods: {
+    async beforeCreate(serviceId) {
+      await Api.get('v1/providers/' + serviceId)
+        .then(response => {
+          this.providerName = response.data.name
+        })
+        .catch(err => console.log(err))
+    },
     async deleteService(providerId, serviceId) {
-      await Api.delete('/providers/' + providerId + '/services/' + serviceId)
+      await Api.delete('v1/providers/' + providerId + '/services/' + serviceId)
         .then(response => {
           console.log(response)
         })
@@ -179,7 +182,7 @@ export default {
       const providerId = this.$route.params.providerId
       // Trigger submit handler
       // this.handleSubmit() ---> post new service
-      await Api.post('/providers/' + providerId + '/services', {
+      await Api.post('v1/providers/' + providerId + '/services', {
         name: this.updatedService.name,
         price: this.updatedService.price,
         providerId: providerId,
@@ -206,7 +209,7 @@ export default {
         if (this.address.includes(' ')) {
           this.address.split(' ').join('+')
         }
-        document.getElementById('mapElement').src = 'https://www.google.com/maps/embed/v1/place?key=' + this.apiKey + '&q=' + this.address
+        document.getElementById('map-element').src = 'https://www.google.com/maps/embed/v1/place?key=' + this.apiKey + '&q=' + this.address
       }
     },
     isVisible(isFormValid) {
@@ -280,6 +283,11 @@ export default {
 </script>
 
 <style>
+
+#map-element {
+  width: 100%;
+  height: 80%;
+}
 #card-view {
     flex-direction: column;
     width: 100%;
@@ -294,9 +302,22 @@ export default {
   align-self: center;
 }
 
-.edit-functionality {
+.edit-functionality, .price-location {
   display: flex;
   flex-direction: column;
+  padding-left: 3rem;
+}
+
+#location-tag {
+  align-self: flex-end;
+  width: fit-content;
+  margin-top: 0.5rem;
+}
+
+#route-to-service {
+  margin-top: 0.5rem;
+  align-self: flex-start;
+  width: fit-content;
 }
 
 .edit-functionality > * {
@@ -311,10 +332,25 @@ export default {
 #details-list {
     display: flex;
     flex-direction: row;
-    justify-content: space-evenly;
-    padding: 1rem;
+    justify-content: space-between;
+    padding: 0.75rem;
     align-items: center;
     flex-wrap: wrap;
+}
+
+#service-name-container {
+  padding-left: 2.5rem;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.price-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  padding-right: 2.5rem;
 }
 
 #bubble-text {
@@ -347,7 +383,7 @@ export default {
     margin: 0.20rem;
     border: 0.05rem solid black;
     border-radius: 0.5rem;
-    width: 60%;
+    width: 55%;
 }
 
 .card-text {
