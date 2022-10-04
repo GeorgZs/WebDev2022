@@ -1,5 +1,5 @@
 <template>
-    <div class="list-container">
+    <div class="list-container" :key="rerenderIndex">
         <b-button v-if="isLoggedIn" v-b-modal.modal-1 id="mutation-button" variant="success">
           Add Service <b-icon icon="plus" aria-hidden="true"/>
         </b-button>
@@ -38,7 +38,7 @@
                       <div v-if="isLoggedIn" class="edit-functionality">
                         <b-icon @click="service.confirmEdit = !service.confirmEdit" icon="pencil" aria-hidden="true"/>
                         <b-modal v-model="service.confirmEdit" title="Update Current Service" @ok="deleteService(service.providerId, service._id)">
-                          <p class="my-4">Update currnet Service</p>
+                          <p class="my-4">Update current Service</p>
                         </b-modal>
                         <b-icon @click="service.confirmDelete = !service.confirmDelete" icon="trash" aria-hidden="true"/>
                         <b-modal v-model="service.confirmDelete" title="Delete Service" @ok="deleteService(service.providerId, service._id)">
@@ -152,7 +152,8 @@ export default {
         detail: '',
         address: ''
       },
-      providerName: 'NA'
+      providerName: 'NA',
+      rerenderIndex: 1
     }
   },
   methods: {
@@ -171,6 +172,8 @@ export default {
         .catch(error => {
           console.log(error)
         })
+
+      this.refreshList()
     },
     resetModal() {
       // empty the form data
@@ -179,9 +182,8 @@ export default {
       // Prevent modal from closing
       bvModalEvent.preventDefault()
 
-      const providerId = this.$route.params.providerId
-      // Trigger submit handler
-      // this.handleSubmit() ---> post new service
+      const providerId = localStorage.loginId
+
       await Api.post('v1/providers/' + providerId + '/services', {
         name: this.updatedService.name,
         price: this.updatedService.price,
@@ -274,6 +276,9 @@ export default {
         return true
       }
       return false
+    },
+    refreshList() {
+      this.rerenderIndex += 1
     }
   }
   // courtesy of: https://v2.vuejs.org/v2/cookbook/form-validation.html
