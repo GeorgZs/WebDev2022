@@ -1,12 +1,12 @@
 <template>
     <div>
         <NavBar/>
-        <div class="main-container">
+        <div class="search-main-container">
             <div class="page-content">
                 <h1 style="padding-bottom: 2rem">What are you searching for</h1>
                 <SearchBar></SearchBar>
                 <div class="recommendations">
-                    <p>Recommendations</p>
+                    <h6 id="recom-text">Recommendations</h6>
                     <div class="recommendation-list-top">
                         <b-button id="list-button">Temporary</b-button>
                         <b-button id="list-button">HAIR SALON</b-button>
@@ -33,7 +33,7 @@ export default {
 </script>
 
 <style>
-.main-container {
+.search-main-container {
     height: 70vh;
 }
 
@@ -46,6 +46,10 @@ export default {
 
 .recommendations {
     width: 100vh;
+}
+
+#recom-text {
+    margin-bottom: 1.25rem;
 }
 
 #list-button {

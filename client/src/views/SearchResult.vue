@@ -1,7 +1,7 @@
 <template>
   <div>
     <NavBar />
-    <div class="main-container">
+    <div class="results-main-container">
       <div class="search-bar-container">
         <div id="search-bar">
           <h3 id="results-for">Result for:</h3>
@@ -127,7 +127,7 @@ export default {
 </script>
 
 <style>
-.main-container {
+.results-main-container {
     display: flex;
     flex-direction: column;
 }
