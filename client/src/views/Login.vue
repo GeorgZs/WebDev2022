@@ -158,6 +158,7 @@ export default {
 #button-login {
     margin-top: 3.5rem;
     background-color: #0d9488;
+    border:none;
 }
 
 </style>
