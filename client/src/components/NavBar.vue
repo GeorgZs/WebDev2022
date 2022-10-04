@@ -1,6 +1,11 @@
 <script>
 export default {
   name: 'NavBar',
+  props: {
+    isDashboard: {
+      default: false
+    }
+  },
   data() {
     return { isLoggedIn: localStorage.loginToken || false }
   }
@@ -9,7 +14,7 @@ export default {
 
 <template>
     <div class="navbar">
-        <div class="navbar-left">
+        <div v-if="!isDashboard" class="navbar-left">
             <router-link to="/">
                 <img id="navbar-logo" src="/logo.svg" alt="Gabagool"/>
             </router-link>
@@ -20,7 +25,7 @@ export default {
             <b-button to="/register">Register</b-button>
         </div>
         <div v-if="isLoggedIn" class="navbar-right">
-            <b-button to="/dashboard/inbox">My Account <b-icon icon="person-circle" aria-hidden="true"/></b-button>
+            <b-button to="/dashboard">My Account <b-icon icon="person-circle" aria-hidden="true"/></b-button>
         </div>
     </div>
 </template>
