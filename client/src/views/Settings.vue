@@ -1,8 +1,10 @@
 <template>
     <div class="main-component">
     <SideBar/>
+    <div class="navbar-dash-container">
+        <NavBar style="justify-content:flex-end" isDashboard="true"/>
+    </div>
         <div class="settings-component">
-            <NavBar/>
             <div class="settings-body">
                 <div class="heading-text">
                     <h3>My Account</h3>

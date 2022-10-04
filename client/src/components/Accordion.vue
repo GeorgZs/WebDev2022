@@ -3,14 +3,14 @@
         <b-button v-if="isLoggedIn" v-b-modal.modal-1 id="mutation-button" variant="success">
           Add Service <b-icon icon="plus" aria-hidden="true"/>
         </b-button>
-        <b-modal v-model="showModal" id="modal-1" title="Add a new Service" @ok="submitNewService()" @show="resetModal()">
+        <b-modal ref='my-modal' v-model="showModal" id="modal-1" title="Add a new Service" @ok="submitNewService()" @show="resetModal()">
           <p class="my-4">Enter your details</p>
           <span>Name</span>
           <b-form-input v-model="updatedService.name" placeholder="Enter new name" id="popup-form"/>
           <span>Price</span>
-          <b-form-input v-model="updatedService.price" placeholder="Enter new price" id="popup-form"/>
+          <b-form-input v-model="updatedService.price" placeholder="Enter new price" type="number" id="popup-form"/>
           <span>Duration</span>
-          <b-form-input v-model="updatedService.duration" placeholder="Enter new duration" id="popup-form"/>
+          <b-form-input v-model="updatedService.duration" placeholder="Enter new duration" type="number" id="popup-form"/>
           <span>Details</span>
           <b-form-textarea
             rows="2"
@@ -38,7 +38,7 @@
                       <div v-if="isLoggedIn" class="edit-functionality">
                         <b-icon @click="service.confirmEdit = !service.confirmEdit" icon="pencil" aria-hidden="true"/>
                         <b-modal v-model="service.confirmEdit" title="Update Current Service" @ok="deleteService(service.providerId, service._id)">
-                          <p class="my-4">Update current Service</p>
+                          <p class="my-4">Update current Service</p>                            <!--Update this-->
                         </b-modal>
                         <b-icon @click="service.confirmDelete = !service.confirmDelete" icon="trash" aria-hidden="true"/>
                         <b-modal v-model="service.confirmDelete" title="Delete Service" @ok="deleteService(service.providerId, service._id)">
@@ -132,7 +132,7 @@ export default {
     },
     isLoggedIn: {
       type: Boolean,
-      default: true
+      default: false
     }
   },
   data() {
@@ -179,25 +179,27 @@ export default {
         })
 
       this.refreshList()
+      window.location.reload()
     },
     resetModal() {
-      // empty the form data
+      this.updatedService.name = ''
+      this.updatedService.price = ''
+      this.updatedService.duration = ''
+      this.updatedService.detail = ''
+      this.updatedService.address = ''
     },
-    async submitNewService(bvModalEvent) {
+    async submitNewService() {
       // Prevent modal from closing
-      bvModalEvent.preventDefault()
 
-      const providerId = localStorage.loginId
-
-      await Api.post('v1/providers/' + providerId + '/services', {
+      await Api.post('v1/providers/' + localStorage.loginId + '/services', {
         name: this.updatedService.name,
         price: this.updatedService.price,
-        providerId: providerId,
-        duration: this.updatedService.duration,
-        details: this.updatedService.details,
+        duration: parseInt(this.updatedService.duration),
+        details: parseInt(this.updatedService.details),
         address: this.updatedService.address
       })
-      this.showModal = !this.showModal
+      this.$refs['my-modal'].hide()
+      window.location.reload()
     },
     clickForm(service) {
       service.visible = !service.visible
