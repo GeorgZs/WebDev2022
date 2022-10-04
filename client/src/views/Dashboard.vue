@@ -5,21 +5,26 @@
             <NavBar style="justify-content:flex-end" isDashboard="true"/>
         </div>
         <div class="main-container">
-            <h1>Welcome back {Placehoder name}</h1>
+            <h1>Welcome back {{ user.name }}!</h1>
             <div id="indox-preview">
                 <router-link to="/dashboard/inbox">
                     <h4 id="link-text">Upcoming Requests:</h4>
                 </router-link>
-                <h5 class="date">{date here}</h5>
-                <div class="request" @click="goToInbox()">
+                <div v-if="bookingRequest.date !== ''"  class="upcoming-request">
+                  <h5 class="date">{{ bookingRequest.date }}</h5>
+                  <div class="request" @click="goToInbox()">
                     <div class="request-info">
-                      <h4 class="request-heading"><span>Service Name</span><span class="service-price">・123 SEK</span></h4>
-                      <span class="request-timeframe"><b-icon icon="clock" /> Afternoon</span>
-                      <span class="request-note">My poor child finally grew out of his "furry-phase" please help him get back to normal again.</span>
-                      <span class="request-sender"><b-icon icon="person" /> Hannes Mannes</span>
+                      <h4 class="request-heading"><span>Service Name</span><span class="service-price">・{{ bookingRequest.price }} SEK</span></h4>
+                      <span class="request-timeframe"><b-icon icon="clock" /> {{ bookingRequest.timePeriod }}</span>
+                      <span class="request-note">{{ bookingRequest.message }}</span>
+                      <span class="request-sender"><b-icon icon="person" /> {{ bookingRequest.user.name }}</span>
                     </div>
+                  </div>
                 </div>
-                <span class="hint-text"><em>* Click on the card above to go to your inbox</em></span>
+                <div v-if="bookingRequest.date === ''" class="upcoming-request">
+                  <h5 class="date">There are no upcoming requests</h5>
+                </div>
+                <span v-if="bookingRequest.date !== ''" class="hint-text"><em>* Click on the card above to go to your inbox</em></span>
             </div>
             <div class="bottom-bar">
               <div class="service-num">
@@ -32,7 +37,7 @@
               <div class="quick-add">
                 <h4 id="active-services">Quick Actions</h4>
                 <row>
-                  <b-button id="curve-button" to="/results#mutation-button">Add Service <b-icon icon="plus" aria-hidden="true"/></b-button> <!--add the pop up for quick add-->
+                  <b-button id="curve-button" to="/dashboard/services#mutation-button">Add Service <b-icon icon="plus" aria-hidden="true"/></b-button> <!--add the pop up for quick add-->
                   <b-button id="curve-button" to="/dashboard/services">See all Services</b-button>
                 </row>
                 <row>
@@ -53,7 +58,18 @@ import NavBar from '../components/NavBar.vue'
 export default {
   data() {
     return {
-      numOfServices: 0
+      numOfServices: 0,
+      bookingRequest: {
+        timePeriod: '',
+        user: {
+          name: '',
+          email: '',
+          phoneNumber: ''
+        },
+        date: '',
+        message: ''
+      },
+      user: {}
     }
   },
   methods: {
@@ -63,13 +79,23 @@ export default {
     }
   },
   async created() {
-    let list = []
+    await Api.get('v1/providers/' + localStorage.loginId)
+      .then(response => { this.user = response.data })
+      .catch(err => { this.user = err })
+
+    let services = []
     await Api.get('v1/providers/' + localStorage.loginId + '/services')
-      .then(response => { list = response.data })
-      .catch(err => { list = err })
-    this.numOfServices = list.length
-    // when getting collection sort by date and get the first one
-    // Api.get('get using token the logged in user').then(response => {}).catch(err => {})
+      .then(response => { services = response.data })
+      .catch(err => { services = err })
+    this.numOfServices = services.length
+
+    let bookingRequests = []
+    await Api.get('v1/providers/' + localStorage.loginId + '/bookingRequests')
+      .then(response => { bookingRequests = response.data })
+      .catch(err => { bookingRequests = err })
+
+    bookingRequests.sort((a, b) => (a.date > b.date) ? 1 : -1)
+    this.bookingRequest = bookingRequests[0]
   },
   components: { SideBar, NavBar }
 }
