@@ -24,13 +24,6 @@ router.get('/services/:serviceId/bookingRequests', async (req, res, handleError)
 });
 
 router.get('/providers/:providerId/bookingRequests', async (req, res, handleError) => {
-    /*
-    var sort = {}
-
-    if(req.query.sort){
-        sort[req.query.sort.substring(1)] = req.query.sort.startsWith("-") ? -1 : 1 
-    } 
-    */
     try {
         const bookings = await BookingRequest.find({ providerId: req.params.providerId }).exec();
         res.status(200).json(bookings.map(booking => visibleDataFor(booking)));
@@ -77,7 +70,7 @@ router.delete('/services/:serviceId/bookingRequests', async (req, res, handleErr
     }
 });
 
-router.get('services/:serviceId/bookingRequests/:bookingRequestId', async (req, res, handleError) => {
+router.get('/services/:serviceId/bookingRequests/:bookingRequestId', async (req, res, handleError) => {
     try {
         const serviceId = req.params.serviceId;
         const bookingRequestId = req.params.bookingRequestId;
@@ -95,7 +88,7 @@ router.get('services/:serviceId/bookingRequests/:bookingRequestId', async (req, 
     }
 });
 
-router.delete('services/:serviceId/bookingRequests/:bookingRequestId', async (req, res, handleError) => {
+router.delete('/services/:serviceId/bookingRequests/:bookingRequestId', async (req, res, handleError) => {
     try {
         const serviceId = req.params.serviceId;
         const bookingRequestId = req.params.bookingRequestId;
@@ -112,7 +105,7 @@ router.delete('services/:serviceId/bookingRequests/:bookingRequestId', async (re
     }
 });
 
-router.put('services/:serviceId/bookingRequests/:bookingRequestId', async (req, res, handleError) => {
+router.put('/services/:serviceId/bookingRequests/:bookingRequestId', async (req, res, handleError) => {
     try {
         const updatedBooking = req.body;
         const errors = validateBooking(updatedBooking);
@@ -139,7 +132,7 @@ router.put('services/:serviceId/bookingRequests/:bookingRequestId', async (req, 
     }
 });
 
-router.patch('services/:serviceId/bookingRequests/:bookingRequestId', async (req, res, handleError) => {
+router.patch('/services/:serviceId/bookingRequests/:bookingRequestId', async (req, res, handleError) => {
     try {
         const updatedBooking = req.body;
         const errors = validateBooking(updatedBooking, { partial: true });
