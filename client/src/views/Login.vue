@@ -21,7 +21,7 @@
                                 <span class="content-name">password</span>
                             </label>
                     </div>
-                    <b-button class="button-login" v-on:click="loginUser()" variant="primary">Disabled Login</b-button>
+                    <b-button id="button-login" v-on:click="loginUser()">Login</b-button>
                 </div>
             </div>
         </div>
@@ -29,8 +29,8 @@
 </template>
 
 <script>
-import { Api } from '../Api'
 import NavBar from '@/components/NavBar.vue'
+import { Api } from '../Api'
 
 export default {
   name: 'login',
@@ -70,13 +70,14 @@ export default {
 
 #login-component {
     background-color:white;
-    height: 70%;
+    height: 50%;
     width: 40%;
     display: flex;
     justify-content: center;
     align-content: center;
     flex-direction: column;
-    border: 1px solid black;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
 }
 .no-account-text {
     display: flex;
@@ -95,7 +96,7 @@ export default {
 }
 
 .login-form {
-    width: 50%;
+    width: 60%;
     position: relative;
     height: 50px;
     margin: 7px;
@@ -154,8 +155,9 @@ export default {
     transform: translateX(0%);
 }
 
-.button-login {
+#button-login {
     margin-top: 3.5rem;
+    background-color: #0d9488;
 }
 
 </style>
