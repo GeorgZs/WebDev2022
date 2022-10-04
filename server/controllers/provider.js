@@ -74,7 +74,7 @@ router.post('/login', async (req, res, handleError) => {
             )
             provider.token = token
 
-            res.status(200).json(provider.token);
+            res.status(200).json({token: provider.token, id: provider._id});
         } else {
             res.status(401).json({ "message": "invalid credentials" })
         }

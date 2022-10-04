@@ -49,7 +49,8 @@ export default {
     loginUser() {
       Api.post('/v1/providers/login', this.credentials)
         .then(response => {
-          localStorage.loginToken = response.data
+          localStorage.loginToken = response.data.token
+          localStorage.loginId = response.data.id
         })
     }
   },
