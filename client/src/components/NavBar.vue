@@ -16,7 +16,7 @@ export default {
   },
   methods: {
     search() {
-      location.replace(window.location.href + this.searchValue + this.searchBar)
+      this.$router.push('/results?query=' + this.searchBar)
     }
   }
 }
@@ -28,11 +28,11 @@ export default {
             <router-link to="/">
                 <img id="navbar-logo" src="/logo.svg" alt="Gabagool"/>
             </router-link>
-            <b-input-group id="nav-bar-group">
-            <b-form-input id="nav-bar-input" v-model="searchBar" v-if="!(routeName === 'home' || routeName === 'searchResult')"/>
-            <b-input-group-append>
-                <b-button @click="search()" id="nav-bar-search-button" variant="outline-secondary">Search</b-button>
-              </b-input-group-append>
+            <b-input-group v-if="!(routeName === 'home' || routeName === 'searchResult')" id="nav-bar-group">
+                <b-form-input id="nav-bar-input" v-model="searchBar"/>
+                <b-input-group-append>
+                    <b-button @click="search()" id="nav-bar-search-button" variant="outline-secondary">Search</b-button>
+                </b-input-group-append>
             </b-input-group>
         </div>
         <div v-if="!isLoggedIn" class="navbar-right">
