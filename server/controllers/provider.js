@@ -3,6 +3,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const Provider = require('../models/provider');
 const LandingPage = require('../models/landingPage');
+const sendEmail = require('../emailService');
 // const verifyToken = require("../jwtVerifier")
 
 // Auth Info
@@ -43,6 +44,7 @@ router.post('/register', async (req, res, handleError) => {
 
             const landingPage = new LandingPage({ providerId: provider._id });
             await landingPage.save();
+            sendEmail(providerData.email);
 
             return res.status(201).json(visibleDataFor(provider));
         }
