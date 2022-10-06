@@ -11,8 +11,13 @@ import Settings from './views/Settings.vue'
 import Inbox from './views/Inbox.vue'
 import Dashboard from './views/Dashboard.vue'
 import ServiceList from './views/ServiceList.vue'
+import NotFound from './views/NotFound.vue'
 
 Vue.use(Router)
+
+function checkId() {
+  return !!localStorage.loginToken
+}
 
 export default new Router({
   mode: 'history',
@@ -46,27 +51,52 @@ export default new Router({
     {
       path: '/providers/:providerId',
       name: 'landingPage',
-      component: LandingPage
+      component: LandingPage,
+      beforeEnter() {
+        const idExists = checkId()
+        if (!idExists) return { name: NotFound }
+      }
     },
     {
       path: '/dashboard/services',
       name: 'service list',
-      component: ServiceList
+      component: ServiceList,
+      beforeEnter() {
+        const idExists = checkId()
+        if (!idExists) return { name: NotFound }
+      }
     },
     {
       path: '/dashboard/settings',
       name: 'settings',
-      component: Settings
+      component: Settings,
+      beforeEnter() {
+        const idExists = checkId()
+        if (!idExists) return { name: NotFound }
+      }
     },
     {
       path: '/dashboard/inbox',
       name: 'inbox',
-      component: Inbox
+      component: Inbox,
+      beforeEnter() {
+        const idExists = checkId()
+        if (!idExists) return { name: NotFound }
+      }
     },
     {
       path: '/dashboard',
       name: 'dashboard',
-      component: Dashboard
+      component: Dashboard,
+      beforeEnter() {
+        const idExists = checkId()
+        if (!idExists) return { name: NotFound }
+      }
+    },
+    {
+      path: '*',
+      name: 'wrong-paths',
+      component: NotFound
     }
   ]
 })
