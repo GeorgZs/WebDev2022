@@ -1,6 +1,6 @@
 <template>
     <div class="search-bar">
-        <b-form-input @click="onLoad()" id="input-bar"></b-form-input>
+        <b-form-input @click="onLoad()" id="input-bar" placeholder="Search for a service or provider..."></b-form-input>
         <b-button :to="this.searchValue" id="search-button">Search</b-button>
     </div>
 </template>
@@ -45,5 +45,6 @@ export default {
 #search-button {
     border-radius: 100px;
     width: 18%;
+    background-color:#0d9488;
 }
 </style>
