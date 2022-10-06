@@ -16,7 +16,7 @@
                         id="input-group-1"
                         label-for="input-1"
                         >
-                        <b-form-input id="input-1" type="text" placeholder="Name" required v-model="account.name">
+                        <b-form-input id="input-1" type="text" placeholder="Name" v-model="account.name">
 
                         </b-form-input>
                         </b-form-group>
@@ -27,7 +27,7 @@
                         label-for="input-2"
 
                         >
-                        <b-form-input id="input-2" type="text" placeholder="Address" required v-model="account.address">
+                        <b-form-input id="input-2" type="text" placeholder="Address" v-model="account.address">
 
                         </b-form-input>
                         </b-form-group>
@@ -38,7 +38,7 @@
                         label-for="input-3"
 
                         >
-                        <b-form-input id="input-3" type="text" placeholder="Sector" required v-model="account.sector">
+                        <b-form-input id="input-3" type="text" placeholder="Sector" v-model="account.sector">
 
                         </b-form-input>
                         </b-form-group>
@@ -49,7 +49,7 @@
                         label-for="input-4"
 
                         >
-                        <b-form-input id="input-4" type="text" placeholder="Email" required v-model="account.email">
+                        <b-form-input id="input-4" type="text" placeholder="Email" v-model="account.email">
 
                         </b-form-input>
                         </b-form-group>
@@ -60,12 +60,12 @@
                         label-for="input-5"
 
                         >
-                        <b-form-input id="input-5" type="text" placeholder="Phone Number" required v-model="account.phoneNumber">
+                        <b-form-input id="input-5" type="text" placeholder="Phone Number" v-model="account.phoneNumber">
 
                         </b-form-input>
                         </b-form-group>
                     </b-form>
-                    <b-button id="profile-button" variant="info">Update Profile</b-button>
+                    <b-button id="profile-button" v-on:click="updateAccount()" variant="info">Update Profile</b-button>
                 </div>
                 <div class="landing-page-text">
                     <h3>Landing page data </h3>
@@ -76,7 +76,7 @@
                         <div class="logo-color">
                             <p>Enter Logo:</p>
                             <b-form-file
-                                v-model="file1"
+                                v-model="landingPage.logo"
                                 :state="(file1)"
                                 placeholder="Choose a file or drop it here..."
                                 drop-placeholder="Drop file here..."
@@ -88,7 +88,7 @@
                         label-for="input-7"
 
                         >
-                        <b-form-input id="input-7" type="color" placeholder="Color" required v-model="landingPage.color">
+                        <b-form-input id="input-7" type="color" placeholder="Color" v-model="landingPage.color">
 
                         </b-form-input>
                         </b-form-group>
@@ -107,7 +107,7 @@
                         label-for="input-8"
 
                         >
-                        <b-form-input id="input-8" type="text" placeholder="Details" required v-model="landingPage.details">
+                        <b-form-input id="input-8" type="text" placeholder="Details" v-model="landingPage.details">
 
                         </b-form-input>
                         </b-form-group>
@@ -150,16 +150,16 @@ export default {
   data() {
     return {
       account: {
-        name: '',
-        address: '',
-        sector: '',
-        email: '',
-        phoneNumber: ''
+        name: undefined,
+        address: undefined,
+        sector: undefined,
+        email: undefined,
+        phoneNumber: undefined
       },
       landingPage: {
-        logo: '',
-        color: '',
-        details: ''
+        logo: undefined,
+        color: undefined,
+        details: undefined
       }
     }
   },
@@ -168,9 +168,10 @@ export default {
       return alert('Hello world')
     },
     async updateAccount() {
-      await Api.patch('', {
+      console.log('kladdkaka')
+      await Api.patch('v1/providers/' + localStorage.loginId, {
         name: this.account.name,
-        address: this.name.address,
+        address: this.account.address,
         sector: this.account.sector,
         email: this.account.email,
         phoneNumber: this.account.phoneNumber
@@ -181,7 +182,7 @@ export default {
         .catch(error => { console.log(error) })
     },
     async updateLandingPage() {
-      await Api.patch('', {
+      await Api.patch('v1/providers/' + localStorage.loginId + '/landingPage', {
         logo: this.landingPage.logo,
         color: this.landingPage.color,
         details: this.landingPage.details
