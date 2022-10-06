@@ -125,13 +125,13 @@
                             <p>This action is irreversible and will delete all services created by your account. </p>
                         </div>
                         <div class="delete-service-button">
-                            <b-button variant="outline-danger">Delete account</b-button>
+                            <b-button variant="outline-danger">Delete services</b-button>
                         </div>
                         <div class="delete-account-text">
                             <p>This action is irreversible and will delete your account and all associated services. Please proceed with caution</p>
                         </div>
                         <div class="delete-account-button">
-                            <b-button variant="outline-danger">Delete account</b-button>
+                            <b-button v-on:click="deleteAccount()" variant="outline-danger">Delete account</b-button>
                         </div>
                     </div>
                 </div>
@@ -193,9 +193,11 @@ export default {
         .catch(error => { console.log(error) })
     },
     async deleteAccount() {
-      await Api.delete('')
+      await Api.delete('v1/providers/' + localStorage.loginId)
         .then(response => {
           console.log(response)
+          localStorage.clear()
+          this.$router.push('/login')
         })
         .catch(error => { console.log(error) })
     }
