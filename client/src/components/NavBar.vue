@@ -7,7 +7,17 @@ export default {
     }
   },
   data() {
-    return { isLoggedIn: localStorage.loginToken || false }
+    return {
+      isLoggedIn: localStorage.loginToken || false,
+      routeName: this.$route.name,
+      searchValue: 'results?query=',
+      searchBar: ''
+    }
+  },
+  methods: {
+    search() {
+      location.replace(window.location.href + this.searchValue + this.searchBar)
+    }
   }
 }
 </script>
@@ -18,7 +28,12 @@ export default {
             <router-link to="/">
                 <img id="navbar-logo" src="/logo.svg" alt="Gabagool"/>
             </router-link>
-            <b-button variant="outline-secondary" to="/">Search</b-button>
+            <b-input-group id="nav-bar-group">
+            <b-form-input id="nav-bar-input" v-model="searchBar" v-if="!(routeName === 'home' || routeName === 'searchResult')"/>
+            <b-input-group-append>
+                <b-button @click="search()" id="nav-bar-search-button" variant="outline-secondary">Search</b-button>
+              </b-input-group-append>
+            </b-input-group>
         </div>
         <div v-if="!isLoggedIn" class="navbar-right">
             <b-button variant="outline-secondary" to="/login">Login</b-button>
@@ -48,7 +63,27 @@ export default {
     justify-content: space-between;
 }
 
+.navbar-left {
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
 .navbar-right > *, .navbar-left > * {
     margin: 1rem;
+}
+
+#nav-bar-group > * {
+    margin: 0.50rem;
+}
+
+#nav-bar-input {
+    width: 10rem;
+    border-radius: 15px;
+}
+
+#nav-bar-search-button {
+    border-radius: 15px;
 }
 </style>
