@@ -6,15 +6,15 @@
                 <h1 style="padding-bottom: 2rem">What are you searching for?</h1>
                 <SearchBar></SearchBar>
                 <div class="recommendations">
-                    <h6 id="recom-text">Recommendations</h6>
+                    <h6 id="recom-text">Recommendations:</h6>
                     <div class="recommendation-list-top">
-                        <b-button id="list-button">{{ this.list[0].name }}</b-button>
-                        <b-button id="list-button">{{ this.list[1].name }}</b-button>
-                        <b-button id="list-button">{{ this.list[2].name }}</b-button>
+                        <b-button @click="navigate(list[0])" id="list-button">{{ list[0].name }}</b-button>
+                        <b-button @click="navigate(list[1])" id="list-button">{{ list[1].name }}</b-button>
+                        <b-button @click="navigate(list[2])" id="list-button">{{ list[2].name }}</b-button>
                     </div>
                     <div class="recommendation-list-bottom">
-                        <b-button id="list-button">{{ this.list[3].name }}</b-button>
-                        <b-button id="list-button">{{ this.list[4].name }}</b-button>
+                        <b-button @click="navigate(list[3])" id="list-button">{{ list[3].name }}</b-button>
+                        <b-button @click="navigate(list[4])" id="list-button">{{ list[4].name }}</b-button>
                     </div>
                 </div>
             </div>
@@ -42,6 +42,11 @@ export default {
         this.list.sort(() => Math.random() - 0.5)
       })
       .catch(err => { this.list = err })
+  },
+  methods: {
+    navigate(buttonItem) {
+      this.$router.push('/results?query=' + buttonItem.name)
+    }
   }
 }
 </script>
