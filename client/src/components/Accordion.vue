@@ -37,11 +37,28 @@
                       </div>
                       <div v-if="isLoggedIn" class="edit-functionality">
                         <b-icon @click="service.confirmEdit = !service.confirmEdit" icon="pencil" aria-hidden="true"/>
-                        <b-modal v-model="service.confirmEdit" title="Update Current Service" @ok="deleteService(service.providerId, service._id)">
-                          <p class="my-4">Update current Service</p>                            <!--Update this-->
+                        <b-modal v-model="service.confirmEdit" title="Update Current Service" @show="resetModal()" @ok="updateService(service.providerId, service._id, service)">
+                          <p>* Empty textfields will default to previously set Service values</p>
+                          <br/>
+
+                          <span>New Name</span>
+                          <b-form-input v-model="updatedService.name" placeholder="Enter new name" id="popup-form"/>
+                          <span>New Price</span>
+                          <b-form-input v-model="updatedService.price" placeholder="Enter new price" type="number" id="popup-form"/>
+                          <span>New Duration</span>
+                          <b-form-input v-model="updatedService.duration" placeholder="Enter new duration" type="number" id="popup-form"/>
+                          <span>New Details</span>
+                          <b-form-textarea
+                            rows="2"
+                            no-resize
+                            placeholder="Enter new details"
+                            v-model="updatedService.details"
+                            id="popup-form"/>
+                          <span>New Address</span>
+                          <b-form-input v-model="updatedService.address" placeholder="Enter address" id="popup-form"/>
                         </b-modal>
                         <b-icon @click="service.confirmDelete = !service.confirmDelete" icon="trash" aria-hidden="true"/>
-                        <b-modal v-model="service.confirmDelete" title="Delete Service" @ok="deleteService(service.providerId, service._id)">
+                        <b-modal v-model="service.confirmDelete" title="Delete Service" @show="resetModal()" @ok="deleteService(service.providerId, service._id)">
                           <p>Are you sure you want to delete this service?</p>
                           <p>Service Name: {{ service.name }}</p>
                         </b-modal>
@@ -158,11 +175,29 @@ export default {
   mounted() {
     const values = window.location.href.split('#')
     if (values[1] !== undefined) document.getElementById(values[1]).focus()
-    console.log(values[1])
   },
   methods: {
     async deleteService(providerId, serviceId) {
       await Api.delete('v1/providers/' + providerId + '/services/' + serviceId)
+        .then(response => {
+          console.log(response)
+        })
+        .catch(error => {
+          console.log(error)
+        })
+
+      this.refreshList()
+      window.location.reload()
+    },
+
+    async updateService(providerId, serviceId, service) {
+      await Api.patch('v1/providers/' + providerId + '/services/' + serviceId, {
+        name: this.updatedService.name === '' ? service.name : this.updatedService.name,
+        price: this.updatedService.price === '' ? Number(service.price) : Number(this.updatedService.price),
+        duration: this.updatedService.duration === '' ? Number(service.duration) : Number(this.updatedService.duration),
+        details: this.updatedService.details === '' ? service.details : this.updatedService.details,
+        address: this.updatedService.address === '' ? service.address : this.updatedService.address
+      })
         .then(response => {
           console.log(response)
         })
@@ -185,9 +220,9 @@ export default {
 
       await Api.post('v1/providers/' + localStorage.loginId + '/services', {
         name: this.updatedService.name,
-        price: this.updatedService.price,
-        duration: parseInt(this.updatedService.duration),
-        details: parseInt(this.updatedService.details),
+        price: Number(this.updatedService.price),
+        duration: Number(this.updatedService.duration),
+        details: this.updatedService.details,
         address: this.updatedService.address
       })
       this.$refs['my-modal'].hide()
