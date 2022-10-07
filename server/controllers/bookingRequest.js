@@ -1,6 +1,7 @@
 const express = require('express');
 const BookingRequest = require('../models/bookingRequest');
 const Service = require('../models/service');
+const sendEmail = require('../emailService');
 
 const router = express.Router({ mergeParams: true });
 
@@ -54,6 +55,8 @@ router.post('/services/:serviceId/bookingRequests', async (req, res, handleError
         bookingData.providerId = service.providerId;
         const booking = new BookingRequest(bookingData);
         await booking.save();
+
+        sendEmail(bookingData.user.email);
         res.status(201).json(visibleDataFor(booking));
     } catch (err) {
         handleError(err);
