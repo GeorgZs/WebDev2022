@@ -95,7 +95,6 @@ export default {
           this.$router.push('/login')
         })
         .catch(error => { console.log(error) })
-      console.log('failed to register')
     }
   },
   components: {
