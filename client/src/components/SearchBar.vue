@@ -1,7 +1,7 @@
 <template>
     <div class="search-bar">
-        <b-form-input @click="onLoad()" id="input-bar" placeholder="Search for a service or provider..."></b-form-input>
-        <b-button :to="this.searchValue" id="search-button">Search</b-button>
+        <b-form-input @click="onLoad()" v-model="input"  id="input-bar" placeholder="Search for a service or provider..."></b-form-input>
+        <b-button :to="searchValue + input" id="search-button">Search</b-button>
     </div>
 </template>
 
@@ -10,16 +10,15 @@ export default {
   name: 'searchBar',
   data() {
     return {
-      searchValue: 'results?query='
+      searchValue: 'results?query=',
+      input: ''
     }
   },
   methods: {
     onLoad() {
       document.getElementById('input-bar').addEventListener('keypress', event => {
         if (event.key === 'Enter') {
-          location.replace(window.location.href + this.searchValue)
-        } else {
-          this.searchValue += `${event.key}`
+          location.replace(window.location.href + this.searchValue + this.input)
         }
       })
     }
