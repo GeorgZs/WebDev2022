@@ -60,6 +60,7 @@ export default {
   async mounted() {
     let tempArr = []
     const params = new URLSearchParams(this.urlParams)
+    // needs to be included in query
     this.urlParamsSearch = params.get('query')
     await Api.get('v1/services')
       .then(response => {
@@ -69,29 +70,37 @@ export default {
         tempArr = error
       })
 
-    let counter = 1
-    tempArr.forEach(element => {
-      this.services.push({
-        ...element,
-        isFormValid: 'null',
-        visible: false,
-        counter: 'collapse-' + counter,
-        popUp: 'modal-' + counter,
-        confirmDelete: false,
-        confirmEdit: false,
-        formInput: {
-          name: '',
-          email: '',
-          phoneNumber: '',
-          message: '',
-          date: '',
-          timePeriod: ''
-        }
-      })
-      counter++
-    })
+    await this.createAccordionList(tempArr)
   },
   methods: {
+    async createAccordionList(tempArr) {
+      let counter = 1
+      tempArr.forEach(async element => {
+        let tempElement
+        await Api.get('v1/providers/' + element.providerId)
+          .then(response => { tempElement = response.data })
+          .catch(err => { console.log(err) })
+        this.services.push({
+          ...element,
+          providerName: tempElement.name,
+          isFormValid: 'null',
+          visible: false,
+          counter: 'collapse-' + counter,
+          popUp: 'modal-' + counter,
+          confirmDelete: false,
+          confirmEdit: false,
+          formInput: {
+            name: '',
+            email: '',
+            phoneNumber: '',
+            message: '',
+            date: '',
+            timePeriod: ''
+          }
+        })
+        counter++
+      })
+    },
     async getAppendedList() {
       const ordering = this.ordering[0] === 'asc' ? 1 : this.ordering[0] === 'desc' ? -1 : 0
       const sortByCondition = '?sort=' + this.categoryChecked[0] + ':' + ordering
@@ -150,9 +159,12 @@ export default {
 }
 
 #search-bar {
-  width: 100vh;
   display: flex;
   align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+
+  width: 40%;
   height: 10rem;
 }
 

@@ -27,13 +27,13 @@
                     <div id="service-name-container">
                       <h2>{{ service.name }}</h2>
                       <router-link id="route-to-service" :to="`/providers/${service.providerId}`">
-                        <h6> {{ providerName }} </h6>
+                        <h6> {{ service.providerName }} </h6>
                       </router-link>
                     </div>
                     <div class="price-container">
                       <div class="price-location">
                         <h4 id="bubble-text">{{ service.price }} SEK</h4>
-                        <span id="location-tag"> <b-icon icon="geo"/> {{ service.address || "Location" }}</span>
+                        <span id="location-tag"> <b-icon icon="geo"/> {{ service.address || "No location saved" }}</span>
                       </div>
                       <div v-if="isLoggedIn" class="edit-functionality">
                         <b-icon @click="service.confirmEdit = !service.confirmEdit" icon="pencil" aria-hidden="true"/>
@@ -152,7 +152,6 @@ export default {
         detail: '',
         address: ''
       },
-      providerName: 'NA',
       rerenderIndex: 1
     }
   },
@@ -162,13 +161,6 @@ export default {
     console.log(values[1])
   },
   methods: {
-    async beforeCreate(serviceId) {
-      await Api.get('v1/providers/' + serviceId)
-        .then(response => {
-          this.providerName = response.data.name
-        })
-        .catch(err => console.log(err))
-    },
     async deleteService(providerId, serviceId) {
       await Api.delete('v1/providers/' + providerId + '/services/' + serviceId)
         .then(response => {
@@ -330,6 +322,8 @@ export default {
   display: flex;
   flex-direction: column;
   padding-left: 3rem;
+
+  text-align: right;
 }
 
 #location-tag {
@@ -363,6 +357,7 @@ export default {
 }
 
 #service-name-container {
+  text-align: left;
   padding-left: 2.5rem;
 
   display: flex;
