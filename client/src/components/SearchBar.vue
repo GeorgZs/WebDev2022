@@ -41,6 +41,24 @@ export default {
     margin: auto;
 }
 
+@media screen and (max-width: 700px) {
+  #input-bar {
+    width: 90%
+  }
+}
+
+@media screen and (max-width: 570px) {
+  #input-bar {
+    width: 70%
+  }
+}
+
+@media screen and (max-width: 510px) {
+  #input-bar {
+    width: 50%
+  }
+}
+
 #search-button {
     border-radius: 100px;
     width: 18%;

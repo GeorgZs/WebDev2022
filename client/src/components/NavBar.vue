@@ -78,6 +78,12 @@ export default {
     margin: 0.50rem;
 }
 
+@media screen and (max-width: 614px) {
+    #nav-bar-group {
+        display: none;
+    }
+}
+
 #nav-bar-input {
     width: 10rem;
     border-radius: 15px;
