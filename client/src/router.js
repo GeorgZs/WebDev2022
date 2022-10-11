@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Home from './views/Home.vue'
 import HomeSearch from './views/HomeSearch.vue'
 import LandingPage from './views/LandingPage.vue'
 import Login from './views/Login.vue'
@@ -31,11 +30,6 @@ export default new Router({
       path: '/',
       name: 'home',
       component: HomeSearch
-    },
-    {
-      path: '/home',
-      name: 'homeNot',
-      component: Home
     },
     {
       path: '/login',
