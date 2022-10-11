@@ -10,7 +10,7 @@
 
                 <div class="login-credentials">
                     <div class="login-form">
-                        <input id="email-field" type="text" name="email" autocomplete="off" v-model="credentials.email" required>
+                        <input id="email-field" type="text" name="email" @click="onLoad()" autocomplete="off" v-model="credentials.email" required>
                             <label for="email" class="email-name">
                                 <span class="content-name">email</span>
                             </label>
@@ -53,6 +53,13 @@ export default {
           localStorage.loginId = response.data.id
           this.$router.push('/dashboard')
         })
+    },
+    onLoad() {
+      document.getElementById('input-bar').addEventListener('keypress', async event => {
+        if (event.key === 'Enter') {
+          await this.loginUser()
+        }
+      })
     }
   },
   components: { NavBar }
