@@ -5,18 +5,26 @@
             <div class="page-content">
                 <h1 style="padding-bottom: 2rem">What are you searching for?</h1>
                 <SearchBar></SearchBar>
-                <div class="recommendations">
-                    <h6 id="recom-text">Recommendations:</h6>
-                    <div class="recommendation-list-top">
-                        <b-button @click="navigate(list[0])" id="list-button">{{ list[0].name }}</b-button>
-                        <b-button @click="navigate(list[1])" id="list-button">{{ list[1].name }}</b-button>
-                        <b-button @click="navigate(list[2])" id="list-button">{{ list[2].name }}</b-button>
-                    </div>
-                    <div class="recommendation-list-bottom">
-                        <b-button @click="navigate(list[3])" id="list-button">{{ list[3].name }}</b-button>
-                        <b-button @click="navigate(list[4])" id="list-button">{{ list[4].name }}</b-button>
-                    </div>
-                </div>
+                <b-col cols="6" class="recommendations">
+                    <b-col>
+                        <b-row class="justify-content-md-center">
+                            <b-col cols="2"></b-col>
+                            <b-col cols="8">
+                                <h6 id="recom-text">Recommendations:</h6>
+                                <b-row class="recommendation-list-top justify-content-md-center">
+                                    <b-button @click="navigate(list[0])" id="list-button">{{ list[0].name }}</b-button>
+                                    <b-button @click="navigate(list[1])" id="list-button">{{ list[1].name }}</b-button>
+                                    <b-button @click="navigate(list[2])" id="list-button">{{ list[2].name }}</b-button>
+                                </b-row>
+                                <b-row class="recommendation-list-bottom justify-content-md-center">
+                                    <b-button @click="navigate(list[3])" id="list-button">{{ list[3].name }}</b-button>
+                                    <b-button @click="navigate(list[4])" id="list-button">{{ list[4].name }}</b-button>
+                                </b-row>
+                            </b-col>
+                            <b-col cols="2"></b-col>
+                        </b-row>
+                    </b-col>
+                </b-col>
             </div>
         </div>
     </div>
@@ -65,6 +73,7 @@ export default {
 
 .recommendations {
     width: 100vh;
+    align-self: center;
 }
 
 #recom-text {
