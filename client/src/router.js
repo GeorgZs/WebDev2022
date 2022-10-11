@@ -84,8 +84,7 @@ export default new Router({
     {
       path: '*',
       name: 'NotFound',
-      component: NotFound,
-      beforeEnter: checkId
+      component: NotFound
     }
   ]
 })
