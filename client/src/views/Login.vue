@@ -61,7 +61,7 @@ export default {
 
 <style>
 #body-content {
-    height: 100vh;
+    height: 100%;
     position: relative;
     display: flex;
     justify-content: space-between;
@@ -80,6 +80,28 @@ export default {
     flex-direction: column;
     border-radius: 5px;
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+}
+@media screen and (max-width: 700px) {
+    #login-component{
+        width: 60%;
+    }
+    #body-content{
+        margin-top:100px;
+    }
+    #button-login{
+        margin-bottom: 15px;
+    }
+}
+@media screen and (max-width: 400px) {
+    #login-component{
+        width: 100%;
+    }
+    #body-content{
+        margin-top:100px;
+    }
+    #button-login{
+        margin-bottom: 15px;
+    }
 }
 .no-account-text {
     display: flex;
@@ -159,6 +181,7 @@ export default {
 
 #button-login {
     margin-top: 3.5rem;
+    margin-bottom: 2.5rem;
     background-color: #0d9488;
     border:none;
 }
