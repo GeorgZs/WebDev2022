@@ -90,9 +90,22 @@ export default {
         phoneNumber: this.register.phoneNumber
       })
         .then(response => {
-          this.register = response.data
-          localStorage.loginToken = response.data.token
-          this.$router.push('/login')
+          const h = this.$createElement
+          const vNodesMsg = h('p', [h('strong', 'Registered Successfully - Proceeding to Login...')])
+
+          this.$bvToast.toast([vNodesMsg], {
+            toaster: 'b-toaster-bottom-right',
+            variant: 'success',
+            solid: true,
+            autoHideDelay: 1000,
+            appendToast: true,
+            noCloseButton: true
+          })
+
+          setTimeout(() => {
+            this.register = response.data
+            this.$router.push('/login')
+          }, 1000)
         })
         .catch(error => { console.log(error) })
     }

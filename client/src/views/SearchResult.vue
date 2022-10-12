@@ -4,7 +4,7 @@
     <div class="results-main-container">
       <div class="search-bar-container">
         <div id="search-bar">
-          <h3 id="results-for">Result for:</h3>
+          <h3 id="results-for">Results for:</h3>
           <b-form-input id="input-bar-search" v-model="urlParamsSearch"></b-form-input>
               <!--add filter and sort for the results-->
           <b-button @click="getList()" id="search-button">Search</b-button>
@@ -192,6 +192,21 @@ export default {
   border-radius: 100px;
   width: 10%;
   background-color: rgb(136, 0, 0);
+}
+
+@media screen and (max-width: 1055px){
+  #filter-by-btn, #sort-by-btn {
+    width: fit-content;
+  }
+
+  .filter {
+    padding-top: 3rem;
+    align-self: center
+  }
+
+  #search-button {
+    width: fit-content
+  }
 }
 
 #collapse-sortBy {

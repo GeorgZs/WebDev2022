@@ -160,7 +160,9 @@ export default {
         logo: undefined,
         color: undefined,
         details: undefined
-      }
+      },
+      snackMessage: '',
+      formValiditiy: null
     }
   },
   methods: {
@@ -168,7 +170,8 @@ export default {
       return alert('Hello world')
     },
     async updateAccount() {
-      console.log('kladdkaka')
+      const h = this.$createElement
+
       await Api.patch('v1/providers/' + localStorage.loginId, {
         name: this.account.name,
         address: this.account.address,
@@ -177,29 +180,65 @@ export default {
         phoneNumber: this.account.phoneNumber
       })
         .then(response => {
-          this.account = response.data
+          this.snackMessage = h('p', [h('strong', 'Account Successfully Updated')])
+          this.formValiditiy = true
         })
-        .catch(error => { console.log(error) })
+        .catch(error => {
+          console.log(error)
+
+          this.snackMessage = h('p', [h('strong', 'Error Updating Account')])
+          this.formValiditiy = false
+        })
+      this.showSnackbar()
     },
     async updateLandingPage() {
+      const h = this.$createElement
+
       await Api.patch('v1/providers/' + localStorage.loginId + '/landingPage', {
         logo: this.landingPage.logo,
         color: this.landingPage.color,
         details: this.landingPage.details
       })
         .then(response => {
-          this.landingPage = response.data
+          this.snackMessage = h('p', [h('strong', 'Landing Page Successfully Updated')])
+          this.formValiditiy = true
         })
-        .catch(error => { console.log(error) })
+        .catch(error => {
+          console.log(error)
+
+          this.snackMessage = h('p', [h('strong', 'Error Updating Landing Page')])
+          this.formValiditiy = false
+        })
+
+      this.showSnackbar()
     },
     async deleteAccount() {
+      const h = this.$createElement
+
       await Api.delete('v1/providers/' + localStorage.loginId)
         .then(response => {
           console.log(response)
           localStorage.clear()
           this.$router.push('/login')
         })
-        .catch(error => { console.log(error) })
+        .catch(error => {
+          console.log(error)
+          this.snackMessage = h('p', [h('strong', 'Error Deleting Account')])
+          this.formValiditiy = false
+        })
+      this.showSnackbar()
+    },
+    showSnackbar() {
+      if (this.formValiditiy !== null) {
+        this.$bvToast.toast([this.snackMessage], {
+          toaster: 'b-toaster-bottom-right',
+          variant: this.formValiditiy ? 'success' : 'danger',
+          solid: true,
+          autoHideDelay: 3000,
+          appendToast: true,
+          noCloseButton: true
+        })
+      }
     }
   },
   components: { SideBar, NavBar }
