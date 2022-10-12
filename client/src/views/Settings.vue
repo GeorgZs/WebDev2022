@@ -262,10 +262,14 @@ p {
 #profile-button {
     background-color: #0d9488;
     border:none;
+    margin-top: 1rem;
+    margin-bottom: 1.5rem;
 }
 #landing-page-button {
     background-color: #0d9488;
     border:none;
+    margin-top: 1rem;
+    margin-bottom: 1.5rem;
 }
 .landing-page-text {
     display: flex;

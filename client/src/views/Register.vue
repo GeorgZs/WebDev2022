@@ -105,7 +105,7 @@ export default {
 
 <style>
 #main-content {
-    height: 100vh;
+    height: 100%;
     position: relative;
     display: flex;
     justify-content: space-between;
@@ -205,6 +205,35 @@ export default {
 #register-button {
     background-color: #0d9488;
     border:none;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+@media screen and (max-width: 400px){
+    #register-component {
+        width: 100%;
+    }
+    #main-content {
+        margin: 0;
+    }
+    .register-information {
+        display: flex;
+        font-size: larger;
+    }
+    .left-right {
+        flex-direction: column;
+        align-items: center;
+    }
+    .left-side {
+        width: 60%;
+    }
+    .right-side {
+        width: 60%;
+    }
+    .register-form label {
+        font-size: large;
+    }
+
 }
 
 </style>
