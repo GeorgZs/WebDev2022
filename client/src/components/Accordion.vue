@@ -83,12 +83,12 @@
                         </div>
                         <div class="left-form">
                             Name*
-                            <b-form-input placeholder="Enter your full name" :state='service.isFormValid === "null" ? null : service.isFormValid === "true" ? true : false' v-model="service.formInput.name" id="name-input"></b-form-input>
+                            <b-form-input placeholder="Enter your full name"  v-model="service.formInput.name" id="name-input"></b-form-input>
                             <b-form-invalid-feedback id="feedback">
                                 Enter a name for your booking
                             </b-form-invalid-feedback>
                             Email*
-                            <b-form-input placeholder="Enter your email"  :state='service.isFormValid === "null" ? null : service.isFormValid === "true" ? true : false' v-model="service.formInput.email" id="email-input" type="email"></b-form-input>
+                            <b-form-input placeholder="Enter your email"   v-model="service.formInput.email" id="email-input" type="email"></b-form-input>
                             <b-form-invalid-feedback id="feedback">
                                 Enter a valid email
                             </b-form-invalid-feedback>
@@ -97,7 +97,7 @@
                                 <template #prepend>
                                   <b-input-group-text >{{ countryCode }}</b-input-group-text>
                                 </template>
-                            <b-form-input :state='service.isFormValid === "null" ? null : service.isFormValid === "true" ? true : false' v-model="service.formInput.phoneNumber" id="phone-number-input" type="number"></b-form-input>
+                            <b-form-input v-model="service.formInput.phoneNumber" id="phone-number-input" type="number"></b-form-input>
                             <b-form-invalid-feedback id="feedback">
                                 Enter a valid phone number
                             </b-form-invalid-feedback>
@@ -105,19 +105,18 @@
                         </div>
                         <div class="right-form">
                             Time*
-                            <b-form-input :state='service.isFormValid === "null" ? null : service.isFormValid === "true" ? true : false' v-model="service.formInput.timePeriod" id="time-period-input" type="time"></b-form-input>
+                            <b-form-input v-model="service.formInput.timePeriod" id="time-period-input" type="time"></b-form-input>
                             <b-form-invalid-feedback id="feedback">
                                 Enter the time of your booking
                             </b-form-invalid-feedback>
                             Date
-                            <b-form-input :state='service.isFormValid === "null" ? null : service.isFormValid === "true" ? true : false' v-model="service.formInput.date" id="date-input" type="date"></b-form-input>
+                            <b-form-input v-model="service.formInput.date" id="date-input" type="date"></b-form-input>
                             <b-form-invalid-feedback id="feedback">
                                 Enter a date for your booking
                             </b-form-invalid-feedback>
                             Message*
                             <b-form-textarea
                                 id="message-input"
-                                :state='service.isFormValid === "null" ? null : service.isFormValid === "true" ? true : false'
                                 v-model="service.formInput.message"
                                 rows="4"
                                 placeholder="Enter a small message"
@@ -128,7 +127,7 @@
                             </b-form-invalid-feedback>
                         </div>
                     </form>
-                    <p :style="'visibility:' + isVisible(service.isFormValid)">* fields are required</p>
+                    <p :style="'visibility:' + isVisible(service.isFormValid) + '; color: red; justify-content: center; padding-top: 0.5rem;'">Error: {{ errorMessage }}</p>
                     <b-button size="lg" @click="submitForm(service._id, service)" >Complete Booking</b-button>
                   </b-card>
                 </b-collapse>
@@ -169,7 +168,8 @@ export default {
         detail: '',
         address: ''
       },
-      rerenderIndex: 1
+      rerenderIndex: 1,
+      errorMessage: ''
     }
   },
   mounted() {
@@ -258,9 +258,11 @@ export default {
       if (service.formInput.name === '' || service.formInput.email === '' ||
           service.formInput.timePeriod === '' || service.formInput.message === '') {
         service.isFormValid = 'false'
+        this.errorMessage = 'required fields cannot be empty'
         return false
-      } else if (!validator.isEmail(service.formInput.email) || service.formInput.phoneNumber.length < 8) {
+      } else if (!validator.isEmail(service.formInput.email) || service.formInput.phoneNumber.length < 4) {
         service.isFormValid = 'false'
+        this.errorMessage = 'check that email/phone are correct'
         return false
       } else {
         service.isFormValid = 'true'
@@ -289,6 +291,7 @@ export default {
         appendToast: true,
         noCloseButton: true
       })
+
       // post request when form is all correct
       if (formValiditiy) {
         await Api.post('v1/services/' + serviceId + '/bookingRequests', {
