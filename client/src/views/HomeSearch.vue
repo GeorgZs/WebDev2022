@@ -12,13 +12,13 @@
                             <b-col cols="8">
                                 <h6 id="recom-text">Recommendations:</h6>
                                 <b-row class="recommendation-list-top justify-content-md-center">
-                                    <b-button @click="navigate(list[0])" id="list-button">{{ list[0].name }}</b-button>
-                                    <b-button @click="navigate(list[1])" id="list-button">{{ list[1].name }}</b-button>
-                                    <b-button @click="navigate(list[2])" id="list-button">{{ list[2].name }}</b-button>
+                                    <b-button v-if="list.length > 0" @click="navigate(list[0])" id="list-button">{{ list[0].name }}</b-button>
+                                    <b-button v-if="list.length > 1" @click="navigate(list[1])" id="list-button">{{ list[1].name }}</b-button>
+                                    <b-button v-if="list.length > 2" @click="navigate(list[2])" id="list-button">{{ list[2].name }}</b-button>
                                 </b-row>
                                 <b-row class="recommendation-list-bottom justify-content-md-center">
-                                    <b-button @click="navigate(list[3])" id="list-button">{{ list[3].name }}</b-button>
-                                    <b-button @click="navigate(list[4])" id="list-button">{{ list[4].name }}</b-button>
+                                    <b-button v-if="list.length > 3" @click="navigate(list[3])" id="list-button">{{ list[3].name }}</b-button>
+                                    <b-button v-if="list.length > 4" @click="navigate(list[4])" id="list-button">{{ list[4].name }}</b-button>
                                 </b-row>
                             </b-col>
                             <b-col cols="2"></b-col>
