@@ -26,7 +26,7 @@ export default {
     <div class="navbar">
         <div v-if="!isDashboard" class="navbar-left">
             <router-link to="/">
-                <img id="navbar-logo" src="/logo.svg" alt="Gabagool"/>
+                <img id="navbar-logo" src="/logo-full.svg" alt="Gabagool"/>
             </router-link>
             <b-input-group v-if="!(routeName === 'home' || routeName === 'searchResult')" id="nav-bar-group">
                 <b-form-input id="nav-bar-input" v-model="searchBar"/>
@@ -47,8 +47,7 @@ export default {
 
 <style>
 #navbar-logo {
-    height: 4rem;
-    width: 4rem;
+    height: 2.64rem;
     object-fit: contain;
 }
 

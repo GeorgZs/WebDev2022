@@ -95,7 +95,7 @@
                         </div>
 
                         <div class="logo-image">
-                            <img id="sidebar-logo" src="/logo.svg" alt="Gabagool"/>
+                            <img id="sidebar-logo" src="/logo-icon.svg" alt="Gabagool"/>
                         </div>
 
                     </div>
