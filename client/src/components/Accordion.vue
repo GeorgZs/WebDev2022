@@ -8,9 +8,13 @@
           <span>Name</span>
           <b-form-input v-model="updatedService.name" placeholder="Enter new name" id="popup-form"/>
           <span>Price</span>
-          <b-form-input v-model="updatedService.price" placeholder="Enter new price" type="number" id="popup-form"/>
+          <b-input-group append="SEK" id="popup-form">
+            <b-form-input v-model="updatedService.price" placeholder="Enter new price" type="number"/>
+          </b-input-group>
           <span>Duration</span>
-          <b-form-input v-model="updatedService.duration" placeholder="Enter new duration" type="number" id="popup-form"/>
+          <b-input-group append="minutes" id="popup-form">
+            <b-form-input v-model="updatedService.duration" placeholder="Enter new duration" type="number"/>
+          </b-input-group>
           <span>Details</span>
           <b-form-textarea
             rows="2"
@@ -66,8 +70,9 @@
                     </div>
                 </div>
                 <b-collapse v-model="service.visible" :id="service.counter" class="mt-2">
-                  <b-card>
+                  <b-card id="card-container">
                     <h3 class="card-text">Create a booking request</h3>
+                    <p id="details-text-form"> Details: {{ service.details || "No Details saved" }} </p>
                     <form class="form">
                         <div class="card-paragraph">
                             <br>
@@ -78,8 +83,7 @@
                             loading="lazy"
                             :src='`https://www.google.com/maps/embed/v1/place?key=${apiKey}&q=${address}`'></iframe> <!--use service.address after finished-->
                                 <br>
-                                <p> Address: {{ service.address }} </p>
-                                <p> Details: {{ service.details }} </p>
+                                <p> Address: {{ service.address || "No location saved" }} </p>
                         </div>
                         <div class="left-form">
                             Name*
@@ -114,7 +118,7 @@
                             <b-form-invalid-feedback id="feedback">
                                 Enter a date for your booking
                             </b-form-invalid-feedback>
-                            Message*
+                            Message
                             <b-form-textarea
                                 id="message-input"
                                 v-model="service.formInput.message"
@@ -133,7 +137,7 @@
                 </b-collapse>
               </div>
         </div>
-        <h4 v-if="services.length === 0">There were no services availabe, please try something else</h4>
+        <h4 v-if="services.length === 0">There are no services available, please try something else</h4>
     </div>
 </template>
 
@@ -217,6 +221,7 @@ export default {
     },
     async submitNewService() {
       // Prevent modal from closing
+      const h = this.$createElement
 
       await Api.post('v1/providers/' + localStorage.loginId + '/services', {
         name: this.updatedService.name,
@@ -224,9 +229,30 @@ export default {
         duration: Number(this.updatedService.duration),
         details: this.updatedService.details,
         address: this.updatedService.address
+      }).catch(err => {
+        console.log(err)
+        const vNodesMsg = h('p', [h('strong', 'Error Creating New Service')])
+        this.$bvToast.toast([vNodesMsg], {
+          toaster: 'b-toaster-bottom-right',
+          variant: 'danger',
+          solid: true,
+          autoHideDelay: 3000,
+          appendToast: true,
+          noCloseButton: true
+        })
       })
       this.$refs['my-modal'].hide()
       window.location.reload()
+
+      const vNodesMsg = h('p', [h('strong', 'New Service Created')])
+      this.$bvToast.toast([vNodesMsg], {
+        toaster: 'b-toaster-bottom-right',
+        variant: 'success',
+        solid: true,
+        autoHideDelay: 3000,
+        appendToast: true,
+        noCloseButton: true
+      })
     },
     clickForm(service) {
       service.visible = !service.visible
@@ -258,13 +284,13 @@ export default {
     // make sure on resubmission after false form, resets state and does check
     checkFormValidity(service) {
       if (service.formInput.name === '' || service.formInput.email === '' ||
-          service.formInput.timePeriod === '' || service.formInput.message === '') {
+          service.formInput.timePeriod === '') {
         service.isFormValid = 'false'
         this.errorMessage = 'required fields cannot be empty'
         return false
-      } else if (!validator.isEmail(service.formInput.email) || service.formInput.phoneNumber.length < 4) {
+      } else if (!validator.isEmail(service.formInput.email)) {
         service.isFormValid = 'false'
-        this.errorMessage = 'check that email/phone are correct'
+        this.errorMessage = 'check that the email is correct'
         return false
       } else {
         service.isFormValid = 'true'
@@ -344,7 +370,7 @@ export default {
 #mutation-button {
   border-radius: 100px;
   align-self: center;
-  margin-bottom: 0.5rem;
+  margin-bottom: 1rem;
 }
 
 #mutation-button:focus {
@@ -382,6 +408,18 @@ export default {
 .edit-functionality > * {
   margin-top: 1rem;
   margin-bottom: 1rem;
+}
+
+#details-text-form {
+  padding-left: 1.5rem;
+  padding-bottom: 0.75rem;
+}
+
+#card-container {
+  border-radius: 0rem 0rem 0.5rem 0.5rem;
+  box-shadow: 0px 2px 2px 0px rgba(0,0,0,0.75);
+-webkit-box-shadow: 0px 2px 2px 0px rgba(0,0,0,0.75);
+-moz-box-shadow: 0px 2px 2px 0px rgba(0,0,0,0.75);
 }
 
 #row {
