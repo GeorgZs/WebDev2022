@@ -3,7 +3,7 @@
         <NavBar/>
         <div id="body-content">
             <div id="login-component">
-                <h2>Login</h2>
+                <h2 id="login-title">Login</h2>
                 <div class="no-account-text">
                     <span>No account?</span><a href="register"><span> Create here!</span></a>
                 </div>
@@ -75,6 +75,7 @@ export default {
     flex-direction: column;
     align-items: center;
     padding: 10px;
+    margin-top: 5rem;
 }
 
 #login-component {
@@ -88,6 +89,10 @@ export default {
     border-radius: 5px;
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
 }
+#login-title {
+    margin-top: 2rem;
+}
+
 @media screen and (max-width: 700px) {
     #login-component{
         width: 60%;

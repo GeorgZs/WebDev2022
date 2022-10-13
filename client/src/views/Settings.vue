@@ -11,7 +11,7 @@
                 </div>
                 <div class="settings-form">
                     <b-form class="inputs">
-                        <p>Enter Name:</p>
+                        <p>Name:</p>
                         <b-form-group
                         id="input-group-1"
                         label-for="input-1"
@@ -21,7 +21,7 @@
                         </b-form-input>
                         </b-form-group>
 
-                        <p>Enter Address:</p>
+                        <p>Address:</p>
                         <b-form-group
                         id="input-group-2"
                         label-for="input-2"
@@ -32,7 +32,7 @@
                         </b-form-input>
                         </b-form-group>
 
-                        <p>Enter Sector:</p>
+                        <p>Sector:</p>
                         <b-form-group
                         id="input-group-3"
                         label-for="input-3"
@@ -43,7 +43,7 @@
                         </b-form-input>
                         </b-form-group>
 
-                        <p>Enter Email:</p>
+                        <p>Email:</p>
                         <b-form-group
                         id="input-group-4"
                         label-for="input-4"
@@ -54,7 +54,7 @@
                         </b-form-input>
                         </b-form-group>
 
-                        <p>Enter Phone Number:</p>
+                        <p>Phone Number:</p>
                         <b-form-group
                         id="input-group1"
                         label-for="input-5"
@@ -74,7 +74,7 @@
                     <b-form class="inputs">
                     <div class="logo-and-color-input">
                         <div class="logo-color">
-                            <p>Enter Logo:</p>
+                            <p>Logo:</p>
                             <b-form-file
                                 v-model="landingPage.logo"
                                 :state="(file1)"
@@ -82,7 +82,7 @@
                                 drop-placeholder="Drop file here..."
                             ></b-form-file>
 
-                        <p id="color-text">Enter Color:</p>
+                        <p id="color-text">Color:</p>
                         <b-form-group
                         id="input-group-7"
                         label-for="input-7"
@@ -101,15 +101,15 @@
                     </div>
 
                     <div class="details-input">
-                        <p>Enter Details:</p>
+                        <p>Details:</p>
                         <b-form-group
                         id="input-group-8"
                         label-for="input-8"
 
                         >
-                        <b-form-input id="input-8" type="text" placeholder="Details" v-model="landingPage.details">
+                        <b-form-textarea id="input-8" type="text" placeholder="Details" v-model="landingPage.details">
 
-                        </b-form-input>
+                        </b-form-textarea>
                         </b-form-group>
                     </div>
 
@@ -334,13 +334,19 @@ p {
 
 .danger-zone {
     border: 1px solid red;
+    border-radius: 7px;
     margin-top: 40px;
     margin-bottom: 30px;
     padding-bottom: 40px;
 }
+.danger-component {
+  margin-left: 2rem;
+}
 .danger-text{
     display: flex;
     align-content: flex-start;
+    margin-left: 2rem;
+    margin-top: 2rem;
 }
 .delete-services{
     display: flex;
