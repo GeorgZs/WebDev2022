@@ -15,7 +15,7 @@
                   <div class="request" @click="goToInbox()">
                     <div class="request-info">
                       <h4 class="request-heading"><span>{{ bookingRequest.service.name }}</span><span class="service-price">・{{ bookingRequest.service.price }} SEK</span></h4>
-                      <span class="request-timeframe"><b-icon icon="clock" /> {{ bookingRequest.timePeriod }}</span>
+                      <span class="request-timeframe"><b-icon icon="clock" /> {{ bookingRequest.timePeriod }} &ensp; | &ensp; {{bookingRequest.date}}</span>
                       <span class="request-note">{{ bookingRequest.message }}</span>
                       <span class="request-sender"><b-icon icon="person" /> {{ bookingRequest.user.name }}</span>
                     </div>
@@ -69,7 +69,10 @@ export default {
           phoneNumber: ''
         },
         date: '',
-        message: ''
+        message: '',
+        service: {
+          name: ''
+        }
       },
       user: {
         name: ''
@@ -98,6 +101,13 @@ export default {
       .then(response => { bookingRequests = response.data })
       .catch(err => { bookingRequests = err })
 
+    bookingRequests.sort((a, b) => {
+      const aYear = a.date.split('-')[0]
+      const bYear = b.date.split('-')[0]
+      return (aYear < 2022 && bYear < 2022 && a.date < b.date) ? 1 : -1
+    })
+
+    /*
     console.dir(bookingRequests)
     const todayStart = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate(), 0, 0, 0)
     const todayEnd = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate(), 23, 59, 59)
@@ -108,6 +118,11 @@ export default {
     }
 
     this.nrOfBookingRequestsToday = bookingRequests.length
+    */
+
+    if (bookingRequests[0]) {
+      bookingRequests[0].service = services.find(s => s._id === bookingRequests[0].serviceId)
+    }
     this.bookingRequest = bookingRequests[0]
   },
   components: { SideBar, NavBar }
