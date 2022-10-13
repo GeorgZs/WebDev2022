@@ -37,11 +37,11 @@ export default {
         </div>
         <div v-else class="navbar-left"><!-- Empty left side --></div>
         <div v-if="!isLoggedIn" class="navbar-right">
-            <b-button variant="outline-secondary" to="/login">Login</b-button>
-            <b-button to="/register">Register</b-button>
+            <b-button id="login-button-navbar" variant="outline-secondary" to="/login">Login</b-button>
+            <b-button id="register-button-navbar" to="/register">Register</b-button>
         </div>
         <div v-else class="navbar-right">
-            <b-button to="/dashboard">My Account <b-icon icon="person-circle" aria-hidden="true"/></b-button>
+            <b-button id="my-account-button" to="/dashboard">My Account <b-icon icon="person-circle" aria-hidden="true"/></b-button>
         </div>
     </div>
 </template>
@@ -91,5 +91,18 @@ export default {
 
 #nav-bar-search-button {
     border-radius: 15px;
+}
+#nav-bar-search-button:hover {
+    background: #0d9488;
+}
+#register-button-navbar {
+    background: #0d9488;
+    border-color: #0d9488;
+}
+#login-button-navbar:hover {
+    background: #0d9488;
+}
+#my-account-button {
+    background: #0d9488;
 }
 </style>
