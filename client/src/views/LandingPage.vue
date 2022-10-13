@@ -1,6 +1,7 @@
 <script>
 import NavBar from '@/components/NavBar.vue'
 import Accordion from '@/components/Accordion.vue'
+import { Api } from '@/Api'
 
 export default {
   data() {
@@ -11,7 +12,43 @@ export default {
       address: 'Heimweg 153, 8053 Graz',
       email: 'info@max-hairsaloon.at',
       phoneNumber: '+43 660 1265 8934',
-      content: 'Haircutting takes an incredibly long time to master and requires constant education! In the Ultimate Video Guide to the Best Haircutting Techniques, we have hand-selected many of our favorite videos that we believe will elevate your haircutting skillset to another level.\n\nWe first build strong foundations then work into the essential art of layering, and add the finishing touches with face-framing and bangs. We encourage you to grab a mannequin and work alongside the videos for a hands-on learning experience to really anchor your learning.'
+      content: 'Haircutting takes an incredibly long time to master and requires constant education! In the Ultimate Video Guide to the Best Haircutting Techniques, we have hand-selected many of our favorite videos that we believe will elevate your haircutting skillset to another level.\n\nWe first build strong foundations then work into the essential art of layering, and add the finishing touches with face-framing and bangs. We encourage you to grab a mannequin and work alongside the videos for a hands-on learning experience to really anchor your learning.',
+      providerId: this.$route.params.providerId,
+      serviceList: []
+    }
+  },
+  async mounted() {
+    let tempArr = []
+
+    await Api.get('v1/providers/' + this.providerId + '/services')
+      .then(response => { tempArr = response.data })
+      .catch(err => { console.log(err) })
+    await this.createAccordionList(tempArr)
+  },
+
+  methods: {
+    async createAccordionList(tempArr) {
+      let counter = 1
+      tempArr.forEach(async element => {
+        this.serviceList.push({
+          ...element,
+          isFormValid: 'null',
+          visible: false,
+          counter: 'collapse-' + counter,
+          popUp: 'modal-' + counter,
+          confirmDelete: false,
+          confirmEdit: false,
+          formInput: {
+            name: '',
+            email: '',
+            phoneNumber: '',
+            message: '',
+            date: '',
+            timePeriod: ''
+          }
+        })
+        counter++
+      })
     }
   },
   components: {
@@ -39,8 +76,8 @@ export default {
         </div>
       </div>
       <span class="content">{{content}}</span>
-      <h3>Services</h3>
-      <Accordion :services="[]" isLandingPage/>
+      <h3 class="service-list-header">Services</h3>
+      <Accordion :services="serviceList" isLandingPage/>
     </div>
   </div>
 </template>
@@ -58,11 +95,12 @@ export default {
 }
 
 #provider {
-  padding: 0.25rem 2rem;
+  padding: 0.25rem 2rem 2rem 0.25rem;
 
   display: flex;
   flex-direction: column;
   row-gap: 2rem;
+
 }
 
 .info {
@@ -145,6 +183,10 @@ export default {
 
   font-size: 1.25rem;
   margin: 0;
+}
+
+.service-list-header {
+  align-self: center;
 }
 
 </style>

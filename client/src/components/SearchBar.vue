@@ -1,7 +1,7 @@
 <template>
     <div class="search-bar">
-        <b-form-input @click="onLoad()" v-model="input"  id="input-bar" placeholder="Search for a service or provider..."></b-form-input>
-        <b-button :to="searchValue + input" id="search-button">Search</b-button>
+      <b-form-input @click="onLoad()" v-model="input"  id="input-bar" placeholder="Search for a service or provider..."/>
+      <b-button :to="searchValue + input" id="search-button">Search</b-button>
     </div>
 </template>
 
@@ -39,6 +39,8 @@ export default {
 #input-bar {
     border-radius: 100px;
     margin: auto;
+    margin-bottom: 1rem;
+    height: 2.75rem;
 }
 
 @media screen and (max-width: 700px) {
