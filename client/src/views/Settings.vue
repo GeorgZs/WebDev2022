@@ -2,7 +2,7 @@
     <div class="main-component">
     <SideBar/>
     <div class="navbar-dash-container">
-        <NavBar style="justify-content:flex-end" isDashboard="true"/>
+        <NavBar isDashboard="true"/>
     </div>
         <div class="settings-component">
             <div class="settings-body">

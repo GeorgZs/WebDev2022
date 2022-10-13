@@ -2,29 +2,30 @@
     <div>
         <SideBar/>
         <div class="navbar-dash-container">
-            <NavBar style="justify-content:flex-end" isDashboard="true"/>
+            <NavBar isDashboard="true"/>
         </div>
         <div class="main-container">
             <h1>Welcome back {{ user.name }}!</h1>
             <div id="indox-preview">
                 <router-link to="/dashboard/inbox">
-                    <h4 id="link-text">Upcoming Requests:</h4>
+                    <h4 v-if="nrOfBookingRequestsToday === 1" id="link-text">{{nrOfBookingRequestsToday}} Upcoming Request Today</h4>
+                    <h4 v-else id="link-text">{{nrOfBookingRequestsToday}} Upcoming Requests Today</h4>
                 </router-link>
-                <div v-if="bookingRequest.date !== ''"  class="upcoming-request">
+                <div v-if="bookingRequest" class="upcoming-request">
                   <h5 class="date">{{ bookingRequest.date }}</h5>
                   <div class="request" @click="goToInbox()">
                     <div class="request-info">
-                      <h4 class="request-heading"><span>Service Name</span><span class="service-price">・{{ bookingRequest.price }} SEK</span></h4>
+                      <h4 class="request-heading"><span>{{ bookingRequest.service.name }}</span><span class="service-price">・{{ bookingRequest.service.price }} SEK</span></h4>
                       <span class="request-timeframe"><b-icon icon="clock" /> {{ bookingRequest.timePeriod }}</span>
                       <span class="request-note">{{ bookingRequest.message }}</span>
                       <span class="request-sender"><b-icon icon="person" /> {{ bookingRequest.user.name }}</span>
                     </div>
                   </div>
                 </div>
-                <div v-if="bookingRequest.date === ''" class="upcoming-request">
+                <div v-else class="upcoming-request">
                   <h5 class="no-data">There are no upcoming requests</h5>
                 </div>
-                <span v-if="bookingRequest.date !== ''" class="hint-text"><em>* Click on the card above to go to your inbox</em></span>
+                <span v-if="bookingRequest" class="hint-text"><em>* Click on the card above to go to your inbox and see all requests</em></span>
             </div>
             <div class="bottom-bar">
               <div class="service-num">
@@ -59,7 +60,8 @@ import NavBar from '../components/NavBar.vue'
 export default {
   data() {
     return {
-      numOfServices: 0,
+      numOfServices: '',
+      nrOfBookingRequestsToday: '',
       bookingRequest: {
         timePeriod: '',
         user: {
@@ -70,7 +72,9 @@ export default {
         date: '',
         message: ''
       },
-      user: {}
+      user: {
+        name: ''
+      }
     }
   },
   methods: {
@@ -95,7 +99,16 @@ export default {
       .then(response => { bookingRequests = response.data })
       .catch(err => { bookingRequests = err })
 
-    bookingRequests.sort((a, b) => (a.date > b.date) ? 1 : -1)
+    console.dir(bookingRequests)
+    const todayStart = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate(), 0, 0, 0)
+    const todayEnd = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate(), 23, 59, 59)
+    bookingRequests = bookingRequests.filter((req) => new Date(req.date) >= todayStart && new Date(req.date) <= todayEnd)
+
+    if (bookingRequests[0]) {
+      bookingRequests[0].service = services.find(s => s._id === bookingRequests[0].serviceId)
+    }
+
+    this.nrOfBookingRequestsToday = bookingRequests.length
     this.bookingRequest = bookingRequests[0]
   },
   components: { SideBar, NavBar }

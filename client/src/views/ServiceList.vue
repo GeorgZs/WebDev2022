@@ -2,7 +2,7 @@
     <div>
         <SideBar/>
         <div class="navbar-dash-container">
-            <NavBar style="justify-content:flex-end" isDashboard="true"/>
+            <NavBar isDashboard="true"/>
         </div>
         <Accordion :services="services" :isLoggedIn="isLoggedIn"/>
     </div>

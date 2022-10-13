@@ -14,7 +14,8 @@ var bookingRequestSchema = new Schema({
     timePeriod: { type: String, required: true },
     user: { type: userSchema, required: true },
     date: { type: String, default: Date.now() },
-    message: { type: String }
+    message: { type: String },
+    response: { type: String }, // confirmed, or declined
 });
 
 module.exports = mongoose.model("BookingRequests", bookingRequestSchema);

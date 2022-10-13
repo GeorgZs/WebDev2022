@@ -35,11 +35,12 @@ export default {
                 </b-input-group-append>
             </b-input-group>
         </div>
+        <div v-else class="navbar-left"><!-- Empty left side --></div>
         <div v-if="!isLoggedIn" class="navbar-right">
             <b-button variant="outline-secondary" to="/login">Login</b-button>
             <b-button to="/register">Register</b-button>
         </div>
-        <div v-if="isLoggedIn" class="navbar-right">
+        <div v-else class="navbar-right">
             <b-button to="/dashboard">My Account <b-icon icon="person-circle" aria-hidden="true"/></b-button>
         </div>
     </div>
