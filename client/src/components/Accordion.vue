@@ -241,11 +241,13 @@ export default {
 
       if (this.address.length > 1) {
         this.address.trim()
+        let mapsAddress = this.address
+
         // on opening form, render map
         if (this.address.includes(' ')) {
-          this.address.split(' ').join('+')
+          mapsAddress = this.address.split(' ').join('+')
         }
-        document.getElementById('map-element').src = 'https://www.google.com/maps/embed/v1/place?key=' + this.apiKey + '&q=' + this.address
+        document.getElementById('map-element').src = 'https://www.google.com/maps/embed/v1/place?key=' + this.apiKey + '&q=' + mapsAddress
       }
     },
     isVisible(isFormValid) {
@@ -342,6 +344,7 @@ export default {
 #mutation-button {
   border-radius: 100px;
   align-self: center;
+  margin-bottom: 0.5rem;
 }
 
 #mutation-button:focus {
@@ -352,7 +355,7 @@ export default {
 
 @keyframes blinker {
   50% {
-    opacity: 0;
+    opacity: 0.25;
   }
 }
 

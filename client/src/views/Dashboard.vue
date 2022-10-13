@@ -22,7 +22,7 @@
                   </div>
                 </div>
                 <div v-if="bookingRequest.date === ''" class="upcoming-request">
-                  <h5 class="date">There are no upcoming requests</h5>
+                  <h5 class="no-data">There are no upcoming requests</h5>
                 </div>
                 <span v-if="bookingRequest.date !== ''" class="hint-text"><em>* Click on the card above to go to your inbox</em></span>
             </div>
@@ -32,7 +32,8 @@
                   <h4 id="active-services">Num of Active Services: </h4> <!--In a box or smthing -> click brings to service list-->
                   <!--some quick add features maybe like quick add service, quick respond, idk-->
                 </router-link>
-                <h4 class="num-of-services">{{ numOfServices }} Serivces Active</h4>
+                <h4 v-if="numOfServices === 1" class="num-of-services">{{ numOfServices }} Service Active</h4>
+                <h4 v-else class="num-of-services">{{ numOfServices }} Services Active</h4>
               </div>
               <div class="quick-add">
                 <h4 id="active-services">Quick Actions</h4>
@@ -41,7 +42,7 @@
                   <b-button id="curve-button" to="/dashboard/services">See all Services</b-button>
                 </row>
                 <row>
-                  <b-button id="curve-button" to="/dashbaord/inbox">See inbox  <b-icon icon="envelope" aria-hidden="true"/></b-button> <!--sdfdf-->
+                  <b-button id="curve-button" to="/dashboard/inbox">See inbox  <b-icon icon="envelope" aria-hidden="true"/></b-button> <!--sdfdf-->
                   <b-button id="curve-button" to="/">Search <b-icon icon="search" aria-hidden="true"/></b-button>
                 </row>
               </div>
@@ -102,6 +103,9 @@ export default {
 </script>
 
 <style>
+.no-data {
+    font-style: italic;
+}
 
 .main-container {
     margin-left: 6rem;

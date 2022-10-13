@@ -5,30 +5,30 @@ export default {
   data() {
     return {
       inbox: [
-        {
-          date: '1.10.',
-          requests: [
-            { service: 'Haircut man' },
-            { service: 'Haircut woman' },
-            { service: 'Haircut man' }
-          ]
-        },
-        {
-          date: '3.10.',
-          requests: [
-            { service: 'Dye man' },
-            { service: 'Dye woman' },
-            { service: 'Dye man' }
-          ]
-        },
-        {
-          date: '4.10.',
-          requests: [
-            { service: 'Haircut man' },
-            { service: 'Haircut woman' },
-            { service: 'Haircut man' }
-          ]
-        }
+        // {
+        //   date: '1.10.',
+        //   requests: [
+        //     { service: 'Haircut man' },
+        //     { service: 'Haircut woman' },
+        //     { service: 'Haircut man' }
+        //   ]
+        // },
+        // {
+        //   date: '3.10.',
+        //   requests: [
+        //     { service: 'Dye man' },
+        //     { service: 'Dye woman' },
+        //     { service: 'Dye man' }
+        //   ]
+        // },
+        // {
+        //   date: '4.10.',
+        //   requests: [
+        //     { service: 'Haircut man' },
+        //     { service: 'Haircut woman' },
+        //     { service: 'Haircut man' }
+        //   ]
+        // }
       ]
     }
   },
@@ -43,7 +43,8 @@ export default {
     <SideBar />
     <main class="inbox">
       <h2 class="title">Upcoming Requests</h2>
-      <div class="groups">
+      <h5 v-if="inbox.length === 0" class="no-data">No upcoming requests</h5>
+      <div v-else class="groups">
         <div v-for="group in inbox" :key="group.date" :id="group.date" class="group">
         <h3 class="date">Requests for {{group.date}}</h3>
         <div v-for="request in group.requests" :key="request.service" class="request">
@@ -76,6 +77,10 @@ export default {
 
   margin: 0;
   margin-bottom: 2rem;
+}
+
+.no-data {
+  font-style: italic;
 }
 
 .group {
