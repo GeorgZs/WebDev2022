@@ -139,6 +139,7 @@ export default {
 .results-main-container {
     display: flex;
     flex-direction: column;
+    padding-bottom: 2.75rem;
 }
 
 .search-bar-container {
