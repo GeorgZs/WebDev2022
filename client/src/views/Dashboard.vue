@@ -12,7 +12,6 @@
                     <h4 v-else id="link-text">{{nrOfBookingRequestsToday}} Upcoming Requests Today</h4>
                 </router-link>
                 <div v-if="bookingRequest" class="upcoming-request">
-                  <h5 class="date">{{ bookingRequest.date }}</h5>
                   <div class="request" @click="goToInbox()">
                     <div class="request-info">
                       <h4 class="request-heading"><span>{{ bookingRequest.service.name }}</span><span class="service-price">・{{ bookingRequest.service.price }} SEK</span></h4>

@@ -6,32 +6,7 @@ import { Api } from '../Api.js'
 export default {
   data() {
     return {
-      inbox: [
-        // {
-        //   date: '1.10.',
-        //   requests: [
-        //     { service: 'Haircut man' },
-        //     { service: 'Haircut woman' },
-        //     { service: 'Haircut man' }
-        //   ]
-        // },
-        // {
-        //   date: '3.10.',
-        //   requests: [
-        //     { service: 'Dye man' },
-        //     { service: 'Dye woman' },
-        //     { service: 'Dye man' }
-        //   ]
-        // },
-        // {
-        //   date: '4.10.',
-        //   requests: [
-        //     { service: 'Haircut man' },
-        //     { service: 'Haircut woman' },
-        //     { service: 'Haircut man' }
-        //   ]
-        // }
-      ]
+      inbox: []
     }
   },
   async mounted() {
@@ -39,14 +14,17 @@ export default {
       const { data: rawServices } = await Api.get(`/v1/providers/${localStorage.loginId}/services`)
       const { data: requests } = await Api.get(`/v1/providers/${localStorage.loginId}/bookingRequests`)
 
+      const todayStart = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate(), 0, 0, 0)
       const services = rawServices.reduce((map, s) => map.set(s._id, s), new Map())
       const inbox = new Map()
 
       function formatDate(date) {
-        return `${date.getDate()}.${date.getMonth() + 1}.`
+        return `${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()}`
       }
 
       for (const request of requests) {
+        if (new Date(request.date) < todayStart) continue /** skip */
+
         request.service = services.get(request.serviceId)
         const date = formatDate(new Date(request.date))
 
@@ -57,7 +35,7 @@ export default {
         inbox.get(date).push(request)
       }
 
-      this.inbox = [...inbox.entries()].map(([date, requests]) => ({
+      this.inbox = [...inbox.entries()].sort(([aDate], [bDate]) => aDate > bDate ? 1 : -1).map(([date, requests]) => ({
         date,
         requests: requests.sort((a, b) => {
           if (a.response === b.response) return 0
