@@ -1,17 +1,23 @@
 <template>
     <div class="search-bar">
-      <b-form-input @click="onLoad()" v-model="input"  id="input-bar" placeholder="Search for a service or provider..."/>
+      <b-form-input id="input-bar" @click="onLoad()" @change="onButtonPress(input)" v-model="input" autocomplete="off" placeholder="Search for a service..."/>
+      <datalist id="input-bar">
+        <option v-for="suggestion in suggestions" v-bind:key="suggestion.name">{{ suggestion.name }}</option>
+      </datalist>
       <b-button :to="searchValue + input" id="search-button">Search</b-button>
     </div>
 </template>
 
 <script>
+import { Api } from '@/Api'
+
 export default {
   name: 'searchBar',
   data() {
     return {
-      searchValue: 'results?query=',
-      input: ''
+      searchValue: 'results?queryResult=',
+      input: '',
+      suggestions: []
     }
   },
   methods: {
@@ -21,6 +27,16 @@ export default {
           location.replace(window.location.href + this.searchValue + this.input)
         }
       })
+    },
+    async onButtonPress(input) {
+      await Api.get('v1/services?queryResult=' + input)
+        .then(response => {
+          this.suggestions = response.data
+          return this.suggestions
+        })
+        .catch(error => {
+          console.log(error)
+        })
     }
   }
 }
@@ -28,8 +44,7 @@ export default {
 
 <style>
 .search-bar {
-    width: 100vh;
-    padding-bottom: 6rem;
+    padding-bottom: 5rem;
 }
 
 .search-bar > * {

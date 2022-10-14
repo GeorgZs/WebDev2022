@@ -26,8 +26,8 @@
           <b-form-input v-model="updatedService.address" placeholder="Enter address" id="popup-form"/>
         </b-modal>
         <div id="list" v-for="service in services" :key="service._id">
-              <div id="card-view" @load="loadNames(service.providerId)">
-                <div @click="clickForm(service)" id="details-list">
+              <div id="card-view">
+                <div @click="clickForm(service, service.address)" id="details-list">
                     <div id="service-name-container">
                       <h2>{{ service.name }}</h2>
                       <router-link id="route-to-service" :to="`/providers/${service.providerId}`">
@@ -76,14 +76,15 @@
                     <form class="form">
                         <div class="card-paragraph">
                             <br>
-                            <!--fix width and height to be responsive-->
                             <iframe
-                            id="map-element"
+                            v-if="service.address !== ''"
+                            :id='`map-element-${service.counter}`'
                             style="border:0"
                             loading="lazy"
-                            :src='`https://www.google.com/maps/embed/v1/place?key=${apiKey}&q=${address}`'></iframe> <!--use service.address after finished-->
-                                <br>
-                                <p> Address: {{ service.address || "No location saved" }} </p>
+                            :src='`https://www.google.com/maps/embed/v1/place?key=${apiKey}&q=${address}`'/>
+                            <p v-else> No Details entered regarding Location</p>
+                            <br>
+                            <p> Address: {{ service.address || "No location saved" }} </p>
                         </div>
                         <div class="left-form">
                             Name*
@@ -137,7 +138,10 @@
                 </b-collapse>
               </div>
         </div>
-        <h4 v-if="services.length === 0">There are no services available, please try something else</h4>
+        <b-col cols="6" v-if="services.length === 0" class="justify-content-md-center no-service-available">
+          <h4>There are no services available, please try something else</h4>
+          <h6>Please try again with another search term</h6>
+        </b-col>
     </div>
 </template>
 
@@ -160,7 +164,6 @@ export default {
       servicesList: [],
       apiKey: 'AIzaSyDwRByjwDc9rECZ8631Up2NHGFbuk-1qE0',
       lanceApiKey: 'AIzaSyAX4EG0aDD8SPrmWIavGP5gBpdZPsWWAjE',
-      address: 'Paris',
       urlParamsSearch: '',
       urlParams: window.location.search,
       countryCode: '+46',
@@ -254,7 +257,7 @@ export default {
         noCloseButton: true
       })
     },
-    clickForm(service) {
+    clickForm(service, address) {
       service.visible = !service.visible
       service.isFormValid = 'null'
 
@@ -265,15 +268,15 @@ export default {
       service.formInput.timePeriod = ''
       service.formInput.message = ''
 
-      if (this.address.length > 1) {
-        this.address.trim()
-        let mapsAddress = this.address
+      if (address.length > 0 || address !== undefined) {
+        address.trim()
+        let mapsAddress = address
 
         // on opening form, render map
-        if (this.address.includes(' ')) {
-          mapsAddress = this.address.split(' ').join('+')
+        if (address.includes(' ')) {
+          mapsAddress = address.split(' ').join('+')
         }
-        document.getElementById('map-element').src = 'https://www.google.com/maps/embed/v1/place?key=' + this.apiKey + '&q=' + mapsAddress
+        document.getElementById('map-element-' + service.counter).src = 'https://www.google.com/maps/embed/v1/place?key=' + this.apiKey + '&q=' + mapsAddress
       }
     },
     isVisible(isFormValid) {
@@ -354,7 +357,7 @@ export default {
 
 <style>
 
-#map-element {
+iframe {
   width: 100%;
   height: 80%;
 }
@@ -501,5 +504,13 @@ export default {
 
 .card-paragraph {
     width: 15rem;
+}
+
+.no-service-available {
+  margin-top: 1rem;
+}
+
+.no-service-available > * {
+  margin-top: 3rem;
 }
 </style>

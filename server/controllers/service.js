@@ -39,6 +39,41 @@ router.get('/services', async (req, res, handleError) => {
         const search = req.query.search ? req.query.search.toString() : "";
         const sortBy = req.query.sort ? req.query.sort.toString() : "";
 
+        const queryParams = req.query.queryResult
+
+        if(queryParams) {
+            const results = await Service.aggregate([
+                {
+                    $search: {
+                        index: 'default',
+                        autocomplete: {
+                            query: queryParams,
+                            path: 'name',
+                            fuzzy: {
+                                maxEdits: 1,
+                            },
+                            tokenOrder: "sequential",
+                        }
+                    }
+                },
+                {
+                    $project: {
+                        _id: 1,
+                        name: 1,
+                        price: 1,
+                        duration: 1,
+                        details: 1,
+                        address: 1,
+                        providerId: 1,
+                    }
+                },
+                {
+                    $limit: 10,
+                }
+            ])
+
+            if (results) return res.status(200).json(results)
+        } else {
         /*
         const list = sortBy.split(":");
         const category = list[0];
@@ -53,6 +88,7 @@ router.get('/services', async (req, res, handleError) => {
               
         // the filtering works but component doesnt update accordingly
         res.status(200).json(services.map(service => visibleDataFor(service)));
+        }
     }
     catch (err) {
         handleError(err);

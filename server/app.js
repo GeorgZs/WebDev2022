@@ -7,7 +7,8 @@ const history = require('connect-history-api-fallback');
 
 
 
-const mongoURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/animalDevelopmentDB';
+// const mongoURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/animalDevelopmentDB';
+const mongoURI = 'mongodb+srv://FuerduCorp:Furdu123@cluster0.cybyu71.mongodb.net/FurduDB?retryWrites=true&w=majority'
 const port = process.env.PORT || 3000;
 
 connectToDatabase(mongoURI);

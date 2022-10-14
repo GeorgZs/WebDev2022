@@ -3,8 +3,10 @@
         <NavBar/>
         <div class="search-main-container">
             <div class="page-content">
-                <h1 style="padding-bottom: 2rem">What are you searching for?</h1>
-                <SearchBar></SearchBar>
+                <b-col cols="6" class="justify-content-md-center">
+                    <h1 id="banner">What are you searching for?</h1>
+                    <SearchBar></SearchBar>
+                </b-col>
                 <b-col cols="6" class="recommendations">
                     <b-col>
                         <b-row class="justify-content-md-center">
@@ -53,13 +55,25 @@ export default {
   },
   methods: {
     navigate(buttonItem) {
-      this.$router.push('/results?query=' + buttonItem.name)
+      this.$router.push('/results?queryResult=' + buttonItem.name)
     }
   }
 }
 </script>
 
 <style>
+#banner {
+    padding-bottom: 2rem;
+    font-weight: 600;
+    font-size: 2.5rem;
+}
+
+@media screen and (max-width: 630) {
+    #banner {
+        font-size: 2rem;
+    }
+}
+
 .search-main-container {
     height: 70vh;
 }

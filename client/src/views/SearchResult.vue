@@ -60,17 +60,21 @@ export default {
   async mounted() {
     let tempArr = []
     const params = new URLSearchParams(this.urlParams)
-    // needs to be included in query
-    this.urlParamsSearch = params.get('query')
-    await Api.get('v1/services')
+    this.urlParamsSearch = params.get('queryResult')
+
+    const searchPath = this.urlParamsSearch !== ''
+      ? 'v1/services?' + params
+      : 'v1/services'
+
+    await Api.get(searchPath)
       .then(response => {
         tempArr = response.data
       })
       .catch(error => {
-        tempArr = error
+        console.log(error)
+        tempArr = []
       })
-
-    await this.createAccordionList(tempArr)
+    if (tempArr.length > 0) await this.createAccordionList(tempArr)
   },
   methods: {
     async createAccordionList(tempArr) {
@@ -115,10 +119,10 @@ export default {
     },
     async getList() {
       // add + this.urlParamsSearch
-      location.replace('results?query=' + this.urlParamsSearch)
+      location.replace('results?queryResult=' + this.urlParamsSearch)
 
       // temporary get method, has no filter or index applied
-      await Api.get('v1/services')
+      await Api.get('v1/services?queryResult=' + this.urlParamsSearch)
         .then(response => {
           this.services = response.data
         })
@@ -129,6 +133,7 @@ export default {
     reload() {
       this.getAppendedList()
       this.rerenderIndex += 1
+      window.location.reload()
     }
   },
   components: { Accordion, NavBar }
