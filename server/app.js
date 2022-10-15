@@ -68,7 +68,7 @@ function addRoutesToApp(app) {
     const bookingRequestController = require('./controllers/bookingRequest');
     app.use('/api/v1/providers', providerController);
     app.use('/api/v1', serviceController);
-    app.use('/api/v1/providers/:providerId/landingPage', landingPageController);
+    app.use('/api/v1/providers/:providerId/landingPages', landingPageController);
     app.use('/api/v1', bookingRequestController);
 
     // Catch all non-error handler for api (i.e., 404 Not Found)
