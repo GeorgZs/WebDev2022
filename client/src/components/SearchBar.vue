@@ -70,12 +70,6 @@ export default {
   }
 }
 
-@media screen and (max-width: 510px) {
-  #input-bar {
-    width: 50%
-  }
-}
-
 #search-button {
     border-radius: 100px;
     width: 18%;

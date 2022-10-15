@@ -29,7 +29,7 @@
               <div id="card-view">
                 <div @click="clickForm(service, service.address)" id="details-list">
                     <div id="service-name-container">
-                      <h2>{{ service.name }}</h2>
+                      <h2 id='header-service-name'>{{ service.name }}</h2>
                       <router-link id="route-to-service" :to="`/providers/${service.providerId}`">
                         <h6> {{ service.providerName }} </h6>
                       </router-link>
@@ -83,7 +83,6 @@
                             loading="lazy"
                             :src='`https://www.google.com/maps/embed/v1/place?key=${apiKey}&q=${address}`'/>
                             <p v-else> No Details entered regarding Location</p>
-                            <br>
                             <p> Address: {{ service.address || "No location saved" }} </p>
                         </div>
                         <div class="left-form">
@@ -386,10 +385,30 @@ iframe {
   text-align: right;
 }
 
+@media screen and (max-width: 500px) {
+  .edit-functionality {
+    flex-direction: row;
+  }
+
+  .edit-functionality > * {
+    padding: 1rem
+  }
+}
+
 #location-tag {
   align-self: flex-end;
   width: fit-content;
   margin-top: 0.5rem;
+}
+
+@media screen and (max-width: 400px) {
+  #header-service-name {
+    font-size: 1.5rem;
+  }
+
+  #route-to-service {
+    font-size: 0.5rem;
+  }
 }
 
 #route-to-service {
@@ -440,6 +459,7 @@ iframe {
   display: flex;
   flex-direction: row;
   align-items: center;
+  flex-wrap: wrap;
 
   padding-right: 2.5rem;
 }
@@ -493,6 +513,8 @@ iframe {
 }
 
 .card-paragraph {
+    display:flex;
+    flex-direction: column;
     width: 15rem;
 }
 
