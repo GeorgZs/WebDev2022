@@ -1,8 +1,10 @@
-var express = require('express');
-var Service = require('../models/service');
-var Provider = require('../models/provider');
+const express = require('express');
+const Service = require('../models/service');
+const Provider = require('../models/provider');
+const BookingRequest = require('../models/bookingRequest');
 
-var router = express.Router({ mergeParams: true });
+
+const router = express.Router({ mergeParams: true });
 
 // /providers/:providerId/services
 
@@ -108,7 +110,12 @@ router.delete('/providers/:providerId/services', async (req, res, handleError) =
         const providerId = req.params.providerId;
         const services = await Service.find({ providerId }).exec();
         await Service.deleteMany({ providerId });
+        await BookingRequest.deleteMany({providerId})
+
         res.status(204).json(services.map(service => visibleDataFor(service)));
+        /**
+         * await BookingRequest.deleteMany({ providerId });
+         */
 
     }
     catch (err) {
