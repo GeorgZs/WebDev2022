@@ -26,7 +26,7 @@ export default {
       })
       localStorage.clear()
       this.$router.push('/login')
-    } // patch the user via the saved id -- remove token -- clear localstorage
+    }
   }
 }
 </script>

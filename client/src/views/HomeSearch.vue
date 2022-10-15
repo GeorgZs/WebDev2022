@@ -44,7 +44,7 @@ export default {
     return {
       list: []
     }
-  }, // finish the onclick for searching via the randomized buttons
+  },
   async mounted() {
     await Api.get('v1/services')
       .then(response => {

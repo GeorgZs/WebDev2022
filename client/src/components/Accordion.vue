@@ -223,7 +223,6 @@ export default {
       this.updatedService.address = ''
     },
     async submitNewService() {
-      // Prevent modal from closing
       const h = this.$createElement
 
       await Api.post('v1/providers/' + localStorage.loginId + '/services', {
@@ -272,7 +271,6 @@ export default {
         address.trim()
         let mapsAddress = address
 
-        // on opening form, render map
         if (address.includes(' ')) {
           mapsAddress = address.split(' ').join('+')
         }
@@ -282,9 +280,6 @@ export default {
     isVisible(isFormValid) {
       return isFormValid === 'false' ? 'visible' : 'hidden'
     },
-
-    // broken
-    // make sure on resubmission after false form, resets state and does check
     checkFormValidity(service) {
       if (service.formInput.name === '' || service.formInput.email === '' ||
           service.formInput.timePeriod === '') {
@@ -305,7 +300,6 @@ export default {
 
       const formValiditiy = this.checkFormValidity(service)
 
-      // finish form validation
       const snackMessage = formValiditiy
         ? 'Form Successfully Submitted!'
         : 'Error with Form Submission'
@@ -323,7 +317,6 @@ export default {
         noCloseButton: true
       })
 
-      // post request when form is all correct
       if (formValiditiy) {
         await Api.post('v1/services/' + serviceId + '/bookingRequests', {
           timePeriod: service.formInput.timePeriod,
@@ -349,9 +342,6 @@ export default {
       this.rerenderIndex += 1
     }
   }
-  // courtesy of: https://v2.vuejs.org/v2/cookbook/form-validation.html
-  // var re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-
 }
 </script>
 
