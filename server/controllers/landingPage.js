@@ -1,7 +1,11 @@
 const express = require('express');
 const LandingPage = require('../models/landingPage');
+const fileUpload = require('express-fileupload');
+const { json } = require('express');
+const fs = require('fs');
 
 const router = express.Router({ mergeParams: true });
+router.use(fileUpload());
 
 // /providers/:providerId/landingPage
 
@@ -64,6 +68,10 @@ router.put('/', async (req, res, handleError) => {
 
 router.patch('/', async (req, res, handleError) => {
     try {
+        console.log(req.body)
+        if(req.files) {
+            console.log('hello')
+        }
         const updatedLandingPageData = req.body;
         const errors = validateLandingPage(updatedLandingPageData, { partial: true });
 
@@ -74,6 +82,44 @@ router.patch('/', async (req, res, handleError) => {
 
         const providerId = req.params.providerId;
         const landingPage = await LandingPage.findOne({ providerId });
+
+        if (!landingPage) {
+            res.status(404).json({ message: 'Unknown landing page!' });
+            return;
+        }
+
+        Object.assign(landingPage, updatedLandingPageData);
+        await landingPage.save();
+        res.status(200).json(visibleDataFor(landingPage));
+    }
+    catch (err) {
+        handleError(err);
+    }
+});
+router.post('/', async (req, res, handleError) => {
+    try {
+        
+        const updatedLandingPageData = req.body;
+        const errors = validateLandingPage(updatedLandingPageData, { partial: true });
+
+        if (errors.length > 0) {
+            res.status(400).json({ message: 'Invalid data for updating a landing page!', errors });
+            return;
+        }
+
+        const providerId = req.params.providerId;
+        const landingPage = await LandingPage.findOne({ providerId });
+
+        if(req.files) {
+           fs.writeFile('./landingPagePictures/' + providerId + '.' + req.files.image.mimetype.match('/(.*)')[1], req.files.image.data, function (err){
+            if(err){
+              console.log(err);
+              res.status(400).json({ message: 'Invalid image for updating a landing page!', errors });
+              return;
+              
+            }
+          })
+        }
 
         if (!landingPage) {
             res.status(404).json({ message: 'Unknown landing page!' });
