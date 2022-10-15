@@ -1,43 +1,48 @@
 <template>
-    <div class="main-container">
+  <div>
+    <NavBar />
+    <div class="results-main-container">
       <div class="search-bar-container">
         <div id="search-bar">
-          <h3 id="results-for">Result for:</h3>
-          <b-form-input id="input-bar" v-model="urlParamsSearch"></b-form-input>
+          <h3 id="results-for">Results for:</h3>
+          <b-form-input id="input-bar-search" v-model="urlParamsSearch"></b-form-input>
               <!--add filter and sort for the results-->
           <b-button @click="getList()" id="search-button">Search</b-button>
         </div>
-      </div>
-      <div class="filter">
-        <b-button v-b-toggle.collapse-sortBy id="sort-by-btn">Sort By</b-button>
-        <b-collapse id="collapse-sortBy" class="mt-2">
-          <b-card>
-            Sort by
-            <b-form-checkbox-group v-model="categoryChecked">
-              <b-form-checkbox value="name">Name</b-form-checkbox>
-              <b-form-checkbox value="duration">Duration</b-form-checkbox>
-              <b-form-checkbox value="price">Price</b-form-checkbox>
-              <b-form-checkbox value="location">Location</b-form-checkbox>
-            </b-form-checkbox-group>
-            <br>
-            Order by
-            <b-form-checkbox-group v-model="ordering">
-              <b-form-checkbox value="asc">Asc</b-form-checkbox>
-              <b-form-checkbox value="desc">Desc</b-form-checkbox>
-            </b-form-checkbox-group>
-            <b-button @click="reload()">Apply Filter</b-button>
-          </b-card>
-        </b-collapse>
-        <b-button id="filter-by-btn">Filter By</b-button>
+        <div class="filter">
+          <b-button v-b-toggle.collapse-sortBy id="sort-by-btn">Sort By</b-button>
+          <b-collapse id="collapse-sortBy" class="mt-2">
+            <b-card>
+              Sort by
+              <b-form-checkbox-group v-model="categoryChecked">
+                <b-form-checkbox value="name">Name</b-form-checkbox>
+                <b-form-checkbox value="duration">Duration</b-form-checkbox>
+                <b-form-checkbox value="price">Price</b-form-checkbox>
+                <b-form-checkbox value="location">Location</b-form-checkbox>
+              </b-form-checkbox-group>
+              <br>
+              Order by
+              <b-form-checkbox-group v-model="ordering">
+                <b-form-checkbox value="asc">Asc</b-form-checkbox>
+                <b-form-checkbox value="desc">Desc</b-form-checkbox>
+              </b-form-checkbox-group>
+              <b-button @click="reload()">Apply Filter</b-button>
+            </b-card>
+          </b-collapse>
+          <b-button id="filter-by-btn">Filter By</b-button>
+        </div>
+
       </div>
       <Accordion :key="rerenderIndex" :services="this.services"/>
     </div>
+  </div>
 </template>
 
 <script>
 // @ is an alias to /src
 import { Api } from '@/Api'
-import Accordion from '../components/Accordion.vue'
+import Accordion from '@/components/Accordion.vue'
+import NavBar from '@/components/NavBar.vue'
 
 export default {
   name: 'searchResult',
@@ -55,35 +60,51 @@ export default {
   async mounted() {
     let tempArr = []
     const params = new URLSearchParams(this.urlParams)
-    this.urlParamsSearch = params.get('query')
-    await Api.get('v1/services')
+    this.urlParamsSearch = params.get('queryResult')
+
+    const searchPath = this.urlParamsSearch !== ''
+      ? 'v1/services?' + params
+      : 'v1/services'
+
+    await Api.get(searchPath)
       .then(response => {
         tempArr = response.data
       })
       .catch(error => {
-        tempArr = error
+        console.log(error)
+        tempArr = []
       })
-
-    let counter = 1
-    tempArr.forEach(element => {
-      this.services.push({
-        ...element,
-        isFormValid: 'null',
-        visible: false,
-        counter: 'collapse-' + counter,
-        formInput: {
-          name: '',
-          email: '',
-          phoneNumber: '',
-          message: '',
-          date: '',
-          timePeriod: ''
-        }
-      })
-      counter++
-    })
+    if (tempArr.length > 0) await this.createAccordionList(tempArr)
   },
   methods: {
+    async createAccordionList(tempArr) {
+      let counter = 1
+      tempArr.forEach(async element => {
+        let tempElement
+        await Api.get('v1/providers/' + element.providerId)
+          .then(response => { tempElement = response.data })
+          .catch(err => { console.log(err) })
+        this.services.push({
+          ...element,
+          providerName: tempElement.name,
+          isFormValid: 'null',
+          visible: false,
+          counter: 'collapse-' + counter,
+          popUp: 'modal-' + counter,
+          confirmDelete: false,
+          confirmEdit: false,
+          formInput: {
+            name: '',
+            email: '',
+            phoneNumber: '',
+            message: '',
+            date: '',
+            timePeriod: ''
+          }
+        })
+        counter++
+      })
+    },
     async getAppendedList() {
       const ordering = this.ordering[0] === 'asc' ? 1 : this.ordering[0] === 'desc' ? -1 : 0
       const sortByCondition = '?sort=' + this.categoryChecked[0] + ':' + ordering
@@ -98,10 +119,10 @@ export default {
     },
     async getList() {
       // add + this.urlParamsSearch
-      location.replace('results?query=' + this.urlParamsSearch)
+      location.replace('results?queryResult=' + this.urlParamsSearch)
 
       // temporary get method, has no filter or index applied
-      await Api.get('v1/services')
+      await Api.get('v1/services?queryResult=' + this.urlParamsSearch)
         .then(response => {
           this.services = response.data
         })
@@ -112,22 +133,25 @@ export default {
     reload() {
       this.getAppendedList()
       this.rerenderIndex += 1
+      window.location.reload()
     }
   },
-  components: { Accordion }
+  components: { Accordion, NavBar }
 }
 </script>
 
 <style>
-.main-container {
+.results-main-container {
     display: flex;
     flex-direction: column;
+    padding-bottom: 2.75rem;
 }
 
 .search-bar-container {
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
 }
 
 #results-for {
@@ -141,21 +165,22 @@ export default {
 }
 
 #search-bar {
-  width: 100vh;
   display: flex;
-  align-items: flex-start;
-  height: fit-content;
-  padding-top: 2rem;
-  padding-bottom: 2rem;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+
+  width: 40%;
+  height: 10rem;
 }
 
 #search-bar > * {
   margin: 1rem;
 }
 
-#input-bar {
+#input-bar-search {
   border-radius: 100px;
-  margin: auto;
+  margin: auto
 }
 
 .filter {
@@ -173,6 +198,21 @@ export default {
   border-radius: 100px;
   width: 10%;
   background-color: rgb(136, 0, 0);
+}
+
+@media screen and (max-width: 1055px){
+  #filter-by-btn, #sort-by-btn {
+    width: fit-content;
+  }
+
+  .filter {
+    padding-top: 3rem;
+    align-self: center
+  }
+
+  #search-button {
+    width: fit-content
+  }
 }
 
 #collapse-sortBy {

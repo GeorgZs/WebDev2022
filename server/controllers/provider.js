@@ -3,6 +3,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const Provider = require('../models/provider');
 const LandingPage = require('../models/landingPage');
+const sendEmail = require('../emailService');
 // const verifyToken = require("../jwtVerifier")
 
 // Auth Info
@@ -43,6 +44,7 @@ router.post('/register', async (req, res, handleError) => {
 
             const landingPage = new LandingPage({ providerId: provider._id });
             await landingPage.save();
+            sendEmail(providerData.email, 'welcomeMail.html');
 
             return res.status(201).json(visibleDataFor(provider));
         }
@@ -74,7 +76,7 @@ router.post('/login', async (req, res, handleError) => {
             )
             provider.token = token
 
-            res.status(200).json(visibleDataFor(provider));
+            res.status(200).json({token: provider.token, id: provider._id});
         } else {
             res.status(401).json({ "message": "invalid credentials" })
         }

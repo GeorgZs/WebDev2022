@@ -1,12 +1,13 @@
 const express = require('express');
 const BookingRequest = require('../models/bookingRequest');
 const Service = require('../models/service');
+const sendEmail = require('../emailService');
 
 const router = express.Router({ mergeParams: true });
 
 // /services/:serviceId/bookingRequests
 
-router.get('/', async (req, res, handleError) => {
+router.get('/services/:serviceId/bookingRequests', async (req, res, handleError) => {
     /*
     var sort = {}
 
@@ -23,7 +24,17 @@ router.get('/', async (req, res, handleError) => {
 
 });
 
-router.post('/', async (req, res, handleError) => {
+router.get('/providers/:providerId/bookingRequests', async (req, res, handleError) => {
+    try {
+        const bookings = await BookingRequest.find({ providerId: req.params.providerId }).exec();
+        res.status(200).json(bookings.map(booking => visibleDataFor(booking)));
+    } catch (err) {
+        handleError(err)
+    }
+
+});
+
+router.post('/services/:serviceId/bookingRequests', async (req, res, handleError) => {
     try {
         const bookingData = req.body;
         const errors = validateBooking(bookingData);
@@ -44,13 +55,15 @@ router.post('/', async (req, res, handleError) => {
         bookingData.providerId = service.providerId;
         const booking = new BookingRequest(bookingData);
         await booking.save();
+
+        sendEmail(bookingData.user.email);
         res.status(201).json(visibleDataFor(booking));
     } catch (err) {
         handleError(err);
     }
 });
 
-router.delete('/', async (req, res, handleError) => {
+router.delete('/services/:serviceId/bookingRequests', async (req, res, handleError) => {
     try {
         const bookings = await BookingRequest.find({ serviceId: req.params.serviceId }).exec();
         await BookingRequest.deleteMany({ serviceId: req.params.serviceId });
@@ -60,7 +73,7 @@ router.delete('/', async (req, res, handleError) => {
     }
 });
 
-router.get('/:bookingRequestId', async (req, res, handleError) => {
+router.get('/services/:serviceId/bookingRequests/:bookingRequestId', async (req, res, handleError) => {
     try {
         const serviceId = req.params.serviceId;
         const bookingRequestId = req.params.bookingRequestId;
@@ -78,7 +91,7 @@ router.get('/:bookingRequestId', async (req, res, handleError) => {
     }
 });
 
-router.delete('/:bookingRequestId', async (req, res, handleError) => {
+router.delete('/services/:serviceId/bookingRequests/:bookingRequestId', async (req, res, handleError) => {
     try {
         const serviceId = req.params.serviceId;
         const bookingRequestId = req.params.bookingRequestId;
@@ -95,7 +108,7 @@ router.delete('/:bookingRequestId', async (req, res, handleError) => {
     }
 });
 
-router.put('/:bookingRequestId', async (req, res, handleError) => {
+router.put('/services/:serviceId/bookingRequests/:bookingRequestId', async (req, res, handleError) => {
     try {
         const updatedBooking = req.body;
         const errors = validateBooking(updatedBooking);
@@ -122,7 +135,7 @@ router.put('/:bookingRequestId', async (req, res, handleError) => {
     }
 });
 
-router.patch('/:bookingRequestId', async (req, res, handleError) => {
+router.patch('/services/:serviceId/bookingRequests/:bookingRequestId', async (req, res, handleError) => {
     try {
         const updatedBooking = req.body;
         const errors = validateBooking(updatedBooking, { partial: true });

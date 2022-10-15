@@ -1,32 +1,35 @@
 <template>
-    <div id="body-content">
-        <div id="login-component">
-            <h2>Login</h2>
-            <div class="no-account-text">
-                <span>No account?</span><a href="register"><span> Create here!</span></a>
-            </div>
+    <div>
+        <NavBar/>
+        <div id="body-content">
+            <div id="login-component">
+                <h2 id="login-title">Login</h2>
+                <div class="no-account-text">
+                    <span>No account?</span><a href="register"><span> Create here!</span></a>
+                </div>
 
-            <div class="login-credentials">
-                <div class="login-form">
-                    <input id="email-field" type="text" name="email" autocomplete="off" v-model="credentials.email" required>
-                        <label for="email" class="email-name">
-                            <span class="content-name">email</span>
-                        </label>
+                <div class="login-credentials">
+                    <div class="login-form">
+                        <input id="email-field" type="text" name="email" @click="onLoad()" autocomplete="off" v-model="credentials.email" required>
+                            <label for="email" class="email-name">
+                                <span class="content-name">email</span>
+                            </label>
+                    </div>
+                    <div class="login-form">
+                        <input id="password-field" type="password" name="password" autocomplete="off" v-model="credentials.password" required>
+                            <label for="password" class="password-name">
+                                <span class="content-name">password</span>
+                            </label>
+                    </div>
+                    <b-button id="button-login" v-on:click="loginUser()">Login</b-button>
                 </div>
-                <div class="login-form">
-                    <input id="password-field" type="password" name="password" autocomplete="off" v-model="credentials.password" required>
-                        <label for="password" class="password-name">
-                            <span class="content-name">password</span>
-                        </label>
-                </div>
-                <b-button class="button-login" v-on:click="loginUser()" variant="primary">Disabled Login</b-button>
             </div>
         </div>
-
     </div>
 </template>
 
 <script>
+import NavBar from '@/components/NavBar.vue'
 import { Api } from '../Api'
 
 export default {
@@ -43,37 +46,74 @@ export default {
     hello() {
       return alert('Hello world')
     },
-    loginUser() {
-      Api.post('/v1/providers/login', this.credentials)
+    async loginUser() {
+      await Api.post('/v1/providers/login', this.credentials)
         .then(response => {
-          console.log(response)
+          localStorage.loginToken = response.data.token
+          localStorage.loginId = response.data.id
+          this.$router.push('/dashboard')
         })
+    },
+    onLoad() {
+      document.getElementById('input-bar').addEventListener('keypress', async event => {
+        if (event.key === 'Enter') {
+          await this.loginUser()
+        }
+      })
     }
-
-  }
+  },
+  components: { NavBar }
 }
 </script>
 
 <style>
 #body-content {
-    height: 100vh;
+    height: 100%;
     position: relative;
     display: flex;
     justify-content: space-between;
     flex-direction: column;
     align-items: center;
     padding: 10px;
+    margin-top: 5rem;
 }
 
 #login-component {
     background-color:white;
-    height: 70%;
+    height: 50%;
     width: 40%;
     display: flex;
     justify-content: center;
     align-content: center;
     flex-direction: column;
-    border: 1px solid black;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+}
+#login-title {
+    margin-top: 2rem;
+}
+
+@media screen and (max-width: 700px) {
+    #login-component{
+        width: 60%;
+    }
+    #body-content{
+        margin-top:100px;
+    }
+    #button-login{
+        margin-bottom: 15px;
+    }
+}
+@media screen and (max-width: 400px) {
+    #login-component{
+        width: 100%;
+    }
+    #body-content{
+        margin-top:100px;
+    }
+    #button-login{
+        margin-bottom: 15px;
+    }
 }
 .no-account-text {
     display: flex;
@@ -92,7 +132,7 @@ export default {
 }
 
 .login-form {
-    width: 50%;
+    width: 60%;
     position: relative;
     height: 50px;
     margin: 7px;
@@ -151,8 +191,11 @@ export default {
     transform: translateX(0%);
 }
 
-.button-login {
+#button-login {
     margin-top: 3.5rem;
+    margin-bottom: 2.5rem;
+    background-color: #0d9488;
+    border:none;
 }
 
 </style>

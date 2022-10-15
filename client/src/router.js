@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Home from './views/Home.vue'
 import HomeSearch from './views/HomeSearch.vue'
 import LandingPage from './views/LandingPage.vue'
 import Login from './views/Login.vue'
@@ -8,8 +7,20 @@ import Register from './views/Register.vue'
 import SearchResult from './views/SearchResult.vue'
 // import { component } from 'vue/types/umd'
 import Settings from './views/Settings.vue'
+import Inbox from './views/Inbox.vue'
+import Dashboard from './views/Dashboard.vue'
+import ServiceList from './views/ServiceList.vue'
+import NotFound from './views/NotFound.vue'
 
 Vue.use(Router)
+
+function checkId(to, from, next) {
+  if (localStorage.loginToken !== undefined && localStorage.loginToken !== null && localStorage.loginToken !== '') {
+    next()
+  } else {
+    next('/404')
+  }
+}
 
 export default new Router({
   mode: 'history',
@@ -19,11 +30,6 @@ export default new Router({
       path: '/',
       name: 'home',
       component: HomeSearch
-    },
-    {
-      path: '/home',
-      name: 'homeNot',
-      component: Home
     },
     {
       path: '/login',
@@ -41,14 +47,38 @@ export default new Router({
       component: Register
     },
     {
-      path: '/providers/:id/landingPage',
+      path: '/providers/:providerId',
       name: 'landingPage',
       component: LandingPage
     },
     {
-      path: '/settings',
+      path: '/dashboard/services',
+      name: 'service list',
+      component: ServiceList,
+      beforeEnter: checkId
+    },
+    {
+      path: '/dashboard/settings',
       name: 'settings',
-      component: Settings
+      component: Settings,
+      beforeEnter: checkId
+    },
+    {
+      path: '/dashboard/inbox',
+      name: 'inbox',
+      component: Inbox,
+      beforeEnter: checkId
+    },
+    {
+      path: '/dashboard',
+      name: 'dashboard',
+      component: Dashboard,
+      beforeEnter: checkId
+    },
+    {
+      path: '*',
+      name: 'NotFound',
+      component: NotFound
     }
   ]
 })
