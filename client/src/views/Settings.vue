@@ -77,7 +77,8 @@
                             <p>Logo:</p>
                             <b-form-file
                                 v-model="landingPage.logo"
-                                :state="(file1)"
+                                type="file"
+                                @change="onFileSelected"
                                 placeholder="Choose a file or drop it here..."
                                 drop-placeholder="Drop file here..."
                             ></b-form-file>
@@ -95,7 +96,7 @@
                         </div>
 
                         <div class="logo-image">
-                            <img id="sidebar-logo" src="/logo-icon.svg" alt="Gabagool"/>
+                            <img  id="sidebar-logo" :src="this.landingPage.logo" alt="Gabagool"/>
                         </div>
 
                     </div>
@@ -114,7 +115,7 @@
                     </div>
 
                     </b-form>
-                    <b-button id="landing-page-button" variant="info">Update Landing page</b-button>
+                    <b-button id="landing-page-button" @click="updateLandingPage()" variant="info">Update Landing page</b-button>
                 </div>
                 <div class="danger-zone">
                     <div class="danger-text">
@@ -191,15 +192,20 @@ export default {
         })
       this.showSnackbar()
     },
+    onFileSelected(event) {
+      this.landingPage.logo = event.target.files[0]
+      console.log(this.landingPage.logo)
+    },
     async updateLandingPage() {
       const h = this.$createElement
+      const fd = new FormData()
 
-      await Api.patch('v1/providers/' + localStorage.loginId + '/landingPage', {
-        logo: this.landingPage.logo,
-        color: this.landingPage.color,
-        details: this.landingPage.details
-      })
+      fd.append('image', this.landingPage.logo)
+      const headers = { 'Content-Type': 'multipart/form-data' }
+
+      await Api.post('v1/providers/' + localStorage.loginId + '/landingPage', fd, { headers })
         .then(response => {
+          console.log(response)
           this.snackMessage = h('p', [h('strong', 'Landing Page Successfully Updated')])
           this.formValiditiy = true
         })
@@ -228,6 +234,10 @@ export default {
         })
       this.showSnackbar()
     },
+    // async created
+    // api get
+    // create get in landingpage for picture
+    // take pic here in settings.vue
     showSnackbar() {
       if (this.formValiditiy !== null) {
         this.$bvToast.toast([this.snackMessage], {
