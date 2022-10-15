@@ -36,9 +36,7 @@ router.post('/providers/:providerId/services', async (req, res, handleError) => 
 router.get('/services', async (req, res, handleError) => {
     //when searching for service
     try {
-        const search = req.query.search ? req.query.search.toString() : "";
-        const sortBy = req.query.sort ? req.query.sort.toString() : "";
-
+        const sortBy = req.query.sort
         const queryParams = req.query.queryResult
 
         if(queryParams) {
@@ -71,22 +69,19 @@ router.get('/services', async (req, res, handleError) => {
                     $limit: 10,
                 }
             ])
+            results.sort((a,b) => {
+                a[sortBy] < b[sortBy] ? 1 : -1
+            })
 
+            console.log(results)
             if (results) return res.status(200).json(results)
         } else {
-        /*
-        const list = sortBy.split(":");
-        const category = list[0];
-        const ordering = parseInt(list[1]);
-        // sortBy = 'name:-1'
-        const services = (category !== undefined || category !== '') && ordering !== 0 
-                                        ? await Service.find().sort({ [category]: ordering }).exec() 
-                                        : category !== undefined 
-                                        ? await Service.find().sort({ [category]: -1 }).exec()
-                                        : await Service.find().exec(); */
-        const services = await Service.find().exec();
-              
-        // the filtering works but component doesnt update accordingly
+        
+        const services = sortBy !== undefined ? await Service.find().sort(sortBy).exec()
+        : await Service.find().sort('name').exec()
+        console.log(services)
+
+
         res.status(200).json(services.map(service => visibleDataFor(service)));
         }
     }

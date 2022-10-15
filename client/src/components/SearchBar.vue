@@ -1,7 +1,7 @@
 <template>
     <div class="search-bar">
-      <b-form-input id="input-bar" @click="onLoad()" @change="onButtonPress(input)" v-model="input" autocomplete="off" placeholder="Search for a service..."/>
-      <datalist id="input-bar">
+      <b-form-input id="input-bar" list="suggestions" @click="onLoad()" @input="onButtonPress(input)" v-model="input" autocomplete="off" placeholder="Search for a service..."/>
+      <datalist id="suggestions">
         <option v-for="suggestion in suggestions" v-bind:key="suggestion.name">{{ suggestion.name }}</option>
       </datalist>
       <b-button :to="searchValue + input" id="search-button">Search</b-button>
