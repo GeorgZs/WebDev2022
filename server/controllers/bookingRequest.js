@@ -165,6 +165,16 @@ router.patch('/services/:serviceId/bookingRequests/:bookingRequestId', async (re
 /**
  * Endpoints below are there to allow for checklist completion
  */
+ router.get('/bookingRequests', async (req, res, handleError) => {
+    try {
+        const bookingRequests = await BookingRequest.find({});
+
+        res.status(200).json(bookingRequests.map((requests) => {visibleDataFor(booking)}));
+    } catch (err) {
+        handleError(err);
+    }
+});
+
 router.delete('/bookingRequests', async (req, res, handleError) => {
     try {
         await BookingRequest.deleteMany({});

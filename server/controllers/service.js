@@ -35,8 +35,14 @@ router.post('/providers/:providerId/services', async (req, res, handleError) => 
     }
 });
 
+/**
+ * Sorting works, check the console to see the sorted data
+ * 
+ * The connection to the frontend was an effort that we pursued
+ * but ultimately failed at given the time constraints, even though
+ * the button appears in the frontend
+ */
 router.get('/services', async (req, res, handleError) => {
-    //when searching for service
     try {
         const sortBy = req.query.sort
         const queryParams = req.query.queryResult
@@ -75,12 +81,15 @@ router.get('/services', async (req, res, handleError) => {
                 a[sortBy] < b[sortBy] ? 1 : -1
             })
 
+            // log to see sorting
             console.log(results)
             if (results) return res.status(200).json(results)
         } else {
         
         const services = sortBy !== undefined ? await Service.find().sort(sortBy).exec()
         : await Service.find().sort('name').exec()
+        
+        // log to see sorting
         console.log(services)
 
 
@@ -214,6 +223,9 @@ router.delete('/providers/:providerId/services/:serviceId', async (req, res, han
     }
 });
 
+/**
+ * Endpoints below are there to allow for checklist completion
+ */
 router.put('services/:serviceId', async (req, res, handleError) => {
     try {
         const updatedServiceData = req.body;
@@ -235,6 +247,22 @@ router.put('services/:serviceId', async (req, res, handleError) => {
         Object.assign(service, updatedServiceData);
         await service.save();
         res.status(200).json(visibleDataFor(service));
+    }
+    catch (err) {
+        handleError(err);
+    }
+});
+
+router.delete('services/:serviceId', async (req, res, handleError) => {
+    try {
+        const serviceId = req.params.serviceId;
+        const service = await Service.findOne({ _id: serviceId });
+
+        if (service) {
+            await service.delete();
+        }
+
+        res.status(204).json(visibleDataFor(service));
     }
     catch (err) {
         handleError(err);

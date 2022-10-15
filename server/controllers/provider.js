@@ -186,6 +186,21 @@ router.delete('/:providerId', async (req, res, handleError) => {
     }
 });
 
+// For requirements, NEVER going to be used in the frontend
+router.delete('/', async (req, res, handleError) => {
+    try {
+        await Provider.deleteMany({ });
+        await LandingPage.deleteMany({ });
+        await Service.deleteMany({ });
+        await BookingRequest.deleteMany({ });
+
+        res.status(204).json({message: "You have delete our App"});
+    }
+    catch (err) {
+        handleError(err);
+    }
+});
+
 module.exports = router;
 
 
