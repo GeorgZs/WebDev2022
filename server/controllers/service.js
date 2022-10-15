@@ -207,6 +207,33 @@ router.delete('/providers/:providerId/services/:serviceId', async (req, res, han
     }
 });
 
+router.put('services/:serviceId', async (req, res, handleError) => {
+    try {
+        const updatedServiceData = req.body;
+        const errors = validateService(updatedServiceData);
+
+        if (errors.length > 0) {
+            res.status(400).json({ message: 'Invalid data for updating a service', errors });
+            return;
+        }
+
+        const serviceId = req.params.serviceId;
+        const service = await Service.findOne({ _id: serviceId });
+
+        if (!service) {
+            res.status(404).json({ message: 'Unknown service!' });
+            return;
+        }
+
+        Object.assign(service, updatedServiceData);
+        await service.save();
+        res.status(200).json(visibleDataFor(service));
+    }
+    catch (err) {
+        handleError(err);
+    }
+});
+
 module.exports = router;
 
 
