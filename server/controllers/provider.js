@@ -187,6 +187,7 @@ router.delete('/:providerId', async (req, res, handleError) => {
 });
 
 // For requirements, NEVER going to be used in the frontend
+/*
 router.delete('/', async (req, res, handleError) => {
     try {
         await Provider.deleteMany({ });
@@ -200,6 +201,7 @@ router.delete('/', async (req, res, handleError) => {
         handleError(err);
     }
 });
+*/
 
 module.exports = router;
 

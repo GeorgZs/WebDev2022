@@ -7,8 +7,6 @@ const fs = require('fs');
 const router = express.Router({ mergeParams: true });
 router.use(fileUpload());
 
-// /providers/:providerId/landingPage
-
 router.get('/', async (req, res, handleError) => {
     try {
         const providerId = req.params.providerId;

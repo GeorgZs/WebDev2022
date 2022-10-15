@@ -226,6 +226,7 @@ router.delete('/providers/:providerId/services/:serviceId', async (req, res, han
 /**
  * Endpoints below are there to allow for checklist completion
  */
+/*
 router.put('services/:serviceId', async (req, res, handleError) => {
     try {
         const updatedServiceData = req.body;
@@ -268,6 +269,7 @@ router.delete('services/:serviceId', async (req, res, handleError) => {
         handleError(err);
     }
 });
+*/
 
 module.exports = router;
 
