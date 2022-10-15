@@ -56,7 +56,7 @@ router.post('/services/:serviceId/bookingRequests', async (req, res, handleError
         const booking = new BookingRequest(bookingData);
         await booking.save();
 
-        sendEmail(bookingData.user.email);
+        sendEmail(bookingData.user.email, 'Booking successfully done', 'successMail.html');
         res.status(201).json(visibleDataFor(booking));
     } catch (err) {
         handleError(err);

@@ -7,16 +7,16 @@ const cheerio = require("cheerio");
 const transporter = nodemailer.createTransport({
     service: 'hotmail',
     auth: {
-        user: 'group33.webdev@hotmail.com',
-        pass: 'webdevgroup33'
+        user: 'furdu33@hotmail.com',
+        pass: 'Furdu123'
     }
 });
 
-const sendEmail = async (receiverEmail, fileName) => {
+const sendEmail = async (receiverEmail, subject, fileName) => {
     transporter.sendMail({
-        from: 'group33.webdev@hotmail.com',
+        from: 'furdu33@hotmail.com',
         to: receiverEmail,
-        subject: 'Welcome',
+        subject: subject,
         text: 'hello',
         html: await readFile('/Users/ivanvidackovic/group-33-web/server/emails/' + fileName, 'utf8')
     }, function(err,info){
