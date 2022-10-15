@@ -4,6 +4,8 @@ const jwt = require('jsonwebtoken');
 const Provider = require('../models/provider');
 const LandingPage = require('../models/landingPage');
 const sendEmail = require('../emailService');
+const Service = require('../models/service');
+const BookingRequest = require('../models/bookingRequest');
 // const verifyToken = require("../jwtVerifier")
 
 // Auth Info
@@ -172,7 +174,9 @@ router.delete('/:providerId', async (req, res, handleError) => {
         const providerId = req.params.providerId;
         const provider = await Provider.findById(providerId);
         const landingPage = await LandingPage.findOne({ providerId });
-
+        await Service.deleteMany({providerId})
+        await BookingRequest.deleteMany({providerId})
+        
         if (landingPage) await landingPage.delete();
         if (provider) await provider.delete();
         res.status(204).json(visibleDataFor(provider));
