@@ -162,6 +162,60 @@ router.patch('/services/:serviceId/bookingRequests/:bookingRequestId', async (re
     }
 });
 
+/**
+ * Endpoints below are there to allow for checklist completion
+ */
+router.delete('/bookingRequests', async (req, res, handleError) => {
+    try {
+        await BookingRequest.deleteMany({});
+        res.status(204).json({message: "All booking requests deleted"});
+    } catch (err) {
+        handleError(err);
+    }
+});
+
+router.put('/bookingRequests/:bookingRequestId', async (req, res, handleError) => {
+    try {
+        const updatedBooking = req.body;
+        const errors = validateBooking(updatedBooking);
+
+        if (errors.length > 0) {
+            res.status(400).json({ message: 'Invalid data for updating booking', errors })
+            return;
+        }
+        const bookingRequestId = req.params.bookingRequestId;
+        const booking = await BookingRequest.findOne({ _id: bookingRequestId });
+
+        if (!booking) {
+            res.status(404).json({ message: 'Unknown booking!' });
+            return;
+        }
+
+        Object.assign(booking, updatedBooking);
+        await booking.save();
+        res.status(200).json(visibleDataFor(booking));
+    } catch (err) {
+        handleError(err);
+    }
+});
+
+router.get('bookingRequests/:bookingRequestId', async (req, res, handleError) => {
+    try {
+        const bookingRequestId = req.params.bookingRequestId;
+
+        const booking = await BookingRequest.findOne({ _id: bookingRequestId });
+
+        if (!booking) {
+            res.status(404).json({ message: 'Unknown booking!' });
+            return;
+        }
+
+        res.status(200).json(visibleDataFor(booking));
+    } catch (err) {
+        handleError(err);
+    }
+});
+
 module.exports = router;
 
 function validateBooking(bookingData, { partial } = { partial: false }) {

@@ -134,6 +134,13 @@
                         <div class="delete-account-button">
                             <b-button v-on:click="deleteAccount()" variant="outline-danger">Delete account</b-button>
                         </div>
+                        <br/>
+                        <div v-if="userEmail === 'georg@gmail.com'" class="danger-danger-buttons">
+                          <b-button v-on:click="deleteBookingRequests()" variant="outline-danger">Delete All Booking Requests</b-button>
+                          Booking Request Id:
+                          <b-form-input id="booking-id-input" v-model="bookingId"></b-form-input>
+                          <b-button v-on:click="putBookingRequestById()" variant="outline-danger">Replace Booking Data with Funny Quotes</b-button>
+                      </div>
                     </div>
                 </div>
             </div>
@@ -163,13 +170,17 @@ export default {
         details: undefined
       },
       snackMessage: '',
-      formValiditiy: null
+      formValiditiy: null,
+      userEmail: '',
+      bookingId: ''
     }
   },
+  async mounted() {
+    const userId = localStorage.loginId
+    await Api.get('v1/providers/' + userId)
+      .then(response => { this.userEmail = response.data.email })
+  },
   methods: {
-    hello() {
-      return alert('Hello world')
-    },
     async updateAccount() {
       const h = this.$createElement
 
@@ -249,6 +260,34 @@ export default {
           noCloseButton: true
         })
       }
+    },
+    async deleteBookingRequests() {
+      await Api.delete('v1/bookingRequests')
+        .then(response => console.log(response))
+        .catch(err => console.log(err))
+    },
+    async putBookingRequestById() {
+      let existingBookingRequest
+
+      await Api.get('v1/bookingRequests/' + this.bookingId)
+        .then(response => { existingBookingRequest = response.data })
+        .catch(err => console.log(err))
+
+      await Api.put('v1/bookingRequests/' + this.bookingId, {
+        providerId: existingBookingRequest.providerId,
+        serviceId: existingBookingRequest.providerId,
+        timePeriod: '420:69',
+        user: {
+          name: 'Doofenschmerz',
+          email: 'ILoveJava@hatemail.com',
+          phoneNumber: '69696969696969'
+        },
+        date: '1.1.1',
+        message: 'April Fools',
+        response: 'Accepted'
+      })
+        .then(response => console.log(response))
+        .catch(err => console.log(err))
     }
   },
   components: { SideBar, NavBar }
@@ -378,6 +417,19 @@ p {
     display: flex;
     justify-content: flex-end;
     margin-right: 40px;
+}
+
+#booking-id-input {
+  width: 20%
+}
+
+.danger-danger-buttons {
+  display: flex;
+  align-items: center;
+}
+
+.danger-danger-buttons > * {
+  margin: 1rem
 }
 
 </style>
