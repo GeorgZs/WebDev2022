@@ -58,6 +58,10 @@ function setupApp() {
 }
 
 function addRoutesToApp(app) {
+    app.get('/api', function (req, res) {
+        res.json({ 'message': 'Welcome to your DIT342 backend ExpressJS project!' });
+    });
+
     const providerController = require('./controllers/provider');
     const serviceController = require('./controllers/service')
     const landingPageController = require('./controllers/landingPage');
