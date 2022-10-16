@@ -149,8 +149,8 @@ router.patch('/services/:serviceId/bookingRequests/:bookingRequestId', async (re
         await booking.save();
         if(updatedBooking.response === 'declined') {
             sendEmail(booking.user.email, 'Booking declined ', 'cancelMail.html');
-        } else {
-            //sendEmail(bookingData.user.email. 'Booking confirmed', '.html')
+        } else if(updatedBooking.response === 'confirmed') {
+            sendEmail(booking.user.email, 'Booking confirmed', 'confirmedMail.html')
         }
         res.status(200).json(visibleDataFor(booking));
     } catch (err) {
