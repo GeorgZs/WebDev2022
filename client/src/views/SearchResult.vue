@@ -163,11 +163,6 @@ export default {
   flex-direction: column;
 }
 
-#results-for {
-  width: 30vh;
-  margin-bottom: 0
-}
-
 #search-button {
   border-radius: 100px;
   width: 18%;
