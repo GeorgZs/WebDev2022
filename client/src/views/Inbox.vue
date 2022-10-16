@@ -47,6 +47,9 @@ export default {
           inbox.get(date).push(request)
         }
 
+        console.dir(requests)
+        console.dir(inbox)
+
         this.inbox = [...inbox.entries()].sort(([aDate], [bDate]) => aDate > bDate ? 1 : -1).map(([date, requests]) => ({
           date,
           requests: requests.sort((a, b) => {

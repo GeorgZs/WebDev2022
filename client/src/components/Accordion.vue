@@ -325,7 +325,7 @@ export default {
             email: service.formInput.email,
             phoneNumber: this.countryCode + service.formInput.phoneNumber
           },
-          message: service.formInput.message
+          message: service.formInput.message ? service.formInput.message : undefined
         })
           .then(response => {
             console.log(response)
