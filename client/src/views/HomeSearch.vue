@@ -3,11 +3,11 @@
         <NavBar/>
         <div class="search-main-container">
             <div class="page-content">
-                <b-col cols="6" class="justify-content-md-center">
+                <b-col cols="12" md="6" class="justify-content-md-center">
                     <h1 id="banner">What are you searching for?</h1>
                     <SearchBar></SearchBar>
                 </b-col>
-                <b-col cols="6" class="recommendations">
+                <b-col cols="12" md="6" class="recommendations">
                     <b-col>
                         <b-row class="justify-content-md-center">
                             <b-col cols="2"></b-col>
@@ -102,5 +102,13 @@ export default {
 
 .recommendation-list-top > *, .recommendation-list-bottom > * {
     margin: 0.40rem;
+}
+
+.recommendation-list-top {
+    justify-content: center;
+}
+
+.recommendation-list-bottom {
+    justify-content: center;
 }
 </style>
