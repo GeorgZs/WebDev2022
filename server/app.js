@@ -7,7 +7,7 @@ const history = require('connect-history-api-fallback');
 
 
 
-// const mongoURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/animalDevelopmentDB';
+//const mongoURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/animalDevelopmentDB';
 const mongoURI = 'mongodb+srv://FuerduCorp:Furdu123@cluster0.cybyu71.mongodb.net/FurduDB?retryWrites=true&w=majority'
 const port = process.env.PORT || 3000;
 
@@ -84,6 +84,7 @@ function addFrontendToApp(app) {
     // Serve static assets
     const root = path.normalize(__dirname + '/..');
     const client = path.join(root, 'client', 'dist');
+    app.use('/landingPagePictures', express.static(__dirname + '/landingPagePictures'))
     app.use(express.static(client));
 }
 

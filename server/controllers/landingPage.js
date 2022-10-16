@@ -1,8 +1,7 @@
 const express = require('express');
 const LandingPage = require('../models/landingPage');
 const fileUpload = require('express-fileupload');
-const { json } = require('express');
-const fs = require('fs');
+const fs = require('fs').promises;
 
 const router = express.Router({ mergeParams: true });
 router.use(fileUpload());
@@ -16,7 +15,6 @@ router.get('/', async (req, res, handleError) => {
             res.status(404).json({ message: 'Unknown landing page!' });
             return;
         }
-
         res.status(200).json(visibleDataFor(landingPage));
     }
     catch (err) {
@@ -94,7 +92,7 @@ router.patch('/', async (req, res, handleError) => {
         handleError(err);
     }
 });
-router.post('/', async (req, res, handleError) => {
+router.put('/logo', async (req, res, handleError) => {
     try {
         
         const updatedLandingPageData = req.body;
@@ -109,14 +107,23 @@ router.post('/', async (req, res, handleError) => {
         const landingPage = await LandingPage.findOne({ providerId });
 
         if(req.files) {
-           fs.writeFile('./landingPagePictures/' + providerId + '.' + req.files.image.mimetype.match('/(.*)')[1], req.files.image.data, function (err){
-            if(err){
-              console.log(err);
+            try {
+                if(landingPage.logo) {
+                    await fs.unlink('./' + landingPage.logo)
+                }
+            } catch (error) {
+                //ignore - file already deleted 
+            }
+
+            try{
+                landingPage.logo = '/landingPagePictures/' + providerId + '_' + Date.now() + '.' + req.files.image.mimetype.match('/(.*)')[1]
+                await fs.writeFile('./' + landingPage.logo, req.files.image.data)
+            }
+            catch(err) {
+                console.log(err);
               res.status(400).json({ message: 'Invalid image for updating a landing page!', errors });
               return;
-              
             }
-          })
         }
 
         if (!landingPage) {

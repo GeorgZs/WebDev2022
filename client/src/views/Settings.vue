@@ -76,7 +76,7 @@
                         <div class="logo-color">
                             <p>Logo:</p>
                             <b-form-file
-                                v-model="landingPage.logo"
+                                v-model="logoFile"
                                 type="file"
                                 @change="onFileSelected"
                                 placeholder="Choose a file or drop it here..."
@@ -95,9 +95,7 @@
                         </b-form-group>
                         </div>
 
-                        <div class="logo-image">
-                            <img  id="sidebar-logo" :src="this.landingPage.logo" alt="Gabagool"/>
-                        </div>
+                            <img  id="landingPage-logo" :src="this.landingPage.logo"/>
 
                     </div>
 
@@ -169,6 +167,7 @@ export default {
         color: undefined,
         details: undefined
       },
+      logoFile: undefined,
       snackMessage: '',
       formValiditiy: null,
       userEmail: '',
@@ -204,17 +203,17 @@ export default {
       this.showSnackbar()
     },
     onFileSelected(event) {
-      this.landingPage.logo = event.target.files[0]
-      console.log(this.landingPage.logo)
+      this.logoFile = event.target.files[0]
+      console.log(this.logoFile)
     },
     async updateLandingPage() {
       const h = this.$createElement
       const fd = new FormData()
 
-      fd.append('image', this.landingPage.logo)
+      fd.append('image', this.logoFile)
       const headers = { 'Content-Type': 'multipart/form-data' }
 
-      await Api.post('v1/providers/' + localStorage.loginId + '/landingPage', fd, { headers })
+      await Api.put('v1/providers/' + localStorage.loginId + '/landingPages/logo', fd, { headers })
         .then(response => {
           console.log(response)
           this.snackMessage = h('p', [h('strong', 'Landing Page Successfully Updated')])
@@ -228,6 +227,11 @@ export default {
         })
 
       this.showSnackbar()
+      await Api.get('v1/providers/' + localStorage.loginId + '/landingPages')
+        .then(response => {
+          this.landingPage.logo = response.data.logo
+          console.log(response.data)
+        })
     },
     async deleteAllServices() {
       await Api.delete('v1/providers/' + localStorage.loginId + '/services')
@@ -381,6 +385,16 @@ p {
     width: 60%;
     margin-right: 5rem;
 }
+#landingPage-logo {
+  height: 16rem;
+  width: 16rem;
+  object-fit: contain;
+  border: 1px solid #6666;
+  border-radius: 100%;
+  padding:1rem;
+
+}
+
 #color-text {
     margin-top: 1.25rem;
 }
