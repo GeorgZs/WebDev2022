@@ -10,61 +10,66 @@ export default {
     }
   },
   async mounted() {
-    try {
-      const { data: rawServices } = await Api.get(`/v1/providers/${localStorage.loginId}/services`)
-      const { data: requests } = await Api.get(`/v1/providers/${localStorage.loginId}/bookingRequests`)
-
-      const todayStart = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate(), 0, 0, 0)
-      const services = rawServices.reduce((map, s) => map.set(s._id, s), new Map())
-      const inbox = new Map()
-
-      function formatDate(date) {
-        return `${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()}`
-      }
-
-      for (const request of requests) {
-        if (new Date(request.date) < todayStart) continue /** skip */
-
-        request.service = services.get(request.serviceId)
-        const date = formatDate(new Date(request.date))
-
-        if (!inbox.has(date)) {
-          inbox.set(date, [])
-        }
-
-        inbox.get(date).push(request)
-      }
-
-      this.inbox = [...inbox.entries()].sort(([aDate], [bDate]) => aDate > bDate ? 1 : -1).map(([date, requests]) => ({
-        date,
-        requests: requests.sort((a, b) => {
-          if (a.response === b.response) return 0
-          if (!a.response) return -1
-          if (!b.response) return 1
-          if (a.response === 'declined') return 1
-          if (b.response === 'declined') return -1
-          return 0
-        })
-      }))
-    } catch (err) {
-      const h = this.$createElement
-      const vNodesMsg = h('p', [h('strong', `Something went wrong! ${String(err.response.data.message || err.message || '')}`)])
-      this.$bvToast.toast([vNodesMsg], {
-        toaster: 'b-toaster-bottom-right',
-        variant: 'danger',
-        solid: true,
-        autoHideDelay: 30000,
-        appendToast: true,
-        noCloseButton: true
-      })
-    }
+    await this.refetch()
   },
   methods: {
     async confirmRequest(serviceId, bookingId) {
       await Api.patch('v1/services/' + serviceId + '/bookingRequests/' + bookingId, { response: 'confirmed' })
+      await this.refetch()
     },
     async declineRequest(serviceId, bookingId) {
       await Api.patch('v1/services/' + serviceId + '/bookingRequests/' + bookingId, { response: 'declined' })
+      await this.refetch()
+    },
+    async refetch() {
+      try {
+        const { data: rawServices } = await Api.get(`/v1/providers/${localStorage.loginId}/services`)
+        const { data: requests } = await Api.get(`/v1/providers/${localStorage.loginId}/bookingRequests`)
+
+        const todayStart = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate(), 0, 0, 0)
+        const services = rawServices.reduce((map, s) => map.set(s._id, s), new Map())
+        const inbox = new Map()
+
+        function formatDate(date) {
+          return `${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()}`
+        }
+
+        for (const request of requests) {
+          if (new Date(request.date) < todayStart) continue /** skip */
+
+          request.service = services.get(request.serviceId)
+          const date = formatDate(new Date(request.date))
+
+          if (!inbox.has(date)) {
+            inbox.set(date, [])
+          }
+
+          inbox.get(date).push(request)
+        }
+
+        this.inbox = [...inbox.entries()].sort(([aDate], [bDate]) => aDate > bDate ? 1 : -1).map(([date, requests]) => ({
+          date,
+          requests: requests.sort((a, b) => {
+            if (a.response === b.response) return 0
+            if (!a.response) return -1
+            if (!b.response) return 1
+            if (a.response === 'declined') return 1
+            if (b.response === 'declined') return -1
+            return 0
+          })
+        }))
+      } catch (err) {
+        const h = this.$createElement
+        const vNodesMsg = h('p', [h('strong', `Something went wrong! ${String(err.response.data.message || err.message || '')}`)])
+        this.$bvToast.toast([vNodesMsg], {
+          toaster: 'b-toaster-bottom-right',
+          variant: 'danger',
+          solid: true,
+          autoHideDelay: 30000,
+          appendToast: true,
+          noCloseButton: true
+        })
+      }
     }
   },
   components: {
