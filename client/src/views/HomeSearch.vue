@@ -74,10 +74,6 @@ export default {
     }
 }
 
-.search-main-container {
-    height: 70vh;
-}
-
 .page-content {
     display: flex;
     flex-direction: column;
