@@ -132,7 +132,7 @@
                         </div>
                     </form>
                     <p :style="'visibility:' + isVisible(service.isFormValid) + '; color: red; justify-content: center; padding-top: 0.5rem;'">Error: {{ errorMessage }}</p>
-                    <b-button size="lg" @click="submitForm(service._id, service)" >Complete Booking</b-button>
+                    <b-button id="request-button" size="lg" @click="submitForm(service._id, service)" >Request Booking</b-button>
                   </b-card>
                 </b-collapse>
               </div>
@@ -369,6 +369,10 @@ iframe {
   border: 2px green;
   animation: blinker 1s linear;
   animation-duration: 2s;
+}
+
+#request-button {
+  background-color: #0d9488;
 }
 
 @keyframes blinker {
