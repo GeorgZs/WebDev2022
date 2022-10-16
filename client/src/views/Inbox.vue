@@ -1,6 +1,6 @@
 <script>
-import SideBar from '@/components/SideBar.vue'
 import NavBar from '@/components/NavBar.vue'
+import SideBar from '@/components/SideBar.vue'
 import { Api } from '../Api.js'
 
 export default {
@@ -59,6 +59,14 @@ export default {
       })
     }
   },
+  methods: {
+    async confirmRequest(serviceId, bookingId) {
+      await Api.patch('v1/services/' + serviceId + '/bookingRequests/' + bookingId, { response: 'confirmed' })
+    },
+    async declineRequest(serviceId, bookingId) {
+      await Api.patch('v1/services/' + serviceId + '/bookingRequests/' + bookingId, { response: 'declined' })
+    }
+  },
   components: {
     SideBar,
     NavBar
@@ -85,8 +93,8 @@ export default {
                 <span class="request-sender"><b-icon icon="person" /> {{request.user.name}}</span>
               </div>
               <div v-if="!request.response" class="request-actions">
-                <span class="action"><b-icon icon="check2" /> Confirm</span>
-                <span class="action secondary"><b-icon icon="x" /> Decline</span>
+                <span @click="confirmRequest(request.serviceId, request._id)" class="action"><b-icon icon="check2" /> Confirm</span>
+                <span @click="declineRequest(request.serviceId, request._id)" class="action secondary"><b-icon icon="x" /> Decline</span>
               </div>
               <div v-else class="request-actions">
                 <span v-if="request.response === 'confirmed'" class="action disabled"><b-icon icon="check2" /> Confirmed</span>

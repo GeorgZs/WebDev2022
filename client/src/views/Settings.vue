@@ -83,24 +83,7 @@
                                 drop-placeholder="Drop file here..."
                             ></b-form-file>
 
-                        <p id="color-text">Color:</p>
-                        <b-form-group
-                        id="input-group-7"
-                        label-for="input-7"
-
-                        >
-                        <b-form-input id="input-7" type="color" placeholder="Color" v-model="landingPage.color">
-
-                        </b-form-input>
-                        </b-form-group>
-                        </div>
-
-                            <img  id="landingPage-logo" :src="this.landingPage.logo"/>
-
-                    </div>
-
-                    <div class="details-input">
-                        <p>Details:</p>
+                            <p id="details-text">Details:</p>
                         <b-form-group
                         id="input-group-8"
                         label-for="input-8"
@@ -110,6 +93,10 @@
 
                         </b-form-textarea>
                         </b-form-group>
+
+                        </div>
+                            <img  id="landingPage-logo" :src="this.landingPage.logo"/>
+
                     </div>
 
                     </b-form>
@@ -164,7 +151,6 @@ export default {
       },
       landingPage: {
         logo: undefined,
-        color: undefined,
         details: undefined
       },
       logoFile: undefined,
@@ -208,23 +194,29 @@ export default {
     },
     async updateLandingPage() {
       const h = this.$createElement
-      const fd = new FormData()
+      if (this.logoFile) {
+        const fd = new FormData()
 
-      fd.append('image', this.logoFile)
-      const headers = { 'Content-Type': 'multipart/form-data' }
+        fd.append('image', this.logoFile)
+        const headers = { 'Content-Type': 'multipart/form-data' }
 
-      await Api.put('v1/providers/' + localStorage.loginId + '/landingPages/logo', fd, { headers })
-        .then(response => {
-          console.log(response)
-          this.snackMessage = h('p', [h('strong', 'Landing Page Successfully Updated')])
-          this.formValiditiy = true
-        })
-        .catch(error => {
-          console.log(error)
+        await Api.put('v1/providers/' + localStorage.loginId + '/landingPages/logo', fd, { headers })
+          .then(response => {
+            console.log(response)
+            this.snackMessage = h('p', [h('strong', 'Landing Page Successfully Updated')])
+            this.formValiditiy = true
+          })
+          .catch(error => {
+            console.log(error)
 
-          this.snackMessage = h('p', [h('strong', 'Error Updating Landing Page')])
-          this.formValiditiy = false
-        })
+            this.snackMessage = h('p', [h('strong', 'Error Updating Landing Page')])
+            this.formValiditiy = false
+          })
+      }
+
+      await Api.patch('v1/providers/' + localStorage.loginId + '/landingPages', {
+        details: this.landingPage.details
+      })
 
       this.showSnackbar()
       await Api.get('v1/providers/' + localStorage.loginId + '/landingPages')
@@ -258,10 +250,7 @@ export default {
         })
       this.showSnackbar()
     },
-    // async created
-    // api get
-    // create get in landingpage for picture
-    // take pic here in settings.vue
+
     showSnackbar() {
       if (this.formValiditiy !== null) {
         this.$bvToast.toast([this.snackMessage], {
@@ -393,6 +382,10 @@ p {
   border-radius: 100%;
   padding:1rem;
 
+}
+
+#details-text {
+  margin-top: 2rem;
 }
 
 #color-text {
