@@ -493,13 +493,13 @@ iframe {
 }
 
 #list {
-    width: 100vh;
+    max-width: 100vh;
     display: flex;
     justify-content: space-evenly;
     margin: 0.20rem;
     border: 0.05rem solid black;
     border-radius: 0.5rem;
-    width: 55%;
+    width: 85vw;
 }
 
 .card-text {
