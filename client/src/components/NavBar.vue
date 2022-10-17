@@ -65,25 +65,15 @@ export default {
     height: 4rem;
     display: flex;
     align-items: center;
+    align-self: start;
 }
 
 .navbar-right {
+    height: fit-content;
     display: flex;
     flex-wrap: wrap;
     justify-content: end;
-    align-items: center;
     gap: 0.5rem;
-}
-
-@media screen and (max-width: 415px) {
-    .navbar-right {
-        display: flex;
-        flex-direction: column;
-    }
-
-    .navbar-right > * {
-        margin: 0.25rem;
-    }
 }
 
 #nav-bar-group > * {
