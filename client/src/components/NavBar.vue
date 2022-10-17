@@ -74,7 +74,7 @@ export default {
     display: flex;
     flex-wrap: wrap;
     justify-content: end;
-    gap: 0.5rem;
+    gap: 0.5rem 1rem;
 }
 
 #nav-bar-group > * {
