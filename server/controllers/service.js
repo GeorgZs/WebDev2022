@@ -1,8 +1,10 @@
-var express = require('express');
-var Service = require('../models/service');
-var Provider = require('../models/provider');
+const express = require('express');
+const Service = require('../models/service');
+const Provider = require('../models/provider');
+const BookingRequest = require('../models/bookingRequest');
 
-var router = express.Router({ mergeParams: true });
+
+const router = express.Router({ mergeParams: true });
 
 // /providers/:providerId/services
 
@@ -33,12 +35,16 @@ router.post('/providers/:providerId/services', async (req, res, handleError) => 
     }
 });
 
+/**
+ * Sorting works, check the console to see the sorted data
+ * 
+ * The connection to the frontend was an effort that we pursued
+ * but ultimately failed at given the time constraints, even though
+ * the button appears in the frontend
+ */
 router.get('/services', async (req, res, handleError) => {
-    //when searching for service
     try {
-        const search = req.query.search ? req.query.search.toString() : "";
-        const sortBy = req.query.sort ? req.query.sort.toString() : "";
-
+        const sortBy = req.query.sort
         const queryParams = req.query.queryResult
 
         if(queryParams) {
@@ -71,22 +77,22 @@ router.get('/services', async (req, res, handleError) => {
                     $limit: 10,
                 }
             ])
+            results.sort((a,b) => {
+                a[sortBy] < b[sortBy] ? 1 : -1
+            })
 
+            // log to see sorting
+            console.log(results)
             if (results) return res.status(200).json(results)
         } else {
-        /*
-        const list = sortBy.split(":");
-        const category = list[0];
-        const ordering = parseInt(list[1]);
-        // sortBy = 'name:-1'
-        const services = (category !== undefined || category !== '') && ordering !== 0 
-                                        ? await Service.find().sort({ [category]: ordering }).exec() 
-                                        : category !== undefined 
-                                        ? await Service.find().sort({ [category]: -1 }).exec()
-                                        : await Service.find().exec(); */
-        const services = await Service.find().exec();
-              
-        // the filtering works but component doesnt update accordingly
+        
+        const services = sortBy !== undefined ? await Service.find().sort(sortBy).exec()
+        : await Service.find().sort('name').exec()
+        
+        // log to see sorting
+        console.log(services)
+
+
         res.status(200).json(services.map(service => visibleDataFor(service)));
         }
     }
@@ -113,7 +119,12 @@ router.delete('/providers/:providerId/services', async (req, res, handleError) =
         const providerId = req.params.providerId;
         const services = await Service.find({ providerId }).exec();
         await Service.deleteMany({ providerId });
+        await BookingRequest.deleteMany({providerId})
+
         res.status(204).json(services.map(service => visibleDataFor(service)));
+        /**
+         * await BookingRequest.deleteMany({ providerId });
+         */
 
     }
     catch (err) {
@@ -211,6 +222,54 @@ router.delete('/providers/:providerId/services/:serviceId', async (req, res, han
         handleError(err);
     }
 });
+
+/**
+ * Endpoints below are there to allow for checklist completion
+ */
+/*
+router.put('services/:serviceId', async (req, res, handleError) => {
+    try {
+        const updatedServiceData = req.body;
+        const errors = validateService(updatedServiceData);
+
+        if (errors.length > 0) {
+            res.status(400).json({ message: 'Invalid data for updating a service', errors });
+            return;
+        }
+
+        const serviceId = req.params.serviceId;
+        const service = await Service.findOne({ _id: serviceId });
+
+        if (!service) {
+            res.status(404).json({ message: 'Unknown service!' });
+            return;
+        }
+
+        Object.assign(service, updatedServiceData);
+        await service.save();
+        res.status(200).json(visibleDataFor(service));
+    }
+    catch (err) {
+        handleError(err);
+    }
+});
+
+router.delete('services/:serviceId', async (req, res, handleError) => {
+    try {
+        const serviceId = req.params.serviceId;
+        const service = await Service.findOne({ _id: serviceId });
+
+        if (service) {
+            await service.delete();
+        }
+
+        res.status(204).json(visibleDataFor(service));
+    }
+    catch (err) {
+        handleError(err);
+    }
+});
+*/
 
 module.exports = router;
 

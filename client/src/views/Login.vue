@@ -39,7 +39,8 @@ export default {
       credentials: {
         email: '',
         password: ''
-      }
+      },
+      formValiditiy: false
     }
   },
   methods: {
@@ -47,12 +48,21 @@ export default {
       return alert('Hello world')
     },
     async loginUser() {
+      const h = this.$createElement
       await Api.post('/v1/providers/login', this.credentials)
         .then(response => {
           localStorage.loginToken = response.data.token
           localStorage.loginId = response.data.id
+          this.snackMessage = h('p', [h('strong', 'Login successful')])
+          this.formValiditiy = true
           this.$router.push('/dashboard')
         })
+        .catch(error => {
+          console.log(error)
+          this.snackMessage = h('p', [h('strong', 'Login unsuccessful')])
+          this.formValiditiy = false
+        })
+      this.showSnackbar()
     },
     onLoad() {
       document.getElementById('input-bar').addEventListener('keypress', async event => {
@@ -60,6 +70,18 @@ export default {
           await this.loginUser()
         }
       })
+    },
+    showSnackbar() {
+      if (this.formValiditiy !== null) {
+        this.$bvToast.toast([this.snackMessage], {
+          toaster: 'b-toaster-bottom-right',
+          variant: this.formValiditiy ? 'success' : 'danger',
+          solid: true,
+          autoHideDelay: 3000,
+          appendToast: true,
+          noCloseButton: true
+        })
+      }
     }
   },
   components: { NavBar }

@@ -29,7 +29,7 @@
               <div id="card-view">
                 <div @click="clickForm(service, service.address)" id="details-list">
                     <div id="service-name-container">
-                      <h2>{{ service.name }}</h2>
+                      <h2 id='header-service-name'>{{ service.name }}</h2>
                       <router-link id="route-to-service" :to="`/providers/${service.providerId}`">
                         <h6> {{ service.providerName }} </h6>
                       </router-link>
@@ -83,7 +83,6 @@
                             loading="lazy"
                             :src='`https://www.google.com/maps/embed/v1/place?key=${apiKey}&q=${address}`'/>
                             <p v-else> No Details entered regarding Location</p>
-                            <br>
                             <p> Address: {{ service.address || "No location saved" }} </p>
                         </div>
                         <div class="left-form">
@@ -133,7 +132,7 @@
                         </div>
                     </form>
                     <p :style="'visibility:' + isVisible(service.isFormValid) + '; color: red; justify-content: center; padding-top: 0.5rem;'">Error: {{ errorMessage }}</p>
-                    <b-button size="lg" @click="submitForm(service._id, service)" >Complete Booking</b-button>
+                    <b-button id="request-button" size="lg" @click="submitForm(service._id, service)" >Request Booking</b-button>
                   </b-card>
                 </b-collapse>
               </div>
@@ -223,7 +222,6 @@ export default {
       this.updatedService.address = ''
     },
     async submitNewService() {
-      // Prevent modal from closing
       const h = this.$createElement
 
       await Api.post('v1/providers/' + localStorage.loginId + '/services', {
@@ -272,7 +270,6 @@ export default {
         address.trim()
         let mapsAddress = address
 
-        // on opening form, render map
         if (address.includes(' ')) {
           mapsAddress = address.split(' ').join('+')
         }
@@ -282,9 +279,6 @@ export default {
     isVisible(isFormValid) {
       return isFormValid === 'false' ? 'visible' : 'hidden'
     },
-
-    // broken
-    // make sure on resubmission after false form, resets state and does check
     checkFormValidity(service) {
       if (service.formInput.name === '' || service.formInput.email === '' ||
           service.formInput.timePeriod === '') {
@@ -305,7 +299,6 @@ export default {
 
       const formValiditiy = this.checkFormValidity(service)
 
-      // finish form validation
       const snackMessage = formValiditiy
         ? 'Form Successfully Submitted!'
         : 'Error with Form Submission'
@@ -323,7 +316,6 @@ export default {
         noCloseButton: true
       })
 
-      // post request when form is all correct
       if (formValiditiy) {
         await Api.post('v1/services/' + serviceId + '/bookingRequests', {
           timePeriod: service.formInput.timePeriod,
@@ -333,7 +325,7 @@ export default {
             email: service.formInput.email,
             phoneNumber: this.countryCode + service.formInput.phoneNumber
           },
-          message: service.formInput.message
+          message: service.formInput.message ? service.formInput.message : undefined
         })
           .then(response => {
             console.log(response)
@@ -349,9 +341,6 @@ export default {
       this.rerenderIndex += 1
     }
   }
-  // courtesy of: https://v2.vuejs.org/v2/cookbook/form-validation.html
-  // var re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-
 }
 </script>
 
@@ -382,6 +371,10 @@ iframe {
   animation-duration: 2s;
 }
 
+#request-button {
+  background-color: #0d9488;
+}
+
 @keyframes blinker {
   50% {
     opacity: 0.25;
@@ -396,10 +389,30 @@ iframe {
   text-align: right;
 }
 
+@media screen and (max-width: 565px) {
+  .edit-functionality {
+    flex-direction: row;
+  }
+
+  .edit-functionality > * {
+    padding: 1rem
+  }
+}
+
 #location-tag {
   align-self: flex-end;
   width: fit-content;
   margin-top: 0.5rem;
+}
+
+@media screen and (max-width: 400px) {
+  #header-service-name {
+    font-size: 1.5rem;
+  }
+
+  #route-to-service {
+    font-size: 0.5rem;
+  }
 }
 
 #route-to-service {
@@ -419,6 +432,7 @@ iframe {
 }
 
 #card-container {
+  text-align: center;
   border-radius: 0rem 0rem 0.5rem 0.5rem;
   box-shadow: 0px 2px 2px 0px rgba(0,0,0,0.75);
 -webkit-box-shadow: 0px 2px 2px 0px rgba(0,0,0,0.75);
@@ -450,6 +464,7 @@ iframe {
   display: flex;
   flex-direction: row;
   align-items: center;
+  flex-wrap: wrap;
 
   padding-right: 2.5rem;
 }
@@ -503,6 +518,8 @@ iframe {
 }
 
 .card-paragraph {
+    display:flex;
+    flex-direction: column;
     width: 15rem;
 }
 

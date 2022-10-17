@@ -76,32 +76,14 @@
                         <div class="logo-color">
                             <p>Logo:</p>
                             <b-form-file
-                                v-model="landingPage.logo"
-                                :state="(file1)"
+                                v-model="logoFile"
+                                type="file"
+                                @change="onFileSelected"
                                 placeholder="Choose a file or drop it here..."
                                 drop-placeholder="Drop file here..."
                             ></b-form-file>
 
-                        <p id="color-text">Color:</p>
-                        <b-form-group
-                        id="input-group-7"
-                        label-for="input-7"
-
-                        >
-                        <b-form-input id="input-7" type="color" placeholder="Color" v-model="landingPage.color">
-
-                        </b-form-input>
-                        </b-form-group>
-                        </div>
-
-                        <div class="logo-image">
-                            <img id="sidebar-logo" src="/logo-icon.svg" alt="Gabagool"/>
-                        </div>
-
-                    </div>
-
-                    <div class="details-input">
-                        <p>Details:</p>
+                            <p id="details-text">Details:</p>
                         <b-form-group
                         id="input-group-8"
                         label-for="input-8"
@@ -111,10 +93,14 @@
 
                         </b-form-textarea>
                         </b-form-group>
+
+                        </div>
+                            <img  id="landingPage-logo" :src="this.landingPage.logo"/>
+
                     </div>
 
                     </b-form>
-                    <b-button id="landing-page-button" variant="info">Update Landing page</b-button>
+                    <b-button id="landing-page-button" @click="updateLandingPage()" variant="info">Update Landing page</b-button>
                 </div>
                 <div class="danger-zone">
                     <div class="danger-text">
@@ -125,7 +111,7 @@
                             <p>This action is irreversible and will delete all services created by your account. </p>
                         </div>
                         <div class="delete-service-button">
-                            <b-button variant="outline-danger">Delete services</b-button>
+                            <b-button v-on:click="deleteAllServices()" variant="outline-danger">Delete services</b-button>
                         </div>
                         <div class="delete-account-text">
                             <p>This action is irreversible and will delete your account and all associated services. Please proceed with caution</p>
@@ -133,6 +119,13 @@
                         <div class="delete-account-button">
                             <b-button v-on:click="deleteAccount()" variant="outline-danger">Delete account</b-button>
                         </div>
+                        <br/>
+                        <div v-if="userEmail === 'georg@gmail.com'" class="danger-danger-buttons">
+                          <b-button v-on:click="deleteBookingRequests()" variant="outline-danger">Delete All Booking Requests</b-button>
+                          Booking Request Id:
+                          <b-form-input id="booking-id-input" v-model="bookingId"></b-form-input>
+                          <b-button v-on:click="putBookingRequestById()" variant="outline-danger">Replace Booking Data with Funny Quotes</b-button>
+                      </div>
                     </div>
                 </div>
             </div>
@@ -158,17 +151,21 @@ export default {
       },
       landingPage: {
         logo: undefined,
-        color: undefined,
         details: undefined
       },
+      logoFile: undefined,
       snackMessage: '',
-      formValiditiy: null
+      formValiditiy: null,
+      userEmail: '',
+      bookingId: ''
     }
   },
+  async mounted() {
+    const userId = localStorage.loginId
+    await Api.get('v1/providers/' + userId)
+      .then(response => { this.userEmail = response.data.email })
+  },
   methods: {
-    hello() {
-      return alert('Hello world')
-    },
     async updateAccount() {
       const h = this.$createElement
 
@@ -191,26 +188,51 @@ export default {
         })
       this.showSnackbar()
     },
+    onFileSelected(event) {
+      this.logoFile = event.target.files[0]
+      console.log(this.logoFile)
+    },
     async updateLandingPage() {
       const h = this.$createElement
+      if (this.logoFile) {
+        const fd = new FormData()
 
-      await Api.patch('v1/providers/' + localStorage.loginId + '/landingPage', {
-        logo: this.landingPage.logo,
-        color: this.landingPage.color,
+        fd.append('image', this.logoFile)
+        const headers = { 'Content-Type': 'multipart/form-data' }
+
+        await Api.put('v1/providers/' + localStorage.loginId + '/landingPages/logo', fd, { headers })
+          .then(response => {
+            console.log(response)
+            this.snackMessage = h('p', [h('strong', 'Landing Page Successfully Updated')])
+            this.formValiditiy = true
+          })
+          .catch(error => {
+            console.log(error)
+
+            this.snackMessage = h('p', [h('strong', 'Error Updating Landing Page')])
+            this.formValiditiy = false
+          })
+      }
+
+      await Api.patch('v1/providers/' + localStorage.loginId + '/landingPages', {
         details: this.landingPage.details
       })
+
+      this.showSnackbar()
+      await Api.get('v1/providers/' + localStorage.loginId + '/landingPages')
         .then(response => {
-          this.snackMessage = h('p', [h('strong', 'Landing Page Successfully Updated')])
-          this.formValiditiy = true
+          this.landingPage.logo = response.data.logo
+          console.log(response.data)
+        })
+    },
+    async deleteAllServices() {
+      await Api.delete('v1/providers/' + localStorage.loginId + '/services')
+        .then(response => {
+          console.log(response)
         })
         .catch(error => {
           console.log(error)
-
-          this.snackMessage = h('p', [h('strong', 'Error Updating Landing Page')])
-          this.formValiditiy = false
         })
-
-      this.showSnackbar()
     },
     async deleteAccount() {
       const h = this.$createElement
@@ -228,6 +250,7 @@ export default {
         })
       this.showSnackbar()
     },
+
     showSnackbar() {
       if (this.formValiditiy !== null) {
         this.$bvToast.toast([this.snackMessage], {
@@ -239,6 +262,34 @@ export default {
           noCloseButton: true
         })
       }
+    },
+    async deleteBookingRequests() {
+      await Api.delete('v1/bookingRequests')
+        .then(response => console.log(response))
+        .catch(err => console.log(err))
+    },
+    async putBookingRequestById() {
+      let existingBookingRequest
+
+      await Api.get('v1/bookingRequests/' + this.bookingId)
+        .then(response => { existingBookingRequest = response.data })
+        .catch(err => console.log(err))
+
+      await Api.put('v1/bookingRequests/' + this.bookingId, {
+        providerId: existingBookingRequest.providerId,
+        serviceId: existingBookingRequest.providerId,
+        timePeriod: '420:69',
+        user: {
+          name: 'Doofenschmerz',
+          email: 'ILoveJava@hatemail.com',
+          phoneNumber: '69696969696969'
+        },
+        date: '1.1.1',
+        message: 'April Fools',
+        response: 'Accepted'
+      })
+        .then(response => console.log(response))
+        .catch(err => console.log(err))
     }
   },
   components: { SideBar, NavBar }
@@ -323,6 +374,20 @@ p {
     width: 60%;
     margin-right: 5rem;
 }
+#landingPage-logo {
+  height: 16rem;
+  width: 16rem;
+  object-fit: contain;
+  border: 1px solid #6666;
+  border-radius: 100%;
+  padding:1rem;
+
+}
+
+#details-text {
+  margin-top: 2rem;
+}
+
 #color-text {
     margin-top: 1.25rem;
 }
@@ -368,6 +433,20 @@ p {
     display: flex;
     justify-content: flex-end;
     margin-right: 40px;
+}
+
+#booking-id-input {
+  width: 20%
+}
+
+.danger-danger-buttons {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.danger-danger-buttons > * {
+  margin: 1rem
 }
 
 </style>

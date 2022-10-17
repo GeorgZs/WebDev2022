@@ -4,6 +4,8 @@ const jwt = require('jsonwebtoken');
 const Provider = require('../models/provider');
 const LandingPage = require('../models/landingPage');
 const sendEmail = require('../emailService');
+const Service = require('../models/service');
+const BookingRequest = require('../models/bookingRequest');
 // const verifyToken = require("../jwtVerifier")
 
 // Auth Info
@@ -44,7 +46,7 @@ router.post('/register', async (req, res, handleError) => {
 
             const landingPage = new LandingPage({ providerId: provider._id });
             await landingPage.save();
-            sendEmail(providerData.email, 'welcomeMail.html');
+            sendEmail(providerData.email, 'Welcome', 'welcomeMail.html');
 
             return res.status(201).json(visibleDataFor(provider));
         }
@@ -172,7 +174,9 @@ router.delete('/:providerId', async (req, res, handleError) => {
         const providerId = req.params.providerId;
         const provider = await Provider.findById(providerId);
         const landingPage = await LandingPage.findOne({ providerId });
-
+        await Service.deleteMany({providerId})
+        await BookingRequest.deleteMany({providerId})
+        
         if (landingPage) await landingPage.delete();
         if (provider) await provider.delete();
         res.status(204).json(visibleDataFor(provider));
@@ -181,6 +185,23 @@ router.delete('/:providerId', async (req, res, handleError) => {
         handleError(err);
     }
 });
+
+// For requirements, NEVER going to be used in the frontend
+/*
+router.delete('/', async (req, res, handleError) => {
+    try {
+        await Provider.deleteMany({ });
+        await LandingPage.deleteMany({ });
+        await Service.deleteMany({ });
+        await BookingRequest.deleteMany({ });
+
+        res.status(204).json({message: "You have delete our App"});
+    }
+    catch (err) {
+        handleError(err);
+    }
+});
+*/
 
 module.exports = router;
 

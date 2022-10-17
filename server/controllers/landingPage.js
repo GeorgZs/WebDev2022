@@ -1,9 +1,10 @@
 const express = require('express');
 const LandingPage = require('../models/landingPage');
+const fileUpload = require('express-fileupload');
+const fs = require('fs').promises;
 
 const router = express.Router({ mergeParams: true });
-
-// /providers/:providerId/landingPage
+router.use(fileUpload());
 
 router.get('/', async (req, res, handleError) => {
     try {
@@ -14,7 +15,6 @@ router.get('/', async (req, res, handleError) => {
             res.status(404).json({ message: 'Unknown landing page!' });
             return;
         }
-
         res.status(200).json(visibleDataFor(landingPage));
     }
     catch (err) {
@@ -64,6 +64,10 @@ router.put('/', async (req, res, handleError) => {
 
 router.patch('/', async (req, res, handleError) => {
     try {
+        console.log(req.body)
+        if(req.files) {
+            console.log('hello')
+        }
         const updatedLandingPageData = req.body;
         const errors = validateLandingPage(updatedLandingPageData, { partial: true });
 
@@ -74,6 +78,53 @@ router.patch('/', async (req, res, handleError) => {
 
         const providerId = req.params.providerId;
         const landingPage = await LandingPage.findOne({ providerId });
+
+        if (!landingPage) {
+            res.status(404).json({ message: 'Unknown landing page!' });
+            return;
+        }
+
+        Object.assign(landingPage, updatedLandingPageData);
+        await landingPage.save();
+        res.status(200).json(visibleDataFor(landingPage));
+    }
+    catch (err) {
+        handleError(err);
+    }
+});
+router.put('/logo', async (req, res, handleError) => {
+    try {
+        
+        const updatedLandingPageData = req.body;
+        const errors = validateLandingPage(updatedLandingPageData, { partial: true });
+
+        if (errors.length > 0) {
+            res.status(400).json({ message: 'Invalid data for updating a landing page!', errors });
+            return;
+        }
+
+        const providerId = req.params.providerId;
+        const landingPage = await LandingPage.findOne({ providerId });
+
+        if(req.files) {
+            try {
+                if(landingPage.logo) {
+                    await fs.unlink('./' + landingPage.logo)
+                }
+            } catch (error) {
+                //ignore - file already deleted 
+            }
+
+            try{
+                landingPage.logo = '/landingPagePictures/' + providerId + '_' + Date.now() + '.' + req.files.image.mimetype.match('/(.*)')[1]
+                await fs.writeFile('./' + landingPage.logo, req.files.image.data)
+            }
+            catch(err) {
+                console.log(err);
+              res.status(400).json({ message: 'Invalid image for updating a landing page!', errors });
+              return;
+            }
+        }
 
         if (!landingPage) {
             res.status(404).json({ message: 'Unknown landing page!' });

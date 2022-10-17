@@ -5,33 +5,21 @@
       <div class="search-bar-container">
         <div id="search-bar">
           <h3 id="results-for">Results for:</h3>
-          <b-form-input id="input-bar-search" v-model="urlParamsSearch"></b-form-input>
-              <!--add filter and sort for the results-->
+          <b-form-input list="suggestions" autocomplete="off" id="input-bar-search" @click="onLoad()" @input="onButtonPress(urlParamsSearch)" v-model="urlParamsSearch" placeholder="Search for a service..."></b-form-input>
+          <datalist id="suggestions">
+            <option v-for="suggestion in suggestions" v-bind:key="suggestion.name">{{ suggestion.name }}</option>
+          </datalist>
           <b-button @click="getList()" id="search-button">Search</b-button>
         </div>
         <div class="filter">
-          <b-button v-b-toggle.collapse-sortBy id="sort-by-btn">Sort By</b-button>
-          <b-collapse id="collapse-sortBy" class="mt-2">
-            <b-card>
-              Sort by
-              <b-form-checkbox-group v-model="categoryChecked">
-                <b-form-checkbox value="name">Name</b-form-checkbox>
-                <b-form-checkbox value="duration">Duration</b-form-checkbox>
-                <b-form-checkbox value="price">Price</b-form-checkbox>
-                <b-form-checkbox value="location">Location</b-form-checkbox>
-              </b-form-checkbox-group>
-              <br>
-              Order by
-              <b-form-checkbox-group v-model="ordering">
-                <b-form-checkbox value="asc">Asc</b-form-checkbox>
-                <b-form-checkbox value="desc">Desc</b-form-checkbox>
-              </b-form-checkbox-group>
-              <b-button @click="reload()">Apply Filter</b-button>
-            </b-card>
-          </b-collapse>
-          <b-button id="filter-by-btn">Filter By</b-button>
+          <b-dropdown id="sort-by-btn" text="Sort By">
+            <b-dropdown-item @click="reload('price', true)">Price</b-dropdown-item>
+            <b-dropdown-item @click="reload('name', true)">Name</b-dropdown-item>
+            <b-dropdown-item @click="reload('address', true)">Address</b-dropdown-item>
+            <b-dropdown-item @click="reload('duration', true)">Duration</b-dropdown-item>
+            <b-dropdown-item @click="reload('', false)">No Filter</b-dropdown-item>
+          </b-dropdown>
         </div>
-
       </div>
       <Accordion :key="rerenderIndex" :services="this.services"/>
     </div>
@@ -52,9 +40,9 @@ export default {
       services: [],
       urlParams: window.location.search,
       urlParamsSearch: '',
-      ordering: [],
-      categoryChecked: [],
-      rerenderIndex: 1
+      rerenderIndex: 1,
+      globalOrdering: '',
+      suggestions: []
     }
   },
   async mounted() {
@@ -62,8 +50,8 @@ export default {
     const params = new URLSearchParams(this.urlParams)
     this.urlParamsSearch = params.get('queryResult')
 
-    const searchPath = this.urlParamsSearch !== ''
-      ? 'v1/services?' + params
+    const searchPath = params !== ''
+      ? 'v1/services' + this.urlParams
       : 'v1/services'
 
     await Api.get(searchPath)
@@ -105,11 +93,28 @@ export default {
         counter++
       })
     },
-    async getAppendedList() {
-      const ordering = this.ordering[0] === 'asc' ? 1 : this.ordering[0] === 'desc' ? -1 : 0
-      const sortByCondition = '?sort=' + this.categoryChecked[0] + ':' + ordering
+    async onButtonPress(input) {
+      await Api.get('v1/services?queryResult=' + input)
+        .then(response => {
+          this.suggestions = response.data
+          return this.suggestions
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    },
+    onLoad() {
+      document.getElementById('input-bar').addEventListener('keypress', event => {
+        if (event.key === 'Enter') {
+          location.replace(window.location.href + this.searchValue + this.input)
+        }
+      })
+    },
+    async getAppendedList(ordering) {
+      const sortByCondition = 'sort=' + ordering
+      this.globalOrdering = sortByCondition
 
-      await Api.get('v1/services' + sortByCondition)
+      await Api.get('v1/services' + this.urlParams + '&' + sortByCondition)
         .then(response => {
           this.services = response.data
         })
@@ -130,10 +135,14 @@ export default {
           this.services = error
         })
     },
-    reload() {
-      this.getAppendedList()
+    reload(ordering, isSorted) {
+      // this.getAppendedList(ordering)
+      // window.location.search += '&sort=' + ordering
+      isSorted === true
+        ? location.replace('results?queryResult=' + this.urlParamsSearch + '&sort=' + ordering)
+        : location.replace('results?queryResult=' + this.urlParamsSearch)
       this.rerenderIndex += 1
-      window.location.reload()
+      // window.location.reload()
     }
   },
   components: { Accordion, NavBar }
@@ -152,11 +161,6 @@ export default {
   justify-content: center;
   align-items: center;
   flex-direction: column;
-}
-
-#results-for {
-  width: 30vh;
-  margin-bottom: 0
 }
 
 #search-button {
@@ -198,6 +202,7 @@ export default {
   border-radius: 100px;
   width: 10%;
   background-color: rgb(136, 0, 0);
+  border-color: brown;
 }
 
 @media screen and (max-width: 1055px){

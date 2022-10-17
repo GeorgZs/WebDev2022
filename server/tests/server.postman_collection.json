@@ -2075,7 +2075,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseUrl}}/{{apiVersion}}/providers/{{providerId}}/landingPage",
+							"raw": "{{baseUrl}}/{{apiVersion}}/providers/{{providerId}}/landingPages",
 							"host": [
 								"{{baseUrl}}"
 							],
@@ -2083,7 +2083,7 @@
 								"{{apiVersion}}",
 								"providers",
 								"{{providerId}}",
-								"landingPage"
+								"landingPages"
 							]
 						}
 					},
@@ -2117,7 +2117,7 @@
 							}
 						},
 						"url": {
-							"raw": "{{baseUrl}}/{{apiVersion}}/providers/{{providerId}}/landingPage",
+							"raw": "{{baseUrl}}/{{apiVersion}}/providers/{{providerId}}/landingPages",
 							"host": [
 								"{{baseUrl}}"
 							],
@@ -2125,7 +2125,7 @@
 								"{{apiVersion}}",
 								"providers",
 								"{{providerId}}",
-								"landingPage"
+								"landingPages"
 							]
 						}
 					},
@@ -2159,7 +2159,7 @@
 							}
 						},
 						"url": {
-							"raw": "{{baseUrl}}/{{apiVersion}}/providers/{{providerId}}/landingPage",
+							"raw": "{{baseUrl}}/{{apiVersion}}/providers/{{providerId}}/landingPages",
 							"host": [
 								"{{baseUrl}}"
 							],
@@ -2167,7 +2167,7 @@
 								"{{apiVersion}}",
 								"providers",
 								"{{providerId}}",
-								"landingPage"
+								"landingPages"
 							]
 						}
 					},
@@ -2211,7 +2211,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseUrl}}/{{apiVersion}}/providers/🐱‍💻/landingPage",
+							"raw": "{{baseUrl}}/{{apiVersion}}/providers/🐱‍💻/landingPages",
 							"host": [
 								"{{baseUrl}}"
 							],
@@ -2219,7 +2219,7 @@
 								"{{apiVersion}}",
 								"providers",
 								"🐱‍💻",
-								"landingPage"
+								"landingPages"
 							]
 						}
 					},
@@ -2253,7 +2253,7 @@
 							}
 						},
 						"url": {
-							"raw": "{{baseUrl}}/{{apiVersion}}/providers/🐱‍💻/landingPage",
+							"raw": "{{baseUrl}}/{{apiVersion}}/providers/🐱‍💻/landingPages",
 							"host": [
 								"{{baseUrl}}"
 							],
@@ -2261,7 +2261,7 @@
 								"{{apiVersion}}",
 								"providers",
 								"🐱‍💻",
-								"landingPage"
+								"landingPages"
 							]
 						}
 					},
@@ -2295,7 +2295,7 @@
 							}
 						},
 						"url": {
-							"raw": "{{baseUrl}}/{{apiVersion}}/providers/🐱‍💻/landingPage",
+							"raw": "{{baseUrl}}/{{apiVersion}}/providers/🐱‍💻/landingPages",
 							"host": [
 								"{{baseUrl}}"
 							],
@@ -2303,7 +2303,7 @@
 								"{{apiVersion}}",
 								"providers",
 								"🐱‍💻",
-								"landingPage"
+								"landingPages"
 							]
 						}
 					},
@@ -2777,6 +2777,47 @@
 								"{{apiVersion}}",
 								"services",
 								"{{serviceId}}",
+								"bookingRequests",
+								"{{bookingId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Put booking request (valid data) Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n   \"timePeriod\": \"goodnight\",\r\n   \"user\": {\r\n       \"name\": \"Dr. DoofenSchmertz\",\r\n       \"email\": \"dr@dumm.mail\"\r\n   }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/{{apiVersion}}/bookingRequests/{{bookingId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"{{apiVersion}}",
 								"bookingRequests",
 								"{{bookingId}}"
 							]
@@ -3309,6 +3350,37 @@
 								"🐱‍💻",
 								"bookingRequests",
 								"{{bookingId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete all requests permanently",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {\r",
+									"    pm.response.to.have.status(204);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/{{apiVersion}}/bookingRequests",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"{{apiVersion}}",
+								"bookingRequests"
 							]
 						}
 					},
