@@ -66,6 +66,7 @@ export default {
     display: flex;
     align-items: center;
     align-self: start;
+    gap: 2rem;
 }
 
 .navbar-right {
