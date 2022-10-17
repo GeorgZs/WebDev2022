@@ -29,7 +29,7 @@ export default {
                 <img id="navbar-logo" src="/logo-full.svg" alt="Gabagool"/>
             </router-link>
             <b-input-group v-if="!(routeName === 'home' || routeName === 'searchResult')" id="nav-bar-group">
-                <b-form-input id="nav-bar-input" v-model="searchBar"/>
+                <b-form-input id="nav-bar-input" v-model="searchBar" placeholder="Search for a service..."/>
                 <b-input-group-append>
                     <b-button @click="search()" id="nav-bar-search-button" variant="outline-secondary">Search</b-button>
                 </b-input-group-append>
@@ -88,7 +88,7 @@ export default {
 }
 
 #nav-bar-input {
-    width: 10rem;
+    width: 12rem;
     border-radius: 15px;
 }
 
