@@ -63,8 +63,7 @@ export default {
     justify-content: space-between;
 }
 
-.navbar-left {
-
+.navbar-left .navbar-right {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -72,6 +71,17 @@ export default {
 
 .navbar-right > *, .navbar-left > * {
     margin: 1rem;
+}
+
+@media screen and (max-width: 415px) {
+    .navbar-right {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .navbar-right > * {
+        margin: 0.25rem;
+    }
 }
 
 #nav-bar-group > * {
