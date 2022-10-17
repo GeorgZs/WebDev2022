@@ -23,7 +23,7 @@ export default {
 </script>
 
 <template>
-    <div class="navbar">
+    <div class="our-navbar">
         <div v-if="!isDashboard" class="navbar-left">
             <router-link to="/">
                 <img id="navbar-logo" src="/logo-full.svg" alt="Gabagool"/>
@@ -52,26 +52,27 @@ export default {
     object-fit: contain;
 }
 
-.navbar {
+.our-navbar {
     width: 100%;
-    height: 6rem;
-    padding: 0 !important;
+    padding: 1rem;
 
     display: flex;
-    flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
 }
 
 .navbar-left {
-
+    height: 4rem;
     display: flex;
     flex-direction: row;
     align-items: center;
 }
 
-.navbar-right > *, .navbar-left > * {
-    margin: 1rem;
+.navbar-right {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    justify-content: end;
 }
 
 #nav-bar-group > * {
