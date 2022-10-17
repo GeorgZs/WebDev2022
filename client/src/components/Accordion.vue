@@ -389,7 +389,7 @@ iframe {
   text-align: right;
 }
 
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 565px) {
   .edit-functionality {
     flex-direction: row;
   }
@@ -432,6 +432,7 @@ iframe {
 }
 
 #card-container {
+  text-align: center;
   border-radius: 0rem 0rem 0.5rem 0.5rem;
   box-shadow: 0px 2px 2px 0px rgba(0,0,0,0.75);
 -webkit-box-shadow: 0px 2px 2px 0px rgba(0,0,0,0.75);

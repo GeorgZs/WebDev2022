@@ -89,7 +89,7 @@ export default {
       </div>
       <span class="provider-content">{{content}}</span>
       <h3 class="service-list-header">Services</h3>
-      <Accordion :services="serviceList" isLandingPage/>
+      <Accordion :services="serviceList"/>
     </div>
   </div>
 </template>

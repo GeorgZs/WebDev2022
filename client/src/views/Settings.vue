@@ -442,6 +442,7 @@ p {
 .danger-danger-buttons {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
 }
 
 .danger-danger-buttons > * {
