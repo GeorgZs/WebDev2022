@@ -37,7 +37,7 @@
                             </label>
                         </div>
                         <div class="register-form">
-                            <input id="password" type="text" name="password" autocomplete="off" v-model="register.password" required>
+                            <input id="password" type="password" name="password" autocomplete="off" v-model="register.password" required>
                             <label for="password" class="field-name">
                                 <span class="content-name">Password</span>
                             </label>

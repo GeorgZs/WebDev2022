@@ -64,15 +64,26 @@ export default {
 .navbar-left {
     height: 4rem;
     display: flex;
-    flex-direction: row;
     align-items: center;
 }
 
 .navbar-right {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.5rem;
     justify-content: end;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+@media screen and (max-width: 415px) {
+    .navbar-right {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .navbar-right > * {
+        margin: 0.25rem;
+    }
 }
 
 #nav-bar-group > * {
