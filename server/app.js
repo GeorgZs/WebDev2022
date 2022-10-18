@@ -4,7 +4,6 @@ const morgan = require('morgan');
 const path = require('path');
 const cors = require('cors');
 const history = require('connect-history-api-fallback');
-const fs = require("fs").promises;
 
 const mongoURI = process.env.MONGODB_URI || 'mongodb+srv://FuerduCorp:Furdu123@cluster0.cybyu71.mongodb.net/FurduDB?retryWrites=true&w=majority';
 const port = process.env.PORT || 3000;
@@ -56,16 +55,6 @@ function setupApp() {
 }
 
 function addRoutesToApp(app) {
-    app.get('/fs', async (req, res) => {
-        console.log(__dirname);
-        await fs.access(__dirname).catch(err => console.log("FS access denied", err));
-        await fs.readdir(__dirname).then(console.dir).catch(console.error);
-        await fs.readdir('.').then(console.dir).catch(console.error);
-        await fs.readdir('./emails').then(console.dir).catch(console.error);
-        await fs.readdir(__dirname + '/emails').then(console.dir).catch(console.error);
-        res.status(200);
-    });
-
     app.get('/api', function (req, res) {
         res.json({ 'message': 'Welcome to your DIT342 backend ExpressJS project!' });
     });
@@ -92,7 +81,6 @@ function addFrontendToApp(app) {
     // Serve static assets
     const root = path.normalize(__dirname + '/..');
     const client = path.join(root, 'client', 'dist');
-    app.use('/landingPagePictures', express.static(__dirname + '/landingPagePictures'))
     app.use(express.static(client));
 }
 
