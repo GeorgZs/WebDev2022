@@ -73,7 +73,7 @@ export default {
     height: fit-content;
     display: flex;
     flex-wrap: wrap;
-    justify-content: end;
+    justify-content: flex-end;
     gap: 0.5rem 1rem;
 }
 

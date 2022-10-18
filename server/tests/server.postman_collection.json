@@ -1839,6 +1839,364 @@
 					"response": []
 				},
 				{
+					"name": "Post services for sorting",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"const service = pm.response.json();\r",
+									"\r",
+									"pm.test(\"A service has the required properties\", () => {\r",
+									"    pm.expect(service._id).to.be.a('string');\r",
+									"\r",
+									"    pm.expect(service.name).to.be.a('string');\r",
+									"    pm.expect(service.name).to.have.lengthOf.above(0);\r",
+									"\r",
+									"    pm.expect(service.price).to.be.a('number');\r",
+									"    pm.expect(service.price).to.be.above(0);\r",
+									"\r",
+									"    pm.expect(service.details).to.be.a('string');\r",
+									"    pm.expect(service.details).to.have.lengthOf.above(0);\r",
+									"\r",
+									"    pm.expect(service.duration).to.be.a('number');\r",
+									"    pm.expect(service.duration).to.be.above(1);\r",
+									"});\r",
+									"\r",
+									"pm.collectionVariables.set(\"serviceId\", service._id);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"plumbing\",\r\n    \"price\": 200,\r\n    \"duration\": 45,\r\n    \"details\": \"Plumbing toilets\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/{{apiVersion}}/providers/{{providerId}}/services",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"{{apiVersion}}",
+								"providers",
+								"{{providerId}}",
+								"services"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Post services for sorting #2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"const service = pm.response.json();\r",
+									"\r",
+									"pm.test(\"A service has the required properties\", () => {\r",
+									"    pm.expect(service._id).to.be.a('string');\r",
+									"\r",
+									"    pm.expect(service.name).to.be.a('string');\r",
+									"    pm.expect(service.name).to.have.lengthOf.above(0);\r",
+									"\r",
+									"    pm.expect(service.price).to.be.a('number');\r",
+									"    pm.expect(service.price).to.be.above(0);\r",
+									"\r",
+									"    pm.expect(service.details).to.be.a('string');\r",
+									"    pm.expect(service.details).to.have.lengthOf.above(0);\r",
+									"\r",
+									"    pm.expect(service.duration).to.be.a('number');\r",
+									"    pm.expect(service.duration).to.be.above(1);\r",
+									"});\r",
+									"\r",
+									"pm.collectionVariables.set(\"serviceId\", service._id);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"hello\",\r\n    \"price\": 120,\r\n    \"duration\": 60,\r\n    \"details\": \"Plumbing toilets\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/{{apiVersion}}/providers/{{providerId}}/services",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"{{apiVersion}}",
+								"providers",
+								"{{providerId}}",
+								"services"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Post services for sorting #3",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"const service = pm.response.json();\r",
+									"\r",
+									"pm.test(\"A service has the required properties\", () => {\r",
+									"    pm.expect(service._id).to.be.a('string');\r",
+									"\r",
+									"    pm.expect(service.name).to.be.a('string');\r",
+									"    pm.expect(service.name).to.have.lengthOf.above(0);\r",
+									"\r",
+									"    pm.expect(service.price).to.be.a('number');\r",
+									"    pm.expect(service.price).to.be.above(0);\r",
+									"\r",
+									"    pm.expect(service.details).to.be.a('string');\r",
+									"    pm.expect(service.details).to.have.lengthOf.above(0);\r",
+									"\r",
+									"    pm.expect(service.duration).to.be.a('number');\r",
+									"    pm.expect(service.duration).to.be.above(1);\r",
+									"});\r",
+									"\r",
+									"pm.collectionVariables.set(\"serviceId\", service._id);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Albany Transfer\",\r\n    \"price\": 400,\r\n    \"duration\": 250,\r\n    \"details\": \"Plumbing toilets\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/{{apiVersion}}/providers/{{providerId}}/services",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"{{apiVersion}}",
+								"providers",
+								"{{providerId}}",
+								"services"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Sort By Price ASC",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"const services = pm.response.json();\r",
+									"\r",
+									"function isSorted(services) {\r",
+									"    let secondIndex;\r",
+									"    for(let firstIndex = 0; firstIndex < services.length; firstIndex++) {\r",
+									"        // console.log(services[firstIndex].price)\r",
+									"        secondIndex = firstIndex + 1\r",
+									"        if (secondIndex === services.length) secondIndex = services.length - 1\r",
+									"\r",
+									"        if (services[secondIndex].price - services[firstIndex].price < 0) return false\r",
+									"    }\r",
+									"    return true\r",
+									"}\r",
+									"\r",
+									"pm.test(\"Services is sorted\", function () {\r",
+									"    const sorted = isSorted(services)\r",
+									"    pm.expect(sorted).to.be.true;\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/{{apiVersion}}/providers/{{providerId}}/services?sort=price",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"{{apiVersion}}",
+								"providers",
+								"{{providerId}}",
+								"services"
+							],
+							"query": [
+								{
+									"key": "sort",
+									"value": "price"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Sort By Duration ASC",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"const services = pm.response.json();\r",
+									"\r",
+									"function isSorted(services) {\r",
+									"    let secondIndex;\r",
+									"    for(let firstIndex = 0; firstIndex < services.length; firstIndex++) {\r",
+									"        secondIndex = firstIndex + 1\r",
+									"        if (secondIndex === services.length) secondIndex = services.length - 1\r",
+									"\r",
+									"        if (services[secondIndex].duration - services[firstIndex].duration < 0) return false\r",
+									"    }\r",
+									"    return true\r",
+									"}\r",
+									"\r",
+									"pm.test(\"Services is sorted\", function () {\r",
+									"    const sorted = isSorted(services)\r",
+									"    pm.expect(sorted).to.be.true;\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/{{apiVersion}}/providers/{{providerId}}/services?sort=duration",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"{{apiVersion}}",
+								"providers",
+								"{{providerId}}",
+								"services"
+							],
+							"query": [
+								{
+									"key": "sort",
+									"value": "duration"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Sort By Name ASC",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"const services = pm.response.json();\r",
+									"\r",
+									"function isSorted(services) {\r",
+									"    let secondIndex;\r",
+									"    for(let firstIndex = 0; firstIndex < services.length; firstIndex++) {\r",
+									"        secondIndex = firstIndex + 1\r",
+									"        if (secondIndex === services.length) secondIndex = services.length - 1\r",
+									"\r",
+									"        if (services[secondIndex] < services[firstIndex]) return false\r",
+									"    }\r",
+									"    return true\r",
+									"}\r",
+									"\r",
+									"pm.test(\"Services is sorted\", function () {\r",
+									"    const sorted = isSorted(services)\r",
+									"    pm.expect(sorted).to.be.true;\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/{{apiVersion}}/providers/{{providerId}}/services?sort=name",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"{{apiVersion}}",
+								"providers",
+								"{{providerId}}",
+								"services"
+							],
+							"query": [
+								{
+									"key": "sort",
+									"value": "name"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Clean up provider to test service",
 					"request": {
 						"method": "DELETE",

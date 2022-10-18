@@ -83,13 +83,13 @@
                                 drop-placeholder="Drop file here..."
                             ></b-form-file>
 
-                            <p id="details-text">Details:</p>
+                            <p id="content-text">Content:</p>
                         <b-form-group
                         id="input-group-8"
                         label-for="input-8"
 
                         >
-                        <b-form-textarea id="input-8" type="text" placeholder="Details" v-model="landingPage.details">
+                        <b-form-textarea id="input-8" type="text" placeholder="Content" v-model="landingPage.content">
 
                         </b-form-textarea>
                         </b-form-group>
@@ -151,7 +151,7 @@ export default {
       },
       landingPage: {
         logo: undefined,
-        details: undefined
+        content: undefined
       },
       logoFile: undefined,
       snackMessage: '',
@@ -215,7 +215,7 @@ export default {
       }
 
       await Api.patch('v1/providers/' + localStorage.loginId + '/landingPages', {
-        details: this.landingPage.details
+        content: this.landingPage.content
       })
 
       this.showSnackbar()
@@ -384,7 +384,7 @@ p {
 
 }
 
-#details-text {
+#content-text {
   margin-top: 2rem;
 }
 

@@ -108,7 +108,6 @@ router.get('/:providerId', async (req, res, handleError) => {
 
 router.put('/:providerId', async (req, res, handleError) => {
     try {
-        // You could move this over to verifyToken
         const providerId = req.params.providerId;
 
         /*
