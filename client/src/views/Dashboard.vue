@@ -9,7 +9,7 @@
             <div id="indox-preview">
                 <router-link to="/dashboard/inbox">
                     <h4 v-if="nrOfBookingRequestsToday === 1" id="link-text">{{nrOfBookingRequestsToday}} Upcoming Request Today</h4>
-                    <h4 v-else id="link-text">{{nrOfBookingRequestsToday}} Upcoming Requests Today</h4>
+                    <h4 v-else id="link-text">{{nrOfBookingRequestsToday}} Upcoming Requests</h4>
                 </router-link>
                 <div v-if="bookingRequest" class="upcoming-request">
                   <div class="request" @click="goToInbox()">
@@ -104,7 +104,7 @@ export default {
     bookingRequests.sort((a, b) => {
       const aYear = a.date.split('-')[0]
       const bYear = b.date.split('-')[0]
-      return (aYear < 2022 && bYear < 2022 && a.date < b.date) ? 1 : -1
+      return (aYear < 2022 && bYear < 2022 && a.date < b.date) ? -1 : 1
     })
 
     /*

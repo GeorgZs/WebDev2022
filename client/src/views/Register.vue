@@ -31,7 +31,7 @@
                     </div>
                     <div class="right-side">
                         <div class="register-form">
-                            <input id="email" type="text" name="email" autocomplete="off" v-model="register.email" required>
+                            <input id="email" type="email" name="email" autocomplete="off" v-model="register.email" required>
                             <label for="email" class="field-name">
                                 <span class="content-name">Email</span>
                             </label>

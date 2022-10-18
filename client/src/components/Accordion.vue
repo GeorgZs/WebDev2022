@@ -73,6 +73,7 @@
                   <b-card id="card-container">
                     <h3 class="card-text">Create a booking request</h3>
                     <p id="details-text-form"> Details: {{ service.details || "No Details saved" }} </p>
+                    <p id="duration-text-form"> Duration: {{ service.duration + " minutes" || "No Duration specified" }} </p>
                     <form class="form">
                         <div class="card-paragraph">
                             <br>
@@ -428,7 +429,11 @@ iframe {
 
 #details-text-form {
   padding-left: 1.5rem;
-  padding-bottom: 0.75rem;
+}
+
+#duration-text-form {
+  padding-left: 1.5rem;
+  padding-bottom: 0.50rem;
 }
 
 #card-container {
@@ -494,7 +499,7 @@ iframe {
 }
 
 #list {
-    max-width: 100vh;
+    max-width: 55vw;
     display: flex;
     justify-content: space-evenly;
     margin: 0.20rem;

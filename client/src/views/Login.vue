@@ -10,7 +10,7 @@
 
                 <div class="login-credentials">
                     <div class="login-form">
-                        <input id="email-field" type="text" name="email" @click="onLoad()" autocomplete="off" v-model="credentials.email" required>
+                        <input id="email-field" type="email" name="email" @click="onLoad()" autocomplete="off" v-model="credentials.email" required>
                             <label for="email" class="email-name">
                                 <span class="content-name">email</span>
                             </label>
