@@ -6,8 +6,6 @@ const BookingRequest = require('../models/bookingRequest');
 
 const router = express.Router({ mergeParams: true });
 
-// /providers/:providerId/services
-
 router.post('/providers/:providerId/services', async (req, res, handleError) => {
     try {
         const serviceData = req.body;
@@ -81,18 +79,12 @@ router.get('/services', async (req, res, handleError) => {
                 a[sortBy] < b[sortBy] ? 1 : -1
             })
 
-            // log to see sorting
-            console.log(results)
             if (results) return res.status(200).json(results)
         } else {
         
         const services = sortBy !== undefined ? await Service.find().sort(sortBy).exec()
         : await Service.find().sort('name').exec()
         
-        // log to see sorting
-        console.log(services)
-
-
         res.status(200).json(services.map(service => visibleDataFor(service)));
         }
     }
@@ -122,10 +114,6 @@ router.delete('/providers/:providerId/services', async (req, res, handleError) =
         await BookingRequest.deleteMany({providerId})
 
         res.status(204).json(services.map(service => visibleDataFor(service)));
-        /**
-         * await BookingRequest.deleteMany({ providerId });
-         */
-
     }
     catch (err) {
         handleError(err);

@@ -50,18 +50,6 @@ router.put('/', async (req, res, handleError) => {
     }
 });
 
-// router.put('/logo', async (req, res, handleError) => {
-//     try {
-//         // save the logo in a logos folder
-//         // set the logo path
-//         // update the landing page
-//         res.status(500).json(visibleDataFor({ message: "Not implemented yet!" }));
-//     }
-//     catch (err) {
-//         handleError(err);
-//     }
-// });
-
 router.patch('/', async (req, res, handleError) => {
     try {
         console.log(req.body)
@@ -92,6 +80,7 @@ router.patch('/', async (req, res, handleError) => {
         handleError(err);
     }
 });
+
 router.put('/logo', async (req, res, handleError) => {
     try {
         
