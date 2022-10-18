@@ -1,6 +1,7 @@
 const express = require('express');
 const LandingPage = require('../models/landingPage');
 const fileUpload = require('express-fileupload');
+const mongoose = require("mongoose");
 const fs = require('fs').promises;
 
 const router = express.Router({ mergeParams: true });
@@ -94,20 +95,27 @@ router.put('/logo', async (req, res, handleError) => {
 
         const providerId = req.params.providerId;
         const landingPage = await LandingPage.findOne({ providerId });
-        const rootFolder = __dirname + '/..';
+
+        if (!landingPage) {
+            res.status(404).json({ message: 'Unknown landing page!' });
+            return;
+        }
 
         if(req.files) {
-            try {
-                if(landingPage.logo) {
-                    await fs.unlink(rootFolder + landingPage.logo)
-                }
-            } catch (error) {
-                //ignore - file already deleted 
+            const bucket = new mongoose.mongo.GridFSBucket(mongoose.connection.db, { bucketName: 'landingPageLogos' });
+
+            if(landingPage.logo) {
+                bucket.find({ filename: landingPage.logo }).forEach(file => bucket.delete(file._id));
             }
 
             try{
-                landingPage.logo = '/landingPagePictures/' + providerId + '_' + Date.now() + '.' + req.files.image.mimetype.match('/(.*)')[1]
-                await fs.writeFile(rootFolder + landingPage.logo, req.files.image.data)
+                landingPage.logo = `/api/v1/providers/${providerId}/landingPages/logo?v=${Date.now()}`
+
+                const stream = bucket.openUploadStream(landingPage.logo, {
+                    contentType: req.files.image.mimetype,
+                });
+                stream.write(req.files.image.data, err => console.log('Stream file to mongo failed:', err));
+                stream.end();
             }
             catch(err) {
                 console.log(err);
@@ -116,14 +124,28 @@ router.put('/logo', async (req, res, handleError) => {
             }
         }
 
+
+        Object.assign(landingPage, updatedLandingPageData);
+        await landingPage.save();
+        res.status(200).json(visibleDataFor(landingPage));
+    }
+    catch (err) {
+        handleError(err);
+    }
+});
+
+router.get('/logo', async (req, res, handleError) => {
+    try {
+        const providerId = req.params.providerId;
+        const landingPage = await LandingPage.findOne({ providerId });
+    
         if (!landingPage) {
             res.status(404).json({ message: 'Unknown landing page!' });
             return;
         }
 
-        Object.assign(landingPage, updatedLandingPageData);
-        await landingPage.save();
-        res.status(200).json(visibleDataFor(landingPage));
+        const bucket = new mongoose.mongo.GridFSBucket(mongoose.connection.db, { bucketName: 'landingPageLogos' });
+        bucket.openDownloadStreamByName(landingPage.logo).pipe(res);
     }
     catch (err) {
         handleError(err);
