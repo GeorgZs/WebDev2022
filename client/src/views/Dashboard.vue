@@ -9,7 +9,7 @@
             <div id="indox-preview">
                 <router-link to="/dashboard/inbox">
                     <h4 v-if="nrOfBookingRequestsToday === 1" id="link-text">{{nrOfBookingRequestsToday}} Upcoming Request Today</h4>
-                    <h4 v-else id="link-text">{{nrOfBookingRequestsToday}} Upcoming Requests Today</h4>
+                    <h4 v-else id="link-text">{{nrOfBookingRequestsToday}} Upcoming Requests</h4>
                 </router-link>
                 <div v-if="bookingRequest" class="upcoming-request">
                   <div class="request" @click="goToInbox()">
