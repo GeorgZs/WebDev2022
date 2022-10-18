@@ -15,7 +15,7 @@ const sendEmail = async (receiverEmail, subject, fileName) => {
         to: receiverEmail,
         subject: subject,
         text: 'hello',
-        html: await fs.readFile('./emails/' + fileName, 'utf8')
+        html: await fs.readFile(__dirname + '/emails/' + fileName, 'utf8')
     }, function(err,info){
         if(err){
             console.log('Unable to send the mail :'+ err.message);
