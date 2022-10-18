@@ -1,8 +1,5 @@
 const nodemailer = require('nodemailer');
-const fs = require('fs');
-const { promisify } = require('util');
-const readFile = promisify(fs.readFile);
-const cheerio = require("cheerio");
+const fs = require('fs').promises;
 
 const transporter = nodemailer.createTransport({
     service: 'hotmail',
@@ -18,7 +15,7 @@ const sendEmail = async (receiverEmail, subject, fileName) => {
         to: receiverEmail,
         subject: subject,
         text: 'hello',
-        html: await readFile('./emails/' + fileName, 'utf8')
+        html: await fs.readFile('./emails/' + fileName, 'utf8')
     }, function(err,info){
         if(err){
             console.log('Unable to send the mail :'+ err.message);

@@ -46,7 +46,7 @@ router.post('/register', async (req, res, handleError) => {
 
             const landingPage = new LandingPage({ providerId: provider._id });
             await landingPage.save();
-            sendEmail(providerData.email, 'Welcome', 'welcomeMail.html');
+            await sendEmail(providerData.email, 'Welcome', 'welcomeMail.html');
 
             return res.status(201).json(visibleDataFor(provider));
         }

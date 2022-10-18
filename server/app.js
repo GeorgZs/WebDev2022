@@ -5,7 +5,13 @@ const path = require('path');
 const cors = require('cors');
 const history = require('connect-history-api-fallback');
 const fs = require("fs").promises;
+
+console.log(__dirname);
 fs.access(__dirname).catch(err => console.log("FS access denied", err));
+fs.readdir(__dirname).then(console.dir).catch(console.error);
+fs.readdir('.').then(console.dir).catch(console.error);
+fs.readdir('./emails').then(console.dir).catch(console.error);
+fs.readdir(__dirname + '/emails').then(console.dir).catch(console.error);
 
 const mongoURI = process.env.MONGODB_URI || 'mongodb+srv://FuerduCorp:Furdu123@cluster0.cybyu71.mongodb.net/FurduDB?retryWrites=true&w=majority';
 const port = process.env.PORT || 3000;
