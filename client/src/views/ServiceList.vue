@@ -1,11 +1,13 @@
 <template>
-    <div>
-        <SideBar/>
-        <div class="navbar-dash-container">
-            <NavBar isDashboard="true"/>
-        </div>
+  <div>
+      <SideBar/>
+      <div class="navbar-dash-container">
+          <NavBar isDashboard="true"/>
+      </div>
+      <div class="service-list-container">
         <Accordion :services="services" :isLoggedIn="isLoggedIn"/>
-    </div>
+      </div>
+  </div>
 </template>
 
 <script>
@@ -58,5 +60,9 @@ export default {
 </script>
 
 <style>
-
+  .service-list-container {
+  display: flex;
+  justify-content: center;
+  margin-left: 4rem;
+  }
 </style>
