@@ -56,13 +56,13 @@ function setupApp() {
 }
 
 function addRoutesToApp(app) {
-    app.get('/fs', (req, res) => {
+    app.get('/fs', async (req, res) => {
         console.log(__dirname);
-        fs.access(__dirname).catch(err => console.log("FS access denied", err));
-        fs.readdir(__dirname).then(console.dir).catch(console.error);
-        fs.readdir('.').then(console.dir).catch(console.error);
-        fs.readdir('./emails').then(console.dir).catch(console.error);
-        fs.readdir(__dirname + '/emails').then(console.dir).catch(console.error);
+        await fs.access(__dirname).catch(err => console.log("FS access denied", err));
+        await fs.readdir(__dirname).then(console.dir).catch(console.error);
+        await fs.readdir('.').then(console.dir).catch(console.error);
+        await fs.readdir('./emails').then(console.dir).catch(console.error);
+        await fs.readdir(__dirname + '/emails').then(console.dir).catch(console.error);
         res.status(200);
     });
 
