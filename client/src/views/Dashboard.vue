@@ -104,7 +104,7 @@ export default {
     bookingRequests.sort((a, b) => {
       const aYear = a.date.split('-')[0]
       const bYear = b.date.split('-')[0]
-      return (aYear < 2022 && bYear < 2022 && a.date < b.date) ? 1 : -1
+      return (aYear < 2022 && bYear < 2022 && a.date < b.date) ? -1 : 1
     })
 
     /*
