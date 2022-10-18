@@ -490,6 +490,7 @@ iframe {
     display: flex;
     flex-direction: column;
     align-items: center;
+    padding-bottom: 2.75rem;
 }
 
 #list {
