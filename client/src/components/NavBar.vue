@@ -23,13 +23,13 @@ export default {
 </script>
 
 <template>
-    <div class="navbar">
+    <div class="our-navbar">
         <div v-if="!isDashboard" class="navbar-left">
             <router-link to="/">
                 <img id="navbar-logo" src="/logo-full.svg" alt="Gabagool"/>
             </router-link>
             <b-input-group v-if="!(routeName === 'home' || routeName === 'searchResult')" id="nav-bar-group">
-                <b-form-input id="nav-bar-input" v-model="searchBar"/>
+                <b-form-input id="nav-bar-input" v-model="searchBar" placeholder="Search for a service..."/>
                 <b-input-group-append>
                     <b-button @click="search()" id="nav-bar-search-button" variant="outline-secondary">Search</b-button>
                 </b-input-group-append>
@@ -52,26 +52,29 @@ export default {
     object-fit: contain;
 }
 
-.navbar {
+.our-navbar {
     width: 100%;
-    height: 6rem;
-    padding: 0 !important;
+    padding: 1rem;
 
     display: flex;
-    flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
 }
 
 .navbar-left {
-
+    height: 4rem;
     display: flex;
-    flex-direction: row;
     align-items: center;
+    align-self: start;
+    gap: 2rem;
 }
 
-.navbar-right > *, .navbar-left > * {
-    margin: 1rem;
+.navbar-right {
+    height: fit-content;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: end;
+    gap: 0.5rem 1rem;
 }
 
 #nav-bar-group > * {
@@ -85,7 +88,7 @@ export default {
 }
 
 #nav-bar-input {
-    width: 10rem;
+    width: 12rem;
     border-radius: 15px;
 }
 

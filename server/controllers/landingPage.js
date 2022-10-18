@@ -109,7 +109,7 @@ router.put('/logo', async (req, res, handleError) => {
         if(req.files) {
             try {
                 if(landingPage.logo) {
-                    await fs.unlink('./' + landingPage.logo)
+                    await fs.unlink('.' + landingPage.logo)
                 }
             } catch (error) {
                 //ignore - file already deleted 
@@ -117,7 +117,7 @@ router.put('/logo', async (req, res, handleError) => {
 
             try{
                 landingPage.logo = '/landingPagePictures/' + providerId + '_' + Date.now() + '.' + req.files.image.mimetype.match('/(.*)')[1]
-                await fs.writeFile('./' + landingPage.logo, req.files.image.data)
+                await fs.writeFile('.' + landingPage.logo, req.files.image.data)
             }
             catch(err) {
                 console.log(err);

@@ -230,6 +230,16 @@ export default {
         duration: Number(this.updatedService.duration),
         details: this.updatedService.details,
         address: this.updatedService.address
+      }).then(response => {
+        const vNodesMsg = h('p', [h('strong', 'New Service Created')])
+        this.$bvToast.toast([vNodesMsg], {
+          toaster: 'b-toaster-bottom-right',
+          variant: 'success',
+          solid: true,
+          autoHideDelay: 3000,
+          appendToast: true,
+          noCloseButton: true
+        })
       }).catch(err => {
         console.log(err)
         const vNodesMsg = h('p', [h('strong', 'Error Creating New Service')])
@@ -244,16 +254,6 @@ export default {
       })
       this.$refs['my-modal'].hide()
       window.location.reload()
-
-      const vNodesMsg = h('p', [h('strong', 'New Service Created')])
-      this.$bvToast.toast([vNodesMsg], {
-        toaster: 'b-toaster-bottom-right',
-        variant: 'success',
-        solid: true,
-        autoHideDelay: 3000,
-        appendToast: true,
-        noCloseButton: true
-      })
     },
     clickForm(service, address) {
       service.visible = !service.visible
@@ -307,15 +307,6 @@ export default {
 
       const vNodesMsg = h('p', [h('strong', snackMessage)])
 
-      this.$bvToast.toast([vNodesMsg], {
-        toaster: 'b-toaster-bottom-right',
-        variant: formValiditiy ? 'success' : 'danger',
-        solid: true,
-        autoHideDelay: 3000,
-        appendToast: true,
-        noCloseButton: true
-      })
-
       if (formValiditiy) {
         await Api.post('v1/services/' + serviceId + '/bookingRequests', {
           timePeriod: service.formInput.timePeriod,
@@ -333,6 +324,15 @@ export default {
           .catch(error => {
             console.log(error)
           })
+
+        this.$bvToast.toast([vNodesMsg], {
+          toaster: 'b-toaster-bottom-right',
+          variant: formValiditiy ? 'success' : 'danger',
+          solid: true,
+          autoHideDelay: 3000,
+          appendToast: true,
+          noCloseButton: true
+        })
         return true
       }
       return false
@@ -493,13 +493,13 @@ iframe {
 }
 
 #list {
-    width: 100vh;
+    max-width: 100vh;
     display: flex;
     justify-content: space-evenly;
     margin: 0.20rem;
     border: 0.05rem solid black;
     border-radius: 0.5rem;
-    width: 55%;
+    width: 85vw;
 }
 
 .card-text {

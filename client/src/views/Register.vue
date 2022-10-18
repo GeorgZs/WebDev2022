@@ -37,7 +37,7 @@
                             </label>
                         </div>
                         <div class="register-form">
-                            <input id="password" type="text" name="password" autocomplete="off" v-model="register.password" required>
+                            <input id="password" type="password" name="password" autocomplete="off" v-model="register.password" required>
                             <label for="password" class="field-name">
                                 <span class="content-name">Password</span>
                             </label>
@@ -107,7 +107,20 @@ export default {
             this.$router.push('/login')
           }, 1000)
         })
-        .catch(error => { console.log(error) })
+        .catch(error => {
+          console.log(error)
+          const h = this.$createElement
+          const vNodesMsg = h('p', [h('strong', 'Failed to Register')])
+
+          this.$bvToast.toast([vNodesMsg], {
+            toaster: 'b-toaster-bottom-right',
+            variant: 'danger',
+            solid: true,
+            autoHideDelay: 1000,
+            appendToast: true,
+            noCloseButton: true
+          })
+        })
     }
   },
   components: {
