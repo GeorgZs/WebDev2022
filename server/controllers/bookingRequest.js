@@ -47,7 +47,7 @@ router.post('/services/:serviceId/bookingRequests', async (req, res, handleError
         const booking = new BookingRequest(bookingData);
         await booking.save();
 
-        sendEmail(bookingData.user.email, 'Booking successfully done', 'successMail.html');
+        await sendEmail(bookingData.user.email, 'Booking successfully done', 'successMail.html');
         res.status(201).json(visibleDataFor(booking));
     } catch (err) {
         handleError(err);
@@ -148,9 +148,9 @@ router.patch('/services/:serviceId/bookingRequests/:bookingRequestId', async (re
         Object.assign(booking, updatedBooking);
         await booking.save();
         if(updatedBooking.response === 'declined') {
-            sendEmail(booking.user.email, 'Booking declined ', 'cancelMail.html');
+            await sendEmail(booking.user.email, 'Booking declined ', 'cancelMail.html');
         } else if(updatedBooking.response === 'confirmed') {
-            sendEmail(booking.user.email, 'Booking confirmed', 'confirmedMail.html')
+            await sendEmail(booking.user.email, 'Booking confirmed', 'confirmedMail.html')
         }
         res.status(200).json(visibleDataFor(booking));
     } catch (err) {
