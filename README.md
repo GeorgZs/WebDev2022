@@ -1,6 +1,6 @@
 # Backend and Frontend Template
 
-### This project is an import from Chalmers Gitlab
+### This project is an import from Chalmers Gitlab.
 
 Latest version: https://git.ita.chalmers.se/courses/dit341/group-33-web (public Github [mirror](https://github.com/dit341/group-33-web))
 
