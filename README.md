@@ -1,8 +1,17 @@
-# Backend and Frontend Template
+# Web Development Group Project 2022
+
+A buisness provider platform that allows small businesses to advertise their services to standard users of our app. Thus, growing their small business and increasing their online precense in a simple, easy process. Users of the system are also greeted with the simplicity, as they do not have to create an account to get started: simply search the service you are looking for and book the service!
+
+Link to webiste: [http://app.fuerdu.business/](http://app.fuerdu.business/) <br>
+alt: [heroku link](https://lit-inlet-05101.herokuapp.com/)
 
 ### This project is an import from Chalmers Gitlab.
 
 Latest version: https://git.ita.chalmers.se/courses/dit341/group-33-web (public Github [mirror](https://github.com/dit341/group-33-web))
+
+<br>
+
+# Backend and Frontend Template
 
 ## Project Structure
 
